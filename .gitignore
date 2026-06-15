@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.pyc
+trades.csv
+trades_legacy.csv
+iv_history.json
+model.pkl
+status.json
+status.json.tmp
+stop.flag
+settings.json
+bot.log*
+console.log
+.venv/
+.pytest_cache/
+*.tmp
+bot.pid

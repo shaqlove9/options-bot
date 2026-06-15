@@ -1,0 +1,15 @@
+alpaca-py>=0.30
+pandas>=2.0
+numpy>=1.26
+python-dotenv>=1.0
+requests>=2.31
+scikit-learn>=1.4
+joblib>=1.3
+yfinance>=0.2     # earnings calendar (IV-crush avoidance)
+lxml>=5.0         # required by yfinance for the earnings lookup
+streamlit>=1.39
+anthropic>=0.92   # AI analyst (ai_analyst.py) — optional, needs ANTHROPIC_API_KEY
+fpdf2>=2.7        # only needed to regenerate the beginner guide PDF (make_guide.py)
+# TA-Lib is optional — scanner.py falls back to a pure-pandas Wilder RSI.
+# On Windows install a prebuilt wheel: pip install TA-Lib
+# (see https://github.com/cgohlke/talib-build/releases if pip can't build it)

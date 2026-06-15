@@ -167,21 +167,21 @@ with st.sidebar:
     with col_a:
         if st.button("▶ Start",
                      disabled=running or starting_up or restarting,
-                     use_container_width=True, type="primary"):
+                     width="stretch", type="primary"):
             start_bot()
             st.toast("Bot starting…")
             st.rerun()
     with col_b:
         if st.button("⏹ Stop",
                      disabled=not running or stopping or restarting,
-                     use_container_width=True):
+                     width="stretch"):
             stop_bot()
             st.toast("Stop sent — flattening positions…")
             st.rerun()
     with col_c:
         if st.button("↺ Restart",
                      disabled=(stopping or restarting or starting_up),
-                     use_container_width=True):
+                     width="stretch"):
             restart_bot()
             st.toast("Restarting…")
             st.rerun()
@@ -217,7 +217,7 @@ with st.sidebar:
         ml_thr = st.slider("ML block threshold P(win)", 0.20, 0.80,
                            float(config.ML_WIN_PROB_THRESHOLD), 0.05)
 
-        saved = st.form_submit_button("💾 Save settings", use_container_width=True)
+        saved = st.form_submit_button("💾 Save settings", width="stretch")
 
     if saved:
         if not universe:
@@ -227,7 +227,7 @@ with st.sidebar:
                           tp, sl, mom, ml_on, ml_thr)
             if running:
                 if st.button("↺ Restart now to apply", type="primary",
-                             use_container_width=True, key="restart_after_save"):
+                             width="stretch", key="restart_after_save"):
                     restart_bot()
                     st.toast("Restarting to apply new settings…")
                     st.rerun()
@@ -320,7 +320,7 @@ def dashboard():
                     "P&L %": f"{p['pnl_pct']:+.0f}%" if p.get("pnl_pct") is not None else "—",
                     "P&L $": f"${pnl_d:+.2f}" if pnl_d is not None else "—",
                 })
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
             st.caption(f"Targets: +{config.TAKE_PROFIT_PCT:.0f}% take profit · "
                        f"−{config.STOP_LOSS_PCT:.0f}% stop loss · all flat by 3:45 PM ET")
         else:
@@ -347,7 +347,7 @@ def dashboard():
                     "entry_price", "exit_price", "pnl", "pnl_pct",
                     "exit_reason", "win_prob"]
             st.dataframe(show[[c for c in cols if c in show.columns]],
-                         use_container_width=True, hide_index=True)
+                         width="stretch", hide_index=True)
             st.download_button("⬇ Download full trades.csv",
                                trades.to_csv(index=False), "trades.csv", "text/csv")
 
@@ -362,14 +362,14 @@ def dashboard():
             a1, a2 = st.columns(2)
             with a1:
                 if st.button("🌅 Generate morning briefing",
-                             use_container_width=True):
+                             width="stretch"):
                     with st.spinner("Reading overnight news… (~30-60s)"):
                         out = ai_analyst.morning_briefing()
                     if out is None:
                         st.warning("Nothing generated — check the Logs tab.")
             with a2:
                 if st.button("🧠 Generate end-of-day report",
-                             use_container_width=True):
+                             width="stretch"):
                     with st.spinner("Analyzing today's trades…"):
                         out = ai_analyst.daily_report()
                     if out is None:
@@ -389,7 +389,7 @@ def dashboard():
     with tab_logs:
         lcol, _ = st.columns([1, 4])
         with lcol:
-            if st.button("🔄 Refresh logs", use_container_width=True):
+            if st.button("🔄 Refresh logs", width="stretch"):
                 st.rerun()
         st.code(tail(config.BOT_LOG_FILE, 80), language="log")
         with st.expander("Process output (startup errors land here)"):

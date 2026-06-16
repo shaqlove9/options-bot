@@ -1,0 +1,30 @@
+[Unit]
+# Equity-sleeve paper instance — runs ALONGSIDE optionsbot.service.
+# Uses a SEPARATE Alpaca paper account (keys in .env.equity) and separate
+# status/stop/log files, so it does not collide with the options bot.
+# DRAFT: review, fill in .env.equity, then install (see commands below).
+Description=Options Bot — Equity Sleeve (paper, shares)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/options-bot
+# .env.equity must be KEY=value lines (dotenv format is compatible). Its vars
+# (separate account keys, INSTRUMENT=equity, *_FILE overrides) win over .env.
+EnvironmentFile=/home/ubuntu/options-bot/.env.equity
+ExecStart=/home/ubuntu/options-bot/.venv/bin/python /home/ubuntu/options-bot/main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
+# Install (run yourself after filling in .env.equity):
+#   sudo cp deploy/optionsbot-equity.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now optionsbot-equity
+#   journalctl -u optionsbot-equity -f      # watch it

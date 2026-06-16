@@ -134,11 +134,14 @@ AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 # dashboard hides its Start/Stop/Restart controls and can't fight systemd
 # (two main.py instances = double orders). Defaults off for the laptop.
 MONITOR_ONLY = os.getenv("DASHBOARD_MONITOR_ONLY", "false").lower() == "true"
-STATUS_FILE = os.path.join(_DIR, "status.json")     # bot heartbeat for the UI
-STOP_FLAG_FILE = os.path.join(_DIR, "stop.flag")    # UI asks bot to stop gracefully
-BOT_LOG_FILE = os.path.join(_DIR, "bot.log")
-CONSOLE_LOG_FILE = os.path.join(_DIR, "console.log")
-SETTINGS_FILE = os.path.join(_DIR, "settings.json") # UI-saved overrides
+# These IPC/dashboard paths are env-overridable so a SECOND instance (e.g. the
+# equity sleeve) can run on the same box without clobbering the options bot's
+# status/stop/log files. Unset env = unchanged prod defaults.
+STATUS_FILE = os.getenv("STATUS_FILE", os.path.join(_DIR, "status.json"))     # bot heartbeat for the UI
+STOP_FLAG_FILE = os.getenv("STOP_FLAG_FILE", os.path.join(_DIR, "stop.flag")) # UI asks bot to stop gracefully
+BOT_LOG_FILE = os.getenv("BOT_LOG_FILE", os.path.join(_DIR, "bot.log"))
+CONSOLE_LOG_FILE = os.getenv("CONSOLE_LOG_FILE", os.path.join(_DIR, "console.log"))
+SETTINGS_FILE = os.getenv("SETTINGS_FILE", os.path.join(_DIR, "settings.json")) # UI-saved overrides
 
 # Settings the dashboard may override. Applied last so saved values win;
 # anything not in settings.json keeps its default above.

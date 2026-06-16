@@ -24,3 +24,6 @@ console_equity.log
 .pytest_cache/
 *.tmp
 bot.pid
+# bot-generated runtime reports
+daily_report.md
+morning_briefing.md

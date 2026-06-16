@@ -56,6 +56,66 @@ python backtest.py --days 60 # backtest on 60 days of 15-min bars
 To go live: set `LIVE_MODE=true` in `.env` **and** swap in your live API keys.
 Both are required on purpose.
 
+## Deployment — AWS VPS (24/7 paper)
+
+As of **2026-06-15** the bot runs **24/7 in paper mode** on an AWS EC2 instance,
+so it no longer depends on the laptop being on.
+
+**Infrastructure**
+
+| | |
+|---|---|
+| Instance | EC2 **t3.medium** (2 vCPU, 4 GiB), **us-east-1** (closest to Alpaca) |
+| OS | Ubuntu Server 26.04 LTS (x86), 30 GiB gp3 root |
+| Cost | ~$36/mo (instance ~$30 + EBS ~$2.40 + public IPv4 ~$3.60) |
+| App path | `/home/ubuntu/options-bot` |
+| Login | `ssh -i Options-bot.pem ubuntu@<public-ip>` (SSH from My IP only) |
+
+The Windows `.venv` does **not** port — it's rebuilt on Linux
+(`python3 -m venv .venv && pip install -r requirements.txt`). TA-Lib stays
+optional; the pandas RSI fallback is used.
+
+**Runs as a systemd service** (`/etc/systemd/system/optionsbot.service`) that
+launches `main.py` directly with `Restart=always` and is `enabled` (auto-starts
+on reboot, auto-restarts on crash):
+
+```bash
+sudo systemctl status optionsbot          # is it running?
+sudo systemctl restart optionsbot         # restart
+sudo systemctl stop optionsbot            # stop trading
+journalctl -u optionsbot -f               # live logs
+```
+
+> **Important:** on the VM, systemd owns the bot. Control it with `systemctl`,
+> **not** the dashboard's Start/Stop buttons — those launch/kill `main.py`
+> independently and would fight systemd (risking two bot instances = double
+> orders).
+
+**Security:** the security group allows **inbound SSH (22) only**. The Streamlit
+dashboard (8501) is never exposed to the internet — reach it through an SSH
+tunnel: `ssh -L 8501:localhost:8501 -i Options-bot.pem ubuntu@<public-ip>`, then
+open `http://localhost:8501` on your laptop.
+
+## Status & next steps
+
+**Done**
+- ✅ Migrated from old PC → laptop; `.venv` rebuilt, paper keys verified (Jun 2026).
+- ✅ Deployed to AWS EC2, running 24/7 via systemd in paper mode.
+- ✅ Smoke-tested on Linux — clean boot, same package versions as laptop.
+
+**Next steps**
+- [ ] **Set a billing budget** in AWS (Budgets → ~$45/mo alert) to avoid surprise charges.
+- [ ] **Dashboard on the VM (monitoring only).** `app.py`'s `start_bot()` uses the
+      Windows-only `subprocess.CREATE_NO_WINDOW` flag, which breaks on Linux — patch
+      that, then run the dashboard as a second systemd service and view it over the
+      SSH tunnel above.
+- [ ] **(Optional) Elastic IP** to pin the public IP so it survives a stop/start.
+- [ ] **Let paper mode run for weeks.** Accumulate **50 closed trades** so the ML
+      learner can train, and build up IV-rank history (20 sessions) before judging
+      signal quality.
+- [ ] **Only consider live** after sustained paper validation — and even then, start
+      with the smallest possible size. See the risk warnings at the top.
+
 ## Strategy
 
 Two entry strategies share all filters and risk rules:

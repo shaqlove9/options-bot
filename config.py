@@ -108,6 +108,10 @@ AI_BRIEFING_FILE = os.path.join(_DIR, "morning_briefing.md")
 AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 
 # --- Dashboard integration (app.py) ---
+# On the VM, systemd owns the bot. Set DASHBOARD_MONITOR_ONLY=true there so the
+# dashboard hides its Start/Stop/Restart controls and can't fight systemd
+# (two main.py instances = double orders). Defaults off for the laptop.
+MONITOR_ONLY = os.getenv("DASHBOARD_MONITOR_ONLY", "false").lower() == "true"
 STATUS_FILE = os.path.join(_DIR, "status.json")     # bot heartbeat for the UI
 STOP_FLAG_FILE = os.path.join(_DIR, "stop.flag")    # UI asks bot to stop gracefully
 BOT_LOG_FILE = os.path.join(_DIR, "bot.log")

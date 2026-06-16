@@ -21,6 +21,7 @@ import ai_analyst
 import alerts
 import config
 import earnings
+from equity_executor import EquityExecutor
 from executor import Executor
 from learner import Learner, extract_features
 from options_chain import ChainFetcher
@@ -83,6 +84,21 @@ def get_clock_with_retry(trading, retries: int = 3, delay: float = 10.0):
             time.sleep(delay)
 
 
+def equity_features(signal, now: dt.datetime) -> dict:
+    """Signal features logged with each equity trade (mirrors the options
+    feature columns the learner uses, minus the option-specific ones)."""
+    open_et = now.replace(hour=9, minute=30, second=0, microsecond=0)
+    return {
+        "strategy": signal.strategy,
+        "momentum_pct": f"{signal.momentum_pct:.3f}",
+        "day_change_pct": f"{signal.day_change_pct:.3f}",
+        "rsi": f"{signal.rsi:.2f}",
+        "rel_volume": f"{signal.rel_volume:.2f}",
+        "vwap_dist_pct": f"{signal.vwap_dist_pct:.3f}",
+        "minutes_since_open": int((now - open_et).total_seconds() // 60),
+    }
+
+
 def stop_requested() -> bool:
     return os.path.exists(config.STOP_FLAG_FILE)
 
@@ -104,9 +120,15 @@ def main():
     trading, stock_data, option_data = build_clients()
     risk = RiskManager()
     scanner = Scanner(stock_data)
-    chain = ChainFetcher(trading, option_data)
-    executor = Executor(trading, option_data, risk)
     learner = Learner()   # trains from trades.csv once enough history exists
+    equity_mode = config.INSTRUMENT == "equity"
+    if equity_mode:
+        chain = None
+        executor = EquityExecutor(trading, stock_data, risk)
+        log.info("INSTRUMENT=equity — trading SHARES (momentum sleeve)")
+    else:
+        chain = ChainFetcher(trading, option_data)
+        executor = Executor(trading, option_data, risk)
 
     # Crash recovery: adopt any positions left at the broker, clear stray
     # orders, and rebuild today's P&L so the daily loss limit holds.
@@ -152,8 +174,9 @@ def main():
                 if summary_sent_for != now.date() and risk.state.trades_closed:
                     alerts.daily_summary(risk.summary())
                     summary_sent_for = now.date()
-                    learner.maybe_retrain()   # learn from today's trades
-                    ai_analyst.daily_report() # plain-English AI recap
+                    if not equity_mode:       # learner/AI report are options-schema
+                        learner.maybe_retrain()   # learn from today's trades
+                        ai_analyst.daily_report() # plain-English AI recap
                 write_status(executor, risk, learner, market_open=True)
                 sleep_responsive(60)
                 continue
@@ -180,6 +203,25 @@ def main():
                     if executor.has_position_in(signal.symbol):
                         continue
                     if earnings.blocks(signal.symbol):   # IV-crush protection
+                        continue
+
+                    # --- equity sleeve: trade the shares, no option chain ---
+                    if equity_mode:
+                        risk_amt = config.EQ_NOTIONAL_PER_TRADE * config.EQ_STOP_LOSS_PCT / 100
+                        if risk_amt > config.EQ_MAX_TRADE_RISK:
+                            log.warning("equity per-trade risk $%.0f exceeds "
+                                        "EQ_MAX_TRADE_RISK $%.0f — skipping",
+                                        risk_amt, config.EQ_MAX_TRADE_RISK)
+                            continue
+                        ok, why = risk.can_enter(executor.open_count(), risk_amt)
+                        if not ok:
+                            log.info("Entry blocked: %s", why)
+                            continue
+                        if executor.open_position_equity(
+                                signal, signal.reason(),
+                                equity_features(signal, now),
+                                tp_pct=config.EQ_TAKE_PROFIT_PCT):
+                            cooldowns[signal.symbol] = now
                         continue
 
                     pick = chain.find_contract(signal)

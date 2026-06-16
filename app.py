@@ -20,7 +20,11 @@ import ai_analyst
 import config
 
 BOT_DIR = os.path.dirname(os.path.abspath(__file__))
-PYTHON = os.path.join(BOT_DIR, ".venv", "Scripts", "python.exe")
+# venv layout differs by OS: Scripts/python.exe on Windows, bin/python on POSIX.
+if os.name == "nt":
+    PYTHON = os.path.join(BOT_DIR, ".venv", "Scripts", "python.exe")
+else:
+    PYTHON = os.path.join(BOT_DIR, ".venv", "bin", "python")
 PID_FILE = os.path.join(BOT_DIR, "bot.pid")
 ALL_SYMBOLS = sorted({"SPY", "QQQ", "IWM", "NVDA", "TSLA", "AAPL", "AMZN",
                       "META", "MSFT", "AMD", "GOOGL", *config.UNIVERSE})
@@ -47,13 +51,24 @@ def heartbeat_age(status: dict) -> float | None:
 
 
 def _pid_alive(pid: int) -> bool:
-    """Check if a Windows process PID is still running."""
+    """Check if a process PID is still running (cross-platform)."""
+    if os.name == "nt":
+        try:
+            result = subprocess.run(
+                ["tasklist", "/FI", f"PID eq {pid}", "/NH"],
+                capture_output=True, text=True, timeout=3,
+            )
+            return str(pid) in result.stdout
+        except Exception:
+            return False
+    # POSIX: signal 0 probes the process without affecting it.
     try:
-        result = subprocess.run(
-            ["tasklist", "/FI", f"PID eq {pid}", "/NH"],
-            capture_output=True, text=True, timeout=3,
-        )
-        return str(pid) in result.stdout
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True   # exists but owned by another user
     except Exception:
         return False
 
@@ -79,10 +94,13 @@ def start_bot():
     if os.path.exists(config.STOP_FLAG_FILE):
         os.remove(config.STOP_FLAG_FILE)
     console = open(config.CONSOLE_LOG_FILE, "a")
+    # CREATE_NO_WINDOW only exists on Windows; on POSIX detach via start_new_session.
+    kwargs = ({"creationflags": subprocess.CREATE_NO_WINDOW}
+              if os.name == "nt" else {"start_new_session": True})
     proc = subprocess.Popen(
         [PYTHON, os.path.join(BOT_DIR, "main.py")],
         cwd=BOT_DIR, stdout=console, stderr=subprocess.STDOUT,
-        creationflags=subprocess.CREATE_NO_WINDOW,
+        **kwargs,
     )
     with open(PID_FILE, "w") as f:
         f.write(str(proc.pid))
@@ -163,38 +181,49 @@ with st.sidebar:
     starting_up = (not running
                    and time.time() - st.session_state.get("started_at", 0) < 20)
 
-    col_a, col_b, col_c = st.columns(3)
-    with col_a:
-        if st.button("▶ Start",
-                     disabled=running or starting_up or restarting,
-                     width="stretch", type="primary"):
-            start_bot()
-            st.toast("Bot starting…")
-            st.rerun()
-    with col_b:
-        if st.button("⏹ Stop",
-                     disabled=not running or stopping or restarting,
-                     width="stretch"):
-            stop_bot()
-            st.toast("Stop sent — flattening positions…")
-            st.rerun()
-    with col_c:
-        if st.button("↺ Restart",
-                     disabled=(stopping or restarting or starting_up),
-                     width="stretch"):
-            restart_bot()
-            st.toast("Restarting…")
-            st.rerun()
+    if config.MONITOR_ONLY:
+        # VM mode: systemd owns the bot. Showing Start/Stop here would let the
+        # dashboard launch/kill a second main.py and fight systemd (double
+        # orders), so controls are hidden — this dashboard is monitoring only.
+        if running:
+            st.info("🖥️ Monitoring only — bot is managed by **systemd** on this "
+                    "host. Control it with `systemctl` over SSH.")
+        else:
+            st.error("🖥️ Monitoring only — bot **not running**. Start it on the "
+                     "host with `sudo systemctl start optionsbot`.")
+    else:
+        col_a, col_b, col_c = st.columns(3)
+        with col_a:
+            if st.button("▶ Start",
+                         disabled=running or starting_up or restarting,
+                         width="stretch", type="primary"):
+                start_bot()
+                st.toast("Bot starting…")
+                st.rerun()
+        with col_b:
+            if st.button("⏹ Stop",
+                         disabled=not running or stopping or restarting,
+                         width="stretch"):
+                stop_bot()
+                st.toast("Stop sent — flattening positions…")
+                st.rerun()
+        with col_c:
+            if st.button("↺ Restart",
+                         disabled=(stopping or restarting or starting_up),
+                         width="stretch"):
+                restart_bot()
+                st.toast("Restarting…")
+                st.rerun()
 
-    if restarting:
-        st.warning("⏳ Restarting — waiting for clean shutdown…")
-    elif stopping:
-        st.warning("⏳ Stopping — closing positions, a few seconds…")
-    elif starting_up:
-        st.info("⏳ Starting up…")
+        if restarting:
+            st.warning("⏳ Restarting — waiting for clean shutdown…")
+        elif stopping:
+            st.warning("⏳ Stopping — closing positions, a few seconds…")
+        elif starting_up:
+            st.info("⏳ Starting up…")
 
-    st.caption("Stop is graceful: open positions are closed before shutdown. "
-               "Restart applies saved settings.")
+        st.caption("Stop is graceful: open positions are closed before shutdown. "
+                   "Restart applies saved settings.")
 
     st.divider()
     st.subheader("⚙️ Settings")
@@ -225,7 +254,10 @@ with st.sidebar:
         else:
             save_settings(universe, max_cost, max_pos, max_loss,
                           tp, sl, mom, ml_on, ml_thr)
-            if running:
+            if config.MONITOR_ONLY:
+                st.success("Saved to settings.json — apply on the host with "
+                           "`sudo systemctl restart optionsbot`.")
+            elif running:
                 if st.button("↺ Restart now to apply", type="primary",
                              width="stretch", key="restart_after_save"):
                     restart_bot()

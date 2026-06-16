@@ -1,0 +1,24 @@
+[Unit]
+Description=Options Bot Dashboard (Streamlit, monitoring only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/options-bot
+# Monitoring only: hides Start/Stop so it can't fight the optionsbot systemd unit.
+Environment=DASHBOARD_MONITOR_ONLY=true
+# Bind to localhost only — reach it via SSH tunnel (-L 8501:localhost:8501).
+ExecStart=/home/ubuntu/options-bot/.venv/bin/python -m streamlit run app.py \
+  --server.address=127.0.0.1 \
+  --server.port=8501 \
+  --server.headless=true \
+  --browser.gatherUsageStats=false
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

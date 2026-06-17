@@ -36,3 +36,10 @@ status_trend.json
 .env.trend
 trend_forward_state.json
 trend.log
+# equity meta-labeling layer (machine-local data + artifacts)
+equity_meta.db
+equity_meta.db-wal
+equity_meta.db-shm
+meta_model.pkl
+meta_metrics.json
+equity_governor_state.json

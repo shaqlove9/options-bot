@@ -142,11 +142,14 @@ class SignalSource:
         raise NotImplementedError
 
 
-class MomentumSignal(SignalSource):
-    name = "momentum"
+class StrategySignal(SignalSource):
+    """Live source that runs ANY pure signal function (same one the backtest uses),
+    so a graduated backtest strategy goes live with no logic change."""
 
-    def __init__(self, stock_data: StockHistoricalDataClient):
+    def __init__(self, stock_data: StockHistoricalDataClient, signal_fn, name: str):
         self.data = stock_data
+        self.fn = signal_fn
+        self.name = name
 
     def _intraday(self, symbol: str) -> pd.DataFrame | None:
         req = StockBarsRequest(
@@ -180,11 +183,19 @@ class MomentumSignal(SignalSource):
         out = []
         for symbol in config.UNIVERSE:
             try:
-                sig = evaluate(symbol, self._intraday(symbol), self._daily(symbol), now_et())
+                sig = self.fn(symbol, self._intraday(symbol), self._daily(symbol), now_et())
             except Exception:
                 log.exception("%s: scan error", symbol)
                 continue
             if sig:
-                log.info("SIGNAL %s %s — %s", sig.symbol, sig.direction.upper(), sig.reason())
+                log.info("SIGNAL[%s] %s %s — %s", self.name, sig.symbol,
+                         sig.direction.upper(), sig.reason())
                 out.append(sig)
         return out
+
+
+class MomentumSignal(StrategySignal):
+    """Back-compat: the plain momentum baseline as a StrategySignal."""
+
+    def __init__(self, stock_data: StockHistoricalDataClient):
+        super().__init__(stock_data, evaluate, "momentum")

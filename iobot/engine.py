@@ -16,9 +16,9 @@ import logging
 import time
 
 from iobot import (broker, chain, config, executor, features, gate, governor,
-                   journal, meta, spread, store)
+                   journal, meta, spread, store, strategies)
 from iobot.clock import in_entry_window, now_et, past_force_close
-from iobot.signals import MomentumSignal
+from iobot.signals import StrategySignal
 
 log = logging.getLogger("engine")
 
@@ -28,14 +28,15 @@ class Engine:
         self.clients = broker.build_clients()
         self.conn = store.connect()
         self.gov = governor.RiskGovernor()
-        self.signals = MomentumSignal(self.clients.stock_data)
+        signal_fn = strategies.REGISTRY.get(config.SIGNAL, strategies.REGISTRY["momentum"])
+        self.signals = StrategySignal(self.clients.stock_data, signal_fn, config.SIGNAL)
         self.featbuilder = features.FeatureBuilder(self.clients.stock_data)
         self.exec = executor.Executor(self.clients.trading, self.clients.stock_data,
                                       self.clients.option_data, self.conn)
         self.meta = meta.MetaGate()
         self.exec.reconcile()
-        log.info("engine ready — universe %s, structure=%s, meta_active=%s",
-                 config.UNIVERSE, config.STRUCTURE, self.meta.active())
+        log.info("engine ready — universe %s, signal=%s, structure=%s, meta_active=%s",
+                 config.UNIVERSE, config.SIGNAL, config.STRUCTURE, self.meta.active())
 
     # ---------------- one cycle ----------------
 
@@ -137,6 +138,7 @@ class Engine:
             status = {
                 "updated": now_et().isoformat(timespec="seconds"),
                 "market_open": market_open,
+                "signal": config.SIGNAL,
                 "structure": config.STRUCTURE,
                 "spread_enabled": config.SPREAD_ENABLED,
                 "meta_active": self.meta.active(),

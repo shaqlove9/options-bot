@@ -36,6 +36,7 @@ if not status:
     st.warning("No status yet — the engine hasn't written a heartbeat. Start the service.")
 st.caption(f"Updated {status.get('updated', 'n/a')} · "
            f"market {'OPEN' if status.get('market_open') else 'closed'} · "
+           f"signal {status.get('signal')} · "
            f"structure {status.get('structure')} · "
            f"spread {'on' if status.get('spread_enabled') else 'off'} · "
            f"go_live={status.get('go_live')} live_exec={status.get('live_execution')}")

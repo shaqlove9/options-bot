@@ -77,6 +77,11 @@ UNIVERSE = [s.strip().upper() for s in _s("IOBOT_UNIVERSE", "SPY,QQQ").split(","
 # "single" = slightly-ITM long option (default). "spread" = debit vertical upgrade.
 STRUCTURE = _s("IOBOT_STRUCTURE", "single").lower()
 
+# Active entry signal (a key in strategies.REGISTRY). trend_momentum = momentum
+# gated to the daily-trend direction; the best backtested candidate (see
+# iobot/strategies.py). Set IOBOT_SIGNAL=momentum to revert to the plain baseline.
+SIGNAL = _s("IOBOT_SIGNAL", "trend_momentum")
+
 # Slightly-ITM target delta band for the single long leg.
 TARGET_DELTA_MIN = _f("IOBOT_DELTA_MIN", 0.60)
 TARGET_DELTA_MAX = _f("IOBOT_DELTA_MAX", 0.70)

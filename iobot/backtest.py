@@ -27,11 +27,10 @@ import pandas as pd
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 
-from iobot import bsm, config
+from iobot import bsm, config, strategies
 from iobot.broker import build_clients
 from iobot.clock import ET, _at, in_entry_window
 from iobot.executor import single_exit_levels
-from iobot.signals import evaluate
 
 R_FLOOR_IV, R_CAP_IV = 0.08, 1.0
 
@@ -114,7 +113,7 @@ def _walk_exit(direction, stop, target, path: pd.DataFrame, force_close_t):
     return None
 
 
-def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams) -> list[Trade]:
+def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn) -> list[Trade]:
     iv_map = _iv_by_day(daily, p.vrp)
     trades: list[Trade] = []
     tf = dt.timedelta(minutes=15)
@@ -135,7 +134,7 @@ def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams) -> list[Tr
                 continue
             intraday = sig_bars[sig_bars.index <= start]
             daily_ctx = daily[daily.index.date < day]
-            sig = evaluate(symbol, intraday, daily_ctx, close_time)
+            sig = signal_fn(symbol, intraday, daily_ctx, close_time)
             if sig is None:
                 continue
 
@@ -170,11 +169,12 @@ def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams) -> list[Tr
     return trades
 
 
-def run(p: BTParams) -> list[Trade]:
+def load_data(p: BTParams) -> dict:
+    """Fetch bars once so multiple strategies can be compared without refetching."""
     clients = build_clients()
     sig_tf = TimeFrame(15, TimeFrameUnit.Minute)
     path_tf = TimeFrame(p.path_tf, TimeFrameUnit.Minute)
-    all_trades: list[Trade] = []
+    data = {}
     for symbol in config.UNIVERSE:
         sig_bars = _fetch(clients.stock_data, symbol, p.days, sig_tf)
         path_bars = _fetch(clients.stock_data, symbol, p.days, path_tf)
@@ -182,9 +182,18 @@ def run(p: BTParams) -> list[Trade]:
         if sig_bars.empty or path_bars.empty or daily.empty:
             print(f"  {symbol}: insufficient data, skipped")
             continue
-        t = _simulate_symbol(symbol, sig_bars, path_bars, daily, p)
-        print(f"  {symbol}: {len(t)} trades over "
-              f"{sig_bars.index.min().date()}..{sig_bars.index.max().date()}")
+        data[symbol] = (sig_bars, path_bars, daily)
+    return data
+
+
+def run(p: BTParams, signal_fn, data: dict | None = None, verbose: bool = True) -> list[Trade]:
+    data = data if data is not None else load_data(p)
+    all_trades: list[Trade] = []
+    for symbol, (sig_bars, path_bars, daily) in data.items():
+        t = _simulate_symbol(symbol, sig_bars, path_bars, daily, p, signal_fn)
+        if verbose:
+            print(f"  {symbol}: {len(t)} trades over "
+                  f"{sig_bars.index.min().date()}..{sig_bars.index.max().date()}")
         all_trades += t
     return all_trades
 
@@ -273,6 +282,27 @@ def _sweep(trades_base: list[Trade], p: BTParams):
     print("(flips to no-edge where expected R <= 0)")
 
 
+def _compare(p: BTParams):
+    """Run every registered strategy on the same data and rank by net expected R."""
+    data = load_data(p)
+    rows = []
+    for name, fn in strategies.REGISTRY.items():
+        s = summarize(run(p, fn, data=data, verbose=False))
+        rows.append((name, s))
+    rows.sort(key=lambda r: r[1].get("expected_r", -9), reverse=True)
+    print(f"\n{'='*72}\nSTRATEGY COMPARISON  ({p.days}d, dte={p.dte}, "
+          f"half_spread={p.half_spread})\n{'='*72}")
+    print(f"{'strategy':<18}{'trades':>7}{'win%':>7}{'E[R]net':>9}{'PF':>6}"
+          f"{'totP&L':>10}")
+    for name, s in rows:
+        if s["n"] == 0:
+            print(f"{name:<18}{'0':>7}  (no trades)")
+            continue
+        print(f"{name:<18}{s['n']:>7}{s['win_rate']*100:>6.1f}{s['expected_r']:>+9.3f}"
+              f"{s['profit_factor']:>6.2f}{s['total_pnl']:>+10.0f}")
+    print("\n(E[R]net > ~0.05 across the cost sweep = worth graduating to live paper)")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="iobot single-leg backtest")
     ap.add_argument("--days", type=int, default=90)
@@ -282,13 +312,20 @@ def main(argv=None):
     ap.add_argument("--half-spread", type=float, default=0.02)
     ap.add_argument("--fee", type=float, default=0.65)
     ap.add_argument("--vrp", type=float, default=1.1)
+    ap.add_argument("--signal", type=str, default="momentum",
+                    choices=list(strategies.REGISTRY))
+    ap.add_argument("--compare", action="store_true", help="run all strategies head-to-head")
     ap.add_argument("--sweep", action="store_true")
     ap.add_argument("--csv", type=str, default="")
     a = ap.parse_args(argv)
     p = BTParams(days=a.days, path_tf=a.path_tf, dte=a.dte, target_delta=a.delta,
                  half_spread=a.half_spread, fee_per_contract=a.fee, vrp=a.vrp)
     print(f"Backtest: universe={config.UNIVERSE} days={p.days} signal=15m path={p.path_tf}m")
-    trades = run(p)
+    if a.compare:
+        _compare(p)
+        return
+    print(f"Strategy: {a.signal}")
+    trades = run(p, strategies.REGISTRY[a.signal])
     s = summarize(trades)
     _print_summary(s, p)
     if a.sweep:

@@ -15,3 +15,7 @@ console.log
 .pytest_cache/
 *.tmp
 bot.pid
+
+# iobot — runtime data (db, logs, state, trained models) and local env files
+iobot_data/
+.env.iobot

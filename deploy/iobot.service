@@ -1,0 +1,17 @@
+[Unit]
+Description=iobot — intraday options bot (paper only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/options-bot
+EnvironmentFile=/home/ubuntu/options-bot/.env
+ExecStart=/home/ubuntu/options-bot/.venv/bin/python -m iobot.engine
+Restart=on-failure
+RestartSec=10
+# Hard stop: this build has no live-execution code; never set IOBOT_GO_LIVE in prod.
+
+[Install]
+WantedBy=multi-user.target

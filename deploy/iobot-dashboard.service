@@ -1,0 +1,17 @@
+[Unit]
+Description=iobot dashboard — read-only monitor (Streamlit, 127.0.0.1:8501)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/options-bot
+EnvironmentFile=/home/ubuntu/options-bot/.env
+ExecStart=/home/ubuntu/options-bot/.venv/bin/streamlit run iobot/dashboard.py \
+    --server.port 8501 --server.address 127.0.0.1 --server.headless true
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+# iobot — pinned runtime deps (Python 3.14, paper-only intraday options bot).
+alpaca-py==0.43.4
+pandas==3.0.3
+numpy==2.4.6
+scikit-learn==1.9.0
+joblib==1.5.3
+python-dotenv==1.2.2
+streamlit==1.58.0
+# dev / tests
+pytest==9.1.0

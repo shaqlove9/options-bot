@@ -90,6 +90,34 @@ EQ_TRAIL_TRIGGER_PCT = 0.5      # arm trailing stop once up this %
 EQ_TRAIL_GIVEBACK_PCT = 0.25    # ...then exit on this much giveback
 EQ_MAX_TRADE_RISK = 50.0        # max $ risk/trade for the shared risk gate
 
+# --- Equity meta-labeling layer (decision layer on the share scalper) ---
+# A SECONDARY model that learns from our OWN closed trades which signals to skip
+# and how big to size. It NEVER invents entries. Capture + shadow-logging run now;
+# the model only gates/sizes real (paper) trades after train_meta.py's gate passes
+# AND EQ_META_ACTIVE is flipped on (the single reversible activation flag).
+EQ_META_ENABLED = True           # capture features + log shadow decisions every signal
+EQ_META_ACTIVE = False           # activation flag: let the model gate/size real trades
+EQ_META_MIN_TRADES = 40          # labeled closed trades required before the model may activate
+EQ_META_AUC_BAR = 0.55           # walk-forward OOS AUC the model must clear to ship
+EQ_META_THRESHOLD = 0.50         # operating P(win): when active, skip signals scoring below this
+EQ_META_EMBARGO = 2              # trades embargoed between train/test folds (purge leakage)
+RANDOM_SEED = 42                 # fixed seed — reproducible training
+
+# --- Equity risk governor (independent of the model) ---
+# Kill switches are ACTIVE in paper now (pure downside protection, mirroring the
+# trend sleeve's breaker). Vol-targeted sizing is built + shadow-logged but stays
+# GATED behind EQ_GOV_SIZING_ACTIVE so the flat EQ_NOTIONAL_PER_TRADE keeps the
+# in-flight equity forward-test homogeneous until the gate justifies a change.
+EQ_GOV_ENABLED = True
+EQ_GOV_DAILY_MAX_LOSS_PCT = 2.0  # flatten + halt for the day at -2% of start-of-day equity
+EQ_GOV_TRAILING_DD_PCT = 15.0    # halt if equity falls this far from its peak
+EQ_GOV_MAX_CONCURRENT = 3        # hard cap on simultaneous open positions
+EQ_GOV_MAX_TRADES_DAY = 20       # hard cap on entries per day
+EQ_GOV_RISK_FRAC = 0.0025        # conservative fixed risk/trade (frac of equity) until Kelly measured
+EQ_GOV_KELLY_FRAC = 0.25         # fractional-Kelly cap once win-rate/payoff are measured
+EQ_GOV_MAX_NOTIONAL_FRAC = 0.5   # vol-target sizing never exceeds this fraction of equity per trade
+EQ_GOV_SIZING_ACTIVE = False     # gate: when True, vol-targeted size replaces the flat notional
+
 # --- Entry quality filters ---
 VWAP_FILTER = True              # calls only above session VWAP, puts only below
 EARNINGS_BLOCK = True           # skip single names with earnings inside the
@@ -120,6 +148,11 @@ _DIR = os.path.dirname(__file__)
 TRADES_CSV = os.path.join(_DIR, "trades_equity.csv" if INSTRUMENT == "equity"
                           else "trades.csv")
 IV_HISTORY_FILE = os.path.join(_DIR, "iv_history.json")
+# Equity meta-labeling artifacts (equity sleeve only; one row per signal).
+META_DB = os.path.join(_DIR, "equity_meta.db")
+META_MODEL_FILE = os.path.join(_DIR, "meta_model.pkl")
+META_METRICS_FILE = os.path.join(_DIR, "meta_metrics.json")
+EQ_GOV_STATE_FILE = os.path.join(_DIR, "equity_governor_state.json")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # --- AI analyst (Claude) — advisory only, never touches trade decisions ---
@@ -153,6 +186,10 @@ _TUNABLE = {
     "OTM_MIN_PCT", "OTM_MAX_PCT", "MAX_SPREAD_PCT",
     "TRAIL_TRIGGER_PCT", "TRAIL_GIVEBACK_PCT", "VWAP_FILTER", "EARNINGS_BLOCK",
     "RUNNER_ENABLED", "RUNNER_DAY_PCT", "RUNNER_TAKE_PROFIT_PCT",
+    # equity meta-labeling + governor (reversible flags the dashboard may toggle)
+    "EQ_META_ENABLED", "EQ_META_ACTIVE", "EQ_META_THRESHOLD",
+    "EQ_GOV_ENABLED", "EQ_GOV_SIZING_ACTIVE",
+    "EQ_GOV_DAILY_MAX_LOSS_PCT", "EQ_GOV_TRAILING_DD_PCT",
 }
 if os.path.exists(SETTINGS_FILE):
     import json as _json

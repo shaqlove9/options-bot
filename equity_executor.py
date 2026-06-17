@@ -32,7 +32,8 @@ log = logging.getLogger("equity_executor")
 
 CSV_FIELDS = [
     "entry_time", "exit_time", "ticker", "side", "qty", "entry_price",
-    "exit_price", "pnl", "pnl_pct", "entry_reason", "exit_reason",
+    "exit_price", "pnl", "pnl_pct", "r_multiple", "entry_reason", "exit_reason",
+    "signal_id",
     "strategy", "momentum_pct", "day_change_pct", "rsi", "rel_volume",
     "vwap_dist_pct", "minutes_since_open",
 ]
@@ -48,6 +49,7 @@ class EqPosition:
     entry_reason: str
     features: dict
     tp_pct: float
+    signal_id: str = ""          # joins this trade's outcome to its captured features
     last_price: float | None = None
     last_pnl_pct: float | None = None
     peak_pct: float = 0.0
@@ -111,7 +113,9 @@ class EquityExecutor:
 
     def open_position_equity(self, signal: Signal, entry_reason: str,
                              features: dict | None = None,
-                             tp_pct: float | None = None) -> EqPosition | None:
+                             tp_pct: float | None = None,
+                             signal_id: str = "",
+                             notional: float | None = None) -> EqPosition | None:
         if signal.direction == "put" and not config.EQ_ALLOW_SHORT:
             log.info("%s: short disabled (EQ_ALLOW_SHORT=False) — skipping put signal",
                      signal.symbol)
@@ -126,10 +130,11 @@ class EquityExecutor:
         ref = ask if long_ else bid
         if ref <= 0:
             ref = signal.spot
-        qty = int(config.EQ_NOTIONAL_PER_TRADE // ref)
+        notional = config.EQ_NOTIONAL_PER_TRADE if notional is None else notional
+        qty = int(notional // ref)
         if qty < 1:
             log.info("%s: share price $%.2f too high for $%.0f notional",
-                     signal.symbol, ref, config.EQ_NOTIONAL_PER_TRADE)
+                     signal.symbol, ref, notional)
             return None
 
         side = OrderSide.BUY if long_ else OrderSide.SELL
@@ -147,6 +152,7 @@ class EquityExecutor:
             entry_price=fill, entry_time=now_et(), entry_reason=entry_reason,
             features=features or {},
             tp_pct=tp_pct if tp_pct is not None else config.EQ_TAKE_PROFIT_PCT,
+            signal_id=signal_id,
         )
         self.positions[signal.symbol] = pos
         log.info("FILLED %s %s x%d @ $%.2f ($%.0f notional)", signal.symbol,
@@ -310,8 +316,12 @@ class EquityExecutor:
                 "exit_price": f"{exit_price:.2f}",
                 "pnl": f"{pnl:.2f}",
                 "pnl_pct": f"{pnl_pct:.2f}",
+                # R-multiple = realized move in units of the stop distance, for sizing.
+                "r_multiple": f"{pnl_pct / config.EQ_STOP_LOSS_PCT:.3f}"
+                              if config.EQ_STOP_LOSS_PCT else "",
                 "entry_reason": pos.entry_reason,
                 "exit_reason": exit_reason,
+                "signal_id": pos.signal_id,
                 **{k: pos.features.get(k, "") for k in
                    ("strategy", "momentum_pct", "day_change_pct", "rsi",
                     "rel_volume", "vwap_dist_pct", "minutes_since_open")},

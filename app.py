@@ -18,6 +18,7 @@ import streamlit as st
 
 import ai_analyst
 import config
+import feature_store
 
 BOT_DIR = os.path.dirname(os.path.abspath(__file__))
 # venv layout differs by OS: Scripts/python.exe on Windows, bin/python on POSIX.
@@ -332,8 +333,9 @@ def dashboard():
         model_txt, model_sub = "advisory", f"AUC {learner.get('auc')}"
     c5.metric("ML model", model_txt, delta=model_sub, delta_color="off")
 
-    tab_pos, tab_hist, tab_ai, tab_logs = st.tabs(
-        ["📌 Open positions", "📜 Trade history", "🤖 AI Analyst", "🧾 Logs"])
+    tab_pos, tab_hist, tab_meta, tab_ai, tab_logs = st.tabs(
+        ["📌 Open positions", "📜 Trade history", "🧠 Meta layer",
+         "🤖 AI Analyst", "🧾 Logs"])
 
     with tab_pos:
         if open_pos:
@@ -382,6 +384,82 @@ def dashboard():
                          width="stretch", hide_index=True)
             st.download_button("⬇ Download full trades.csv",
                                trades.to_csv(index=False), "trades.csv", "text/csv")
+
+    with tab_meta:
+        st.caption("Equity decision layer — meta-labeling model + risk governor. "
+                   "Read-only monitor; the bot owns all writes.")
+
+        # --- risk governor state (kill switches active in paper) ---
+        st.markdown("**Risk governor**")
+        try:
+            with open(config.EQ_GOV_STATE_FILE) as f:
+                gov = json.load(f)
+        except (OSError, ValueError):
+            gov = None
+        if not gov:
+            st.caption("No governor state yet — appears after the equity sleeve's first cycle.")
+        else:
+            halted = gov.get("halted_day") or gov.get("halted_dd")
+            if halted:
+                st.error(f"🛑 Governor HALTED — {gov.get('halt_reason')}")
+            else:
+                st.success("✅ Governor armed — no kill switch tripped")
+            g1, g2, g3, g4 = st.columns(4)
+            g1.metric("Peak equity", f"${float(gov.get('peak_equity', 0)):,.0f}")
+            g2.metric("Trades today", gov.get("trades_today", 0))
+            g3.metric("Daily kill at", f"−{config.EQ_GOV_DAILY_MAX_LOSS_PCT:.1f}%")
+            g4.metric("Trailing kill at", f"−{config.EQ_GOV_TRAILING_DD_PCT:.0f}%")
+            st.caption(f"Vol-targeted sizing: "
+                       f"{'ACTIVE' if config.EQ_GOV_SIZING_ACTIVE else 'shadow (flat notional live)'}")
+
+        st.divider()
+        # --- walk-forward metrics (only present once the gate has passed) ---
+        st.markdown("**Meta-model — walk-forward validation**")
+        try:
+            with open(config.META_METRICS_FILE) as f:
+                m = json.load(f)
+        except (OSError, ValueError):
+            m = None
+        captured = feature_store.count_signals()
+        if not m:
+            active_txt = "ACTIVE" if config.EQ_META_ACTIVE else "inactive"
+            st.info(f"No shipped model yet — capturing data ({captured} signals logged). "
+                    f"Needs ≥{config.EQ_META_MIN_TRADES} labeled trades, then "
+                    f"`python train_meta.py` must clear AUC > {config.EQ_META_AUC_BAR}. "
+                    f"Gate flag EQ_META_ACTIVE = {active_txt}.")
+        else:
+            w1, w2, w3 = st.columns(3)
+            w1.metric("OOS AUC", f"{m.get('auc')}", delta=f"bar {config.EQ_META_AUC_BAR}",
+                      delta_color="off")
+            w2.metric("Precision", f"{m.get('precision')}")
+            w3.metric("Exp. R (model vs all)",
+                      f"{m.get('model_expected_R'):+.3f}",
+                      delta=f"vs {m.get('baseline_expected_R'):+.3f}", delta_color="off")
+            if m.get("calibration"):
+                st.caption("Calibration (predicted → actual win rate)")
+                st.dataframe(pd.DataFrame(m["calibration"]), width="stretch",
+                             hide_index=True)
+
+        st.divider()
+        # --- live vs shadow decision log ---
+        st.markdown("**Live vs shadow decisions**")
+        try:
+            shadow = feature_store.read_shadow()
+            sigs = feature_store.read_signals()
+        except Exception:
+            shadow = sigs = pd.DataFrame()
+        if shadow.empty:
+            st.caption("No shadow decisions logged yet.")
+        else:
+            view = shadow.copy()
+            if not sigs.empty:
+                view = view.merge(sigs[["signal_id", "symbol", "direction"]],
+                                  on="signal_id", how="left")
+            view = view.sort_values("ts", ascending=False).head(200)
+            view["would"] = view["would_take"].map({1: "take", 0: "skip"})
+            cols = [c for c in ["ts", "symbol", "direction", "would", "win_prob",
+                                "size_mult", "gov_size", "note"] if c in view.columns]
+            st.dataframe(view[cols], width="stretch", hide_index=True)
 
     with tab_ai:
         if not config.ANTHROPIC_API_KEY:

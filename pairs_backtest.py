@@ -70,6 +70,29 @@ GROSS_PER_PAIR = bt.EQ_CAPITAL * bt.EQ_LEVERAGE / config.MAX_OPEN_POSITIONS  # ~
 # cutoffs and are used only as a coarse screen, never reported as exact.
 ADF_CRIT = {"1%": -3.43, "5%": -2.86, "10%": -2.57}
 
+# Economically-linked candidate pairs (liquid, Alpaca-tradable). Pre-specifying
+# pairs from a real relationship — same sector / substitutes / index-vs-component
+# — is the honest defence against data-mining: testing every C(n,2) combo of a
+# big symbol list manufactures spurious cointegration. We still screen these for
+# statistical mean-reversion; the economic link just stops us fishing.
+CANDIDATE_PAIRS = [
+    ("KO", "PEP"),      # beverages
+    ("V", "MA"),        # card networks
+    ("XOM", "CVX"),     # oil majors
+    ("HD", "LOW"),      # home improvement
+    ("GS", "MS"),       # investment banks
+    ("JPM", "BAC"),     # money-center banks
+    ("GLD", "GDX"),     # gold vs gold miners
+    ("QQQ", "XLK"),     # tech index vs tech sector
+    ("SPY", "QQQ"),     # large-cap index vs nasdaq
+    ("GOOGL", "MSFT"),  # mega-cap tech
+    ("COST", "WMT"),    # big-box retail
+    ("UPS", "FDX"),     # parcel logistics
+    ("DAL", "UAL"),     # legacy airlines
+    ("NVDA", "AMD"),    # GPUs / semis
+    ("AAPL", "MSFT"),   # mega-cap tech
+]
+
 
 @dataclass
 class PairTrade:
@@ -186,7 +209,8 @@ def _leg_pnl(entry_px: float, exit_px: float, is_long: bool, shares: int) -> flo
 
 
 def simulate_pair(pair: str, zdf: pd.DataFrame, *, lookback: int, entry_z: float,
-                  exit_z: float, stop_z: float, max_hold_bars: int) -> list[PairTrade]:
+                  exit_z: float, stop_z: float, max_hold_bars: int,
+                  borrow_bps: float = 0.0) -> list[PairTrade]:
     trades: list[PairTrade] = []
     pos = None
     idx = zdf.index.to_list()
@@ -219,6 +243,12 @@ def simulate_pair(pair: str, zdf: pd.DataFrame, *, lookback: int, entry_z: float
                 long_a = pos["side"] == "long_spread"
                 pnl = (_leg_pnl(pos["pxa"], pxa, long_a, pos["sa"])
                        + _leg_pnl(pos["pxb"], pxb, not long_a, pos["sb"]))
+                # Short-leg borrow/financing: charged on the SHORT notional for
+                # the calendar days the position is held (overnight included).
+                short_notional = (pos["sa"] * pos["pxa"] if not long_a
+                                  else pos["sb"] * pos["pxb"])
+                days = max((ts.to_pydatetime() - pos["t"]).total_seconds() / 86400, 0)
+                pnl -= short_notional * (borrow_bps / 1e4) / 365 * days
                 pnl_pct = pnl / pos["gross"] * 100 if pos["gross"] else 0.0
                 trades.append(PairTrade(
                     pair, pos["side"], pos["t"], ts.to_pydatetime(), pos["beta"],
@@ -295,10 +325,11 @@ def render(screen_rows: list[dict], stats: dict, args):
     print("=" * 64)
     print("MARKET-NEUTRAL PAIRS — statistical-arbitrage backtest")
     print("=" * 64)
-    print(f"Universe: {', '.join(config.UNIVERSE)}")
+    mode = "all-combos (data-mining)" if args.all_combos else "curated economic pairs"
+    print(f"Candidates: {len(screen_rows)} {mode}")
     print(f"Formation {args.formation_frac:.0%} / trade {1 - args.formation_frac:.0%}"
           f" | lookback {args.lookback} bars | entry z {args.entry_z} "
-          f"exit z {args.exit_z} stop z {args.stop_z}")
+          f"exit z {args.exit_z} stop z {args.stop_z} | borrow {args.borrow_bps:.0f}bps")
     print("-" * 64)
     print("PAIR SCREEN (formation slice; DF crit ≈ -2.86 @5%, approx):")
     print(f"  {'pair':<14}{'corr':>7}{'DF t':>8}{'half-life':>11}  traded?")
@@ -353,18 +384,37 @@ def main():
                     help="DF t-stat threshold (more negative = stricter)")
     ap.add_argument("--top", type=int, default=0,
                     help="trade only the N best-screened pairs (0 = all that pass)")
+    ap.add_argument("--borrow-bps", type=float, default=50.0,
+                    help="annual short-borrow/financing cost in bps on short notional")
+    ap.add_argument("--all-combos", action="store_true",
+                    help="screen every C(n,2) combo of the symbol set instead of "
+                         "the curated economically-linked pairs (data-mining mode)")
+    ap.add_argument("--symbols", default="",
+                    help="comma-separated symbol set for --all-combos "
+                         "(default: config.UNIVERSE)")
     ap.add_argument("--json", metavar="PATH")
     args = ap.parse_args()
+
+    # Decide which candidate pairs to consider, then fetch only their symbols.
+    if args.all_combos:
+        syms = ([s.strip().upper() for s in args.symbols.split(",") if s.strip()]
+                or list(config.UNIVERSE))
+        candidate_pairs = list(itertools.combinations(sorted(set(syms)), 2))
+    else:
+        candidate_pairs = [tuple(sorted(p)) for p in CANDIDATE_PAIRS]
+        syms = sorted({s for p in candidate_pairs for s in p})
 
     from alpaca.data.historical import StockHistoricalDataClient
     client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
     closes = {}
-    for sym in config.UNIVERSE:
+    for sym in syms:
         bars = bt.fetch_bars(client, sym, args.days)
         if not bars.empty:
             closes[sym] = bars["close"]
-    if len(closes) < 2:
-        print("Need at least two symbols with data.", file=sys.stderr)
+    candidate_pairs = [(x, y) for x, y in candidate_pairs
+                       if x in closes and y in closes]
+    if len(closes) < 2 or not candidate_pairs:
+        print("Need at least one candidate pair with data.", file=sys.stderr)
         sys.exit(2)
 
     # Split history: formation (screen) vs trade (out-of-sample).
@@ -372,7 +422,7 @@ def main():
     split = all_idx[int(len(all_idx) * args.formation_frac)]
 
     screen_rows, eligible = [], []
-    for x, y in itertools.combinations(sorted(closes), 2):
+    for x, y in candidate_pairs:
         a, b = closes[x], closes[y]
         form_a, form_b = a[a.index < split], b[b.index < split]
         if len(form_a.index.intersection(form_b.index)) < args.lookback + 5:
@@ -403,7 +453,8 @@ def main():
         zdf = rolling_zscore(trade_a, trade_b, args.lookback)
         all_trades += simulate_pair(r["pair"], zdf, lookback=args.lookback,
                                     entry_z=args.entry_z, exit_z=args.exit_z,
-                                    stop_z=args.stop_z, max_hold_bars=args.max_hold_bars)
+                                    stop_z=args.stop_z, max_hold_bars=args.max_hold_bars,
+                                    borrow_bps=args.borrow_bps)
 
     stats = compute_stats(all_trades)
     render(sorted(screen_rows, key=lambda r: r["df_tstat"]), stats, args)

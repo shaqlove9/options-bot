@@ -144,7 +144,10 @@ def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn)
             entry_opt = bsm.price(S0, K, T0, sigma, otype)
             if entry_opt <= 0.01:
                 continue
-            stop, target = single_exit_levels(otype, S0)
+            if sig.stop_level is not None and sig.target_level is not None:
+                stop, target = sig.stop_level, sig.target_level   # e.g. range scalp
+            else:
+                stop, target = single_exit_levels(otype, S0)
             path = path_bars[(path_bars.index > close_time)
                              & (path_bars.index <= force_close_t)
                              & (path_bars.index.date == day)]

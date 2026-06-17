@@ -151,7 +151,10 @@ class Executor:
                      config.ORDER_FILL_TIMEOUT)
             return None
         fill = float(getattr(filled, "filled_avg_price", None) or pick.ask)
-        stop_level, target_level = single_exit_levels(signal.direction, signal.spot)
+        if signal.stop_level is not None and signal.target_level is not None:
+            stop_level, target_level = signal.stop_level, signal.target_level  # e.g. range scalp
+        else:
+            stop_level, target_level = single_exit_levels(signal.direction, signal.spot)
         pos = SingleLegPosition(
             underlying=pick.underlying, direction=signal.direction,
             option_symbol=pick.option_symbol, strike=pick.strike, expiry=pick.expiry,

@@ -45,6 +45,11 @@ class Signal:
     atr_pct: float
     time: dt.datetime
     source: str = "momentum"
+    # Optional per-signal underlying exit levels (e.g. range scalps fade to the
+    # opposite edge). When unset the executor/backtest use the default % stop +
+    # R-target from config.
+    stop_level: float | None = None
+    target_level: float | None = None
 
     @property
     def signal_id(self) -> str:

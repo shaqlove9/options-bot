@@ -23,6 +23,14 @@ ORB_MINUTES = 30          # opening-range window
 DONCHIAN_BARS = 8         # intraday breakout lookback (~2h of 15m bars)
 TREND_SMA = 20            # daily SMA for the regime filter
 
+# range_scalp: fade the edges of an established intraday channel
+RANGE_MIN_BARS = 8        # need ~2h of session before a range is "established"
+RANGE_MIN_PCT = 0.30      # day range too small below this (no room to scalp)
+RANGE_MAX_PCT = 1.60      # above this it's an expansion/trend day, not a channel
+RANGE_EDGE_FRAC = 0.20    # "at the edge" = within this fraction of the range
+RANGE_TARGET_FRAC = 0.55  # take profit ~mid/opposite side of the range
+RANGE_STOP_FRAC = 0.15    # stop this fraction of the range beyond the edge (range break)
+
 
 def _today(intraday: pd.DataFrame, now: dt.datetime) -> pd.DataFrame:
     return intraday[intraday.index.date == now.date()]
@@ -145,10 +153,61 @@ def trend_donchian(symbol, intraday, daily, now):
     return sig
 
 
+def range_scalp(symbol, intraday, daily, now):
+    """Channel/mean-reversion scalp: once an intraday range is established, fade a
+    tag of its edge that closes back inside (rejection), targeting the middle/other
+    side. Exits are RANGE-AWARE: target ~mid-range, stop just beyond the edge (range
+    break). Counter-trend by design, so it carries its own exit levels."""
+    today = _today(intraday, now)
+    if len(today) < RANGE_MIN_BARS:
+        return None
+    dh, dl = float(today["high"].max()), float(today["low"].min())
+    rng = dh - dl
+    candle = today.iloc[-1]
+    spot = float(candle["close"])
+    if rng <= 0 or spot <= 0:
+        return None
+    rng_pct = rng / spot * 100
+    if not (RANGE_MIN_PCT <= rng_pct <= RANGE_MAX_PCT):
+        return None
+    band = RANGE_EDGE_FRAC * rng
+    rsi = signals._wilder_rsi(intraday["close"], config.RSI_PERIOD)
+
+    direction = stop = target = None
+    # at support: dipped to the low but closed back up inside, oversold -> long call
+    if (candle["low"] <= dl + band and candle["close"] > dl
+            and candle["close"] >= candle["open"] and rsi < config.RSI_PUT_MAX):
+        direction = "call"
+        target = dl + RANGE_TARGET_FRAC * rng
+        stop = dl - RANGE_STOP_FRAC * rng
+    # at resistance: tagged the high but closed back down inside, overbought -> long put
+    elif (candle["high"] >= dh - band and candle["close"] < dh
+          and candle["close"] <= candle["open"] and rsi > config.RSI_CALL_MIN):
+        direction = "put"
+        target = dh - RANGE_TARGET_FRAC * rng
+        stop = dh + RANGE_STOP_FRAC * rng
+    if direction is None:
+        return None
+    # sanity: target in front, stop behind, with real room
+    if direction == "call" and not (stop < spot < target):
+        return None
+    if direction == "put" and not (target < spot < stop):
+        return None
+
+    momentum_pct = (candle["close"] - candle["open"]) / candle["open"] * 100 if candle["open"] else 0.0
+    vwap = signals._session_vwap(intraday, now.date())
+    return Signal(symbol=symbol, direction=direction, spot=spot, momentum_pct=momentum_pct,
+                  rsi=rsi, rel_volume=signals._relative_volume(intraday, daily, now),
+                  vwap_dist_pct=(spot - vwap) / vwap * 100 if vwap else 0.0,
+                  atr_pct=signals._atr_pct(intraday, spot), time=now, source="range_scalp",
+                  stop_level=stop, target_level=target)
+
+
 REGISTRY = {
     "momentum": momentum,
     "trend_momentum": trend_momentum,
     "orb": orb,
     "donchian": donchian,
     "trend_donchian": trend_donchian,
+    "range_scalp": range_scalp,
 }

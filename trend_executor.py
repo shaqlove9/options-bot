@@ -62,6 +62,25 @@ def save_state(s: dict):
         json.dump(s, f, indent=2, default=str)
 
 
+def append_row(path: str, row: dict):
+    """Append a row to a CSV, reconciling columns so a schema change (e.g. a new
+    field) can never misalign against an old header and corrupt the file. Reads
+    the existing rows, unions the columns, and rewrites the whole file — cheap at
+    this file's monthly cadence."""
+    new = pd.DataFrame([row])
+    if os.path.exists(path):
+        try:
+            old = pd.read_csv(path)
+        except Exception:
+            old = pd.DataFrame()
+        cols = list(dict.fromkeys([*old.columns, *new.columns]))
+        out = pd.concat([old.reindex(columns=cols), new.reindex(columns=cols)],
+                        ignore_index=True)
+    else:
+        out = new
+    out.to_csv(path, index=False)
+
+
 def alert(title: str, desc: str, color=None):
     try:
         import alerts
@@ -77,6 +96,8 @@ def main():
     ap.add_argument("--mode", choices=["long-short", "long-only"], default="long-only")
     ap.add_argument("--gross", type=float, default=1.0, help="gross leverage (sum|w|)")
     ap.add_argument("--vol-window", type=int, default=60)
+    ap.add_argument("--cap", type=float, default=0.0,
+                    help="max per-asset weight as fraction of gross (e.g. 0.20); 0 = uncapped")
     ap.add_argument("--max-dd", type=float, default=0.30,
                     help="circuit breaker: halt+flatten if equity falls this far from peak")
     ap.add_argument("--history-days", type=int, default=900)
@@ -106,6 +127,22 @@ def main():
     equity = float(acct.equity)
     log.info("PAPER account equity $%.2f (status=%s)", equity, acct.status)
 
+    # Guard against cross-account state contamination: the persisted peak/halt
+    # belongs to whichever account it was recorded against. If we're now pointed
+    # at a different account (e.g. the isolated trend account), the old peak is
+    # meaningless and would trip a false drawdown — start its track fresh.
+    acct_id = str(acct.id)
+    if state.get("account") not in (None, acct_id):
+        log.warning("account changed (%s → %s); resetting peak/halt for the new account.",
+                    state.get("account"), acct_id)
+        state.update(peak_equity=0.0, halted=False, halt_reason=None)
+    elif state.get("account") is None and float(state.get("peak_equity", 0.0)) > 0:
+        log.warning("state has no account tag but a stale peak ($%.0f); adopting %s and "
+                    "resetting peak to avoid a false drawdown.",
+                    float(state["peak_equity"]), acct_id)
+        state.update(peak_equity=0.0, halted=False, halt_reason=None)
+    state["account"] = acct_id
+
     # ---- signal: target weights (same code path as the backtest) ----------
     start = dt.date.today() - dt.timedelta(days=args.history_days)
     closes = tb.fetch_closes(sdata, tb.UNIVERSE, start)
@@ -113,7 +150,8 @@ def main():
         log.error("insufficient price history; aborting.")
         sys.exit(2)
     target_w = tb.latest_target_weights(closes, lookback=args.lookback, mode=args.mode,
-                                        gross=args.gross, vol_window=args.vol_window)
+                                        gross=args.gross, vol_window=args.vol_window,
+                                        cap=args.cap)
     prices = closes.iloc[-1]
 
     # ---- drawdown circuit breaker -----------------------------------------
@@ -154,8 +192,9 @@ def main():
     print("=" * 60)
     print(f"TREND REBALANCE PLAN  {'[HALTED→FLAT]' if halted else ''}"
           f"  {'EXECUTE' if args.execute else 'DRY-RUN'}")
+    cap_txt = f"cap {args.cap*100:.0f}%/asset" if args.cap else "no cap"
     print(f"equity ${equity:,.2f} | peak ${peak:,.0f} | dd {dd:.1%} | "
-          f"{args.mode} {args.lookback}mo gross {args.gross:.1f}x")
+          f"{args.mode} {args.lookback}mo gross {args.gross:.1f}x | {cap_txt}")
     print("-" * 60)
     if not plan:
         print("Already at target — no orders.")
@@ -185,10 +224,10 @@ def main():
 
     row = {"ts": state["last_rebalance"], "equity": round(equity, 2),
            "peak": round(peak, 2), "dd_pct": round(dd * 100, 2), "halted": halted,
-           "mode": args.mode, "gross": args.gross, "n_orders": len(plan),
+           "mode": args.mode, "gross": args.gross, "cap": args.cap, "n_orders": len(plan),
            "executed": submitted, "dry_run": not args.execute,
            "targets": {o["symbol"]: o["target_w"] for o in plan}}
-    pd.DataFrame([row]).to_csv(REBAL_CSV, mode="a", header=not os.path.exists(REBAL_CSV), index=False)
+    append_row(REBAL_CSV, row)
     with open(STATUS_FILE, "w") as f:
         json.dump({**row, "errors": errors}, f, indent=2, default=str)
 

@@ -72,33 +72,60 @@ def fetch_closes(client, symbols, start):
     return pd.DataFrame(closes).sort_index()
 
 
+def _apply_cap(w: pd.Series, cap_abs: float) -> pd.Series:
+    """Water-fill a per-asset absolute cap onto signed weights while preserving
+    total gross: clamp any |w| > cap_abs, then redistribute the freed exposure
+    proportionally among the uncapped names; repeat until stable. Stops if every
+    name is capped (then gross may fall below target — the cap is binding)."""
+    w = w.copy()
+    for _ in range(100):
+        over = w.abs() > cap_abs + 1e-12
+        if not over.any():
+            break
+        excess = float((w[over].abs() - cap_abs).sum())
+        w[over] = np.sign(w[over]) * cap_abs
+        free = (~over) & (w.abs() > 0)
+        denom = float(w[free].abs().sum())
+        if not free.any() or denom == 0.0:
+            break
+        w[free] = w[free] + np.sign(w[free]) * excess * (w[free].abs() / denom)
+    return w
+
+
 def compute_weights(mom_row: pd.Series, vol_row: pd.Series, mode: str,
-                    gross: float) -> pd.Series:
+                    gross: float, cap: float = 0.0) -> pd.Series:
     """Inverse-vol risk-parity weights from a momentum row, normalised to `gross`
     leverage. The SINGLE source of truth for the signal — backtest and live
-    executor both call this, so live can't drift from what was validated."""
+    executor both call this, so live can't drift from what was validated.
+    `cap` (>0) is the max per-asset weight as a fraction of gross (e.g. 0.20 =
+    no single name over 20% of gross); 0 disables capping."""
     sig = np.sign(mom_row)
     if mode == "long-only":
         sig = sig.clip(lower=0)
     raw = (sig / vol_row).replace([np.inf, -np.inf], np.nan)
     raw = raw.where(raw.notna() & mom_row.notna(), 0.0)
     gnorm = raw.abs().sum()
-    return (raw / gnorm * gross) if gnorm > 0 else raw * 0.0
+    if gnorm <= 0:
+        return raw * 0.0
+    w = raw / gnorm * gross
+    if cap and cap < 1.0:
+        w = _apply_cap(w, cap * gross)
+    return w
 
 
 def latest_target_weights(closes: pd.DataFrame, *, lookback: int, mode: str,
-                          gross: float, vol_window: int) -> pd.Series:
+                          gross: float, vol_window: int, cap: float = 0.0) -> pd.Series:
     """Target weights as of the most recent month-end — what the live executor
     rebalances toward. Same computation the backtest uses each step."""
     vol = closes.pct_change().rolling(vol_window).std() * np.sqrt(252)
     me = closes.resample("ME").last()
     me_vol = vol.reindex(me.index, method="ffill")
     mom = me / me.shift(lookback) - 1.0
-    return compute_weights(mom.iloc[-1], me_vol.iloc[-1], mode, gross)
+    return compute_weights(mom.iloc[-1], me_vol.iloc[-1], mode, gross, cap)
 
 
 def backtest(closes: pd.DataFrame, *, lookback: int, mode: str, gross: float,
-             vol_window: int, cost_bps: float) -> pd.DataFrame:
+             vol_window: int, cost_bps: float, cap: float = 0.0) -> pd.DataFrame:
     """Returns a monthly frame with portfolio return (net of cost) and turnover."""
     daily_ret = closes.pct_change()
     # trailing annualised vol, sampled later at month ends (causal: uses data <= t)
@@ -112,7 +139,7 @@ def backtest(closes: pd.DataFrame, *, lookback: int, mode: str, gross: float,
     prev_w = pd.Series(0.0, index=closes.columns)
     for i in range(lookback, len(me) - 1):
         t, t1 = me.index[i], me.index[i + 1]
-        w = compute_weights(mom.iloc[i], me_vol.iloc[i], mode, gross)
+        w = compute_weights(mom.iloc[i], me_vol.iloc[i], mode, gross, cap)
 
         nxt = (me.loc[t1] / me.loc[t] - 1.0).reindex(w.index).fillna(0.0)
         gross_ret = float((w * nxt).sum())
@@ -162,8 +189,9 @@ def render(s: dict, bench: dict, args):
     print("DIVERSIFIED TREND-FOLLOWING (time-series momentum) — ETF proxy")
     print("=" * 64)
     print(f"Universe: {len(UNIVERSE)} ETFs across equity/bond/metal/commodity/FX")
+    cap_txt = f"cap {args.cap*100:.0f}%/asset" if args.cap else "no cap"
     print(f"{args.lookback}-mo lookback | {args.mode} | gross {args.gross:.1f}x "
-          f"| vol-window {args.vol_window}d | cost {args.cost_bps:.0f}bps/turnover")
+          f"| vol-window {args.vol_window}d | cost {args.cost_bps:.0f}bps/turnover | {cap_txt}")
     print(f"Period: {s['months']} months (~{s['years']:.1f} yrs)")
     print("-" * 64)
     print(f"CAGR:            {s['cagr']*100:+.1f}%/yr   (×{s['final_mult']:.2f} over the run)")
@@ -192,6 +220,8 @@ def main():
     ap.add_argument("--gross", type=float, default=1.0, help="gross leverage (sum|w|)")
     ap.add_argument("--vol-window", type=int, default=60, help="trailing days for vol sizing")
     ap.add_argument("--cost-bps", type=float, default=5.0, help="cost per unit turnover (bps)")
+    ap.add_argument("--cap", type=float, default=0.0,
+                    help="max per-asset weight as fraction of gross (e.g. 0.20); 0 = uncapped")
     ap.add_argument("--start", default="2016-01-01")
     ap.add_argument("--json", metavar="PATH")
     args = ap.parse_args()
@@ -206,7 +236,7 @@ def main():
         sys.exit(2)
 
     m = backtest(closes, lookback=args.lookback, mode=args.mode, gross=args.gross,
-                 vol_window=args.vol_window, cost_bps=args.cost_bps)
+                 vol_window=args.vol_window, cost_bps=args.cost_bps, cap=args.cap)
     s = stats(m)
     bench = bench_spy(closes)
     render(s, bench, args)

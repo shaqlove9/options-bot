@@ -118,6 +118,33 @@ EQ_GOV_KELLY_FRAC = 0.25         # fractional-Kelly cap once win-rate/payoff are
 EQ_GOV_MAX_NOTIONAL_FRAC = 0.5   # vol-target sizing never exceeds this fraction of equity per trade
 EQ_GOV_SIZING_ACTIVE = False     # gate: when True, vol-targeted size replaces the flat notional
 
+# --- Spread sleeve (defined-risk debit verticals; runs as its OWN service) ---
+# Directional debit vertical spreads (bull call / bear put). "Aggressive" payoff
+# shape (risk a small net debit to make a multiple), every loss DEFINED at entry =
+# the net debit (structure, not stops). Paper-only; own isolated account (.env.spread).
+SPREAD_UNIVERSE = ["SPY", "QQQ"]   # liquid names only — hard-reject anything else
+SPREAD_DTE_MIN = 0
+SPREAD_DTE_MAX = 2
+SPREAD_ALLOW_0DTE = False           # False => effective min DTE is max(SPREAD_DTE_MIN, 1)
+SPREAD_WIDTH_STRIKES = [1, 2]       # short leg this many strikes further OTM than the long leg
+SPREAD_PROFIT_TARGET_PCT = 50.0     # close at +this% of the net debit paid
+SPREAD_CLOSE_CUTOFF = (15, 30)      # ET time-stop: close all spreads by here (pin/assignment dodge)
+# liquidity filter (reject the signal, don't trade, if any leg fails)
+SPREAD_MAX_LEG_SPREAD_PCT = 10.0    # per-leg bid/ask spread as % of mid
+SPREAD_MIN_OI = 250                 # per-leg open interest
+SPREAD_MIN_VOLUME = 0               # per-leg day volume (best-effort; 0 = don't require)
+# risk governor
+SPREAD_MAX_RISK_PCT = 2.5           # per-trade max loss (= net debit) as % of sleeve equity
+SPREAD_DAILY_MAX_LOSS_PCT = 5.0     # halt new entries for the day at this drawdown
+SPREAD_TRAILING_DD_PCT = 20.0       # halt if sleeve equity falls this far from peak
+SPREAD_MAX_CONCURRENT = 1           # simultaneous open spreads (small account: usually 1)
+SPREAD_MAX_TRADES_DAY = 6
+SPREAD_MARGIN_PER_SPREAD = 1000.0   # Alpaca universal spread maintenance margin (BP check buffer)
+SPREAD_ENTRY_SLIP = 0.05            # limit = net_debit + this (per share) to improve fill odds
+SPREAD_FEE_PER_CONTRACT = 0.0       # modeled per-contract fee for net-of-cost scoring
+SPREAD_GATE_MIN_TRADES = 40         # closed trades before any keep/kill verdict
+SPREAD_ACTIVE = False               # reversible paper->live flag (live execution NOT built here)
+
 # --- Entry quality filters ---
 VWAP_FILTER = True              # calls only above session VWAP, puts only below
 EARNINGS_BLOCK = True           # skip single names with earnings inside the
@@ -153,6 +180,13 @@ META_DB = os.path.join(_DIR, "equity_meta.db")
 META_MODEL_FILE = os.path.join(_DIR, "meta_model.pkl")
 META_METRICS_FILE = os.path.join(_DIR, "meta_metrics.json")
 EQ_GOV_STATE_FILE = os.path.join(_DIR, "equity_governor_state.json")
+# Spread sleeve artifacts (own service; isolated from equity/trend state).
+SPREAD_TRADES_CSV = os.path.join(_DIR, "spread_trades.csv")
+SPREAD_REJECTS_CSV = os.path.join(_DIR, "spread_rejects.csv")
+SPREAD_STATUS_FILE = os.path.join(_DIR, "status_spread.json")
+SPREAD_STATE_FILE = os.path.join(_DIR, "spread_governor_state.json")
+SPREAD_META_DB = os.path.join(_DIR, "spread_meta.db")
+SPREAD_LOG_FILE = os.path.join(_DIR, "spread.log")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # --- AI analyst (Claude) — advisory only, never touches trade decisions ---
@@ -190,6 +224,10 @@ _TUNABLE = {
     "EQ_META_ENABLED", "EQ_META_ACTIVE", "EQ_META_THRESHOLD",
     "EQ_GOV_ENABLED", "EQ_GOV_SIZING_ACTIVE",
     "EQ_GOV_DAILY_MAX_LOSS_PCT", "EQ_GOV_TRAILING_DD_PCT",
+    # spread sleeve (reversible flags / tunables the dashboard may show)
+    "SPREAD_ACTIVE", "SPREAD_ALLOW_0DTE", "SPREAD_PROFIT_TARGET_PCT",
+    "SPREAD_MAX_RISK_PCT", "SPREAD_DAILY_MAX_LOSS_PCT", "SPREAD_TRAILING_DD_PCT",
+    "SPREAD_MAX_CONCURRENT", "SPREAD_MAX_TRADES_DAY",
 }
 if os.path.exists(SETTINGS_FILE):
     import json as _json

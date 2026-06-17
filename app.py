@@ -333,9 +333,9 @@ def dashboard():
         model_txt, model_sub = "advisory", f"AUC {learner.get('auc')}"
     c5.metric("ML model", model_txt, delta=model_sub, delta_color="off")
 
-    tab_pos, tab_hist, tab_meta, tab_ai, tab_logs = st.tabs(
+    tab_pos, tab_hist, tab_meta, tab_spread, tab_ai, tab_logs = st.tabs(
         ["📌 Open positions", "📜 Trade history", "🧠 Meta layer",
-         "🤖 AI Analyst", "🧾 Logs"])
+         "🎯 Spread sleeve", "🤖 AI Analyst", "🧾 Logs"])
 
     with tab_pos:
         if open_pos:
@@ -460,6 +460,81 @@ def dashboard():
             cols = [c for c in ["ts", "symbol", "direction", "would", "win_prob",
                                 "size_mult", "gov_size", "note"] if c in view.columns]
             st.dataframe(view[cols], width="stretch", hide_index=True)
+
+    with tab_spread:
+        st.caption("Defined-risk debit-spread sleeve (own paper service). Every loss is "
+                   "capped at the net debit. Read-only monitor.")
+        try:
+            with open(config.SPREAD_STATUS_FILE) as f:
+                ss = json.load(f)
+        except (OSError, ValueError):
+            ss = None
+        if not ss:
+            st.info("Spread sleeve not running yet. Set up an L3 paper account "
+                    "(deploy/SPREAD_SETUP.md), then `./run_spread.sh --dry-run` and "
+                    "install the service.")
+        else:
+            gov = ss.get("governor") or {}
+            if gov.get("halted"):
+                st.error(f"🛑 Spread governor HALTED — {gov.get('halt_reason')}")
+            else:
+                st.success("✅ Spread sleeve armed")
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Sleeve equity", f"${float(ss.get('equity', 0) or 0):,.0f}")
+            c2.metric("Open spreads", len(ss.get("open_spreads", [])))
+            c3.metric("To daily kill", f"{gov.get('dist_to_daily_kill_pct', '—')}%")
+            c4.metric("To trailing kill", f"{gov.get('dist_to_dd_kill_pct', '—')}%")
+
+            st.markdown("**Open spreads (defined max loss)**")
+            ops = ss.get("open_spreads", [])
+            if ops:
+                rows = [{
+                    "Underlying": o["underlying"],
+                    "Structure": f"{'BULL CALL' if o['direction']=='call' else 'BEAR PUT'} "
+                                 f"{o['long_strike']:g}/{o['short_strike']:g}",
+                    "Expiry": o["expiry"],
+                    "Debit": f"${o['entry_debit']:.2f}",
+                    "Max loss": f"${o['max_loss']:.0f}",
+                    "Cur value": f"${o['cur_value']:.2f}" if o.get("cur_value") is not None else "—",
+                    "Cur P/L": f"${o['cur_pnl']:+.0f}" if o.get("cur_pnl") is not None else "—",
+                } for o in ops]
+                st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+            else:
+                st.caption("No open spreads.")
+
+        st.divider()
+        st.markdown("**Closed spread trades**")
+        try:
+            trades = pd.read_csv(config.SPREAD_TRADES_CSV)
+        except (OSError, pd.errors.EmptyDataError):
+            trades = pd.DataFrame()
+        if trades.empty:
+            st.caption("No closed spread trades yet — gate needs "
+                       f"{config.SPREAD_GATE_MIN_TRADES}.")
+        else:
+            t = trades.copy()
+            t["pnl"] = pd.to_numeric(t["pnl"], errors="coerce")
+            k1, k2, k3 = st.columns(3)
+            k1.metric("Closed trades", f"{len(t)} / {config.SPREAD_GATE_MIN_TRADES}")
+            k2.metric("Total P&L", f"${t['pnl'].sum():+,.2f}")
+            k3.metric("Win rate", f"{(t['pnl'] > 0).mean() * 100:.0f}%")
+            cols = [c for c in ["exit_time", "underlying", "direction", "long_strike",
+                                "short_strike", "entry_debit", "exit_value", "pnl",
+                                "r_multiple", "exit_reason"] if c in t.columns]
+            st.dataframe(t.sort_values("exit_time", ascending=False)[cols].head(200),
+                         width="stretch", hide_index=True)
+
+        st.divider()
+        st.markdown("**Rejected signals (liquidity / risk / governor)**")
+        try:
+            rej = pd.read_csv(config.SPREAD_REJECTS_CSV)
+        except (OSError, pd.errors.EmptyDataError):
+            rej = pd.DataFrame()
+        if rej.empty:
+            st.caption("No rejected signals logged yet.")
+        else:
+            st.dataframe(rej.sort_values("ts", ascending=False).head(100),
+                         width="stretch", hide_index=True)
 
     with tab_ai:
         if not config.ANTHROPIC_API_KEY:

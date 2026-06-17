@@ -1,0 +1,20 @@
+[Unit]
+Description=Options Bot — Spread Sleeve (defined-risk debit verticals, paper)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/options-bot
+# Isolated L3 paper account; keys here win over .env. Logs to spread.log.
+EnvironmentFile=/home/ubuntu/options-bot/.env.spread
+Environment=BOT_LOG_FILE=/home/ubuntu/options-bot/spread.log
+ExecStart=/home/ubuntu/options-bot/.venv/bin/python /home/ubuntu/options-bot/spread_bot.py
+Restart=always
+RestartSec=15
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -324,6 +324,53 @@ def render(live: dict, bt: dict | None, verdict: str, reasons: list[str],
 
 
 # ---------------------------------------------------------------------------
+# optional Discord notification (for the daily cron check)
+# ---------------------------------------------------------------------------
+
+# Remembers the last verdict so a daily cron alerts only when the verdict
+# *changes* into a decisive state — silent through weeks of INSUFFICIENT, one
+# ping the day it becomes PASS/FAIL, and again on any later PASS↔FAIL flip.
+NOTIFY_STATE = os.path.join(os.path.dirname(EQUITY_TRADES_CSV),
+                            "forward_test_state.json")
+
+
+def maybe_notify(verdict: str, live: dict, bt: dict | None, reasons: list[str]):
+    """Send a Discord alert iff the verdict changed and is now decisive."""
+    try:
+        with open(NOTIFY_STATE) as f:
+            last = json.load(f).get("verdict")
+    except (OSError, ValueError):
+        last = None
+
+    changed = verdict != last
+    # persist current verdict regardless, so the next run compares correctly
+    try:
+        with open(NOTIFY_STATE, "w") as f:
+            json.dump({"verdict": verdict,
+                       "updated": dt.datetime.now().isoformat(timespec="seconds")}, f)
+    except OSError as exc:
+        print(f"[warn] could not write {NOTIFY_STATE}: {exc}", file=sys.stderr)
+
+    # Only ping on a change INTO a decisive verdict (skip None→INSUFFICIENT etc.)
+    if not (changed and verdict in ("PASS", "FAIL")):
+        return
+
+    import alerts
+    color = {"PASS": alerts.GREEN, "FAIL": alerts.RED}[verdict]
+    btline = (f"\nBacktest baseline: {bt['avg_pnl_pct']:+.3f}%/trade, "
+              f"{bt['win_rate']:.1f}% win, Sharpe {bt['sharpe']:.2f}"
+              if bt and bt.get("n") else "")
+    desc = (f"**{verdict}** — equity sleeve forward test "
+            f"(was {last or 'n/a'})\n"
+            f"Live: {live.get('n', 0)} trades, "
+            f"{live.get('avg_pnl_pct', float('nan')):+.3f}%/trade, "
+            f"{live.get('win_rate', float('nan')):.1f}% win, "
+            f"Sharpe {live.get('sharpe', float('nan')):.2f}{btline}\n\n"
+            + "\n".join(reasons))
+    alerts._send(f"📊 Forward test → {verdict}", desc, color)
+
+
+# ---------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
@@ -336,6 +383,9 @@ def main():
     ap.add_argument("--no-backtest", action="store_true",
                     help="live stats only; skip the Alpaca backtest")
     ap.add_argument("--json", metavar="PATH", help="also write the comparison as JSON")
+    ap.add_argument("--notify", action="store_true",
+                    help="Discord-alert when the verdict changes into PASS/FAIL "
+                         "(for the daily cron check)")
     args = ap.parse_args()
 
     live_df = load_live_trades(args.csv)
@@ -358,6 +408,9 @@ def main():
                        "verdict": verdict, "live": live_stats, "backtest": bt_stats,
                        "decision_rule": DECISION}, f, indent=2, default=str)
         print(f"\nWrote {args.json}")
+
+    if args.notify:
+        maybe_notify(verdict, live_stats, bt_stats, reasons)
 
     sys.exit({"PASS": 0, "FAIL": 1, "INSUFFICIENT": 2}[verdict])
 

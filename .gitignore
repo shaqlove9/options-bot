@@ -12,6 +12,9 @@ status.json
 status.json.tmp
 status_equity.json
 status_equity.json.tmp
+forward_test_state.json
+forward_test.log
+status_forward.json
 stop.flag
 stop_equity.flag
 settings.json

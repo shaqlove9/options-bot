@@ -18,8 +18,10 @@ def test_walk_forward_splits_are_ordered_and_embargoed():
     assert len(seen_test) > 0
 
 
-def test_train_insufficient_without_data(conn, monkeypatch):
+def test_train_insufficient_without_data(conn, tmp_path, monkeypatch):
     monkeypatch.setattr(config, "META_MIN_TRADES", 40)
+    monkeypatch.setattr(config, "META_MODEL_FILE", str(tmp_path / "m.joblib"))
+    monkeypatch.setattr(config, "META_REPORT_FILE", str(tmp_path / "r.json"))
     rep = meta.train(conn)
     assert rep["verdict"] == "INSUFFICIENT" and not rep["passes"]
 

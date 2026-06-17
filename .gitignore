@@ -33,3 +33,6 @@ morning_briefing.md
 trend_state.json
 trend_rebalances.csv
 status_trend.json
+.env.trend
+trend_forward_state.json
+trend.log

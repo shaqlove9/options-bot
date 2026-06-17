@@ -72,6 +72,31 @@ def fetch_closes(client, symbols, start):
     return pd.DataFrame(closes).sort_index()
 
 
+def compute_weights(mom_row: pd.Series, vol_row: pd.Series, mode: str,
+                    gross: float) -> pd.Series:
+    """Inverse-vol risk-parity weights from a momentum row, normalised to `gross`
+    leverage. The SINGLE source of truth for the signal — backtest and live
+    executor both call this, so live can't drift from what was validated."""
+    sig = np.sign(mom_row)
+    if mode == "long-only":
+        sig = sig.clip(lower=0)
+    raw = (sig / vol_row).replace([np.inf, -np.inf], np.nan)
+    raw = raw.where(raw.notna() & mom_row.notna(), 0.0)
+    gnorm = raw.abs().sum()
+    return (raw / gnorm * gross) if gnorm > 0 else raw * 0.0
+
+
+def latest_target_weights(closes: pd.DataFrame, *, lookback: int, mode: str,
+                          gross: float, vol_window: int) -> pd.Series:
+    """Target weights as of the most recent month-end — what the live executor
+    rebalances toward. Same computation the backtest uses each step."""
+    vol = closes.pct_change().rolling(vol_window).std() * np.sqrt(252)
+    me = closes.resample("ME").last()
+    me_vol = vol.reindex(me.index, method="ffill")
+    mom = me / me.shift(lookback) - 1.0
+    return compute_weights(mom.iloc[-1], me_vol.iloc[-1], mode, gross)
+
+
 def backtest(closes: pd.DataFrame, *, lookback: int, mode: str, gross: float,
              vol_window: int, cost_bps: float) -> pd.DataFrame:
     """Returns a monthly frame with portfolio return (net of cost) and turnover."""
@@ -87,15 +112,7 @@ def backtest(closes: pd.DataFrame, *, lookback: int, mode: str, gross: float,
     prev_w = pd.Series(0.0, index=closes.columns)
     for i in range(lookback, len(me) - 1):
         t, t1 = me.index[i], me.index[i + 1]
-        sig = np.sign(mom.iloc[i])
-        if mode == "long-only":
-            sig = sig.clip(lower=0)
-        inv_vol = 1.0 / me_vol.iloc[i]
-        raw = (sig * inv_vol).replace([np.inf, -np.inf], np.nan)
-        valid = raw.notna() & mom.iloc[i].notna()
-        raw = raw.where(valid, 0.0)
-        gnorm = raw.abs().sum()
-        w = (raw / gnorm * gross) if gnorm > 0 else raw * 0.0
+        w = compute_weights(mom.iloc[i], me_vol.iloc[i], mode, gross)
 
         nxt = (me.loc[t1] / me.loc[t] - 1.0).reindex(w.index).fillna(0.0)
         gross_ret = float((w * nxt).sum())

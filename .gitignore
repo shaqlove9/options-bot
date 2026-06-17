@@ -30,3 +30,6 @@ bot.pid
 # bot-generated runtime reports
 daily_report.md
 morning_briefing.md
+trend_state.json
+trend_rebalances.csv
+status_trend.json

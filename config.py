@@ -9,6 +9,13 @@ load_dotenv()
 LIVE_MODE = os.getenv("LIVE_MODE", "false").lower() == "true"
 PAPER = not LIVE_MODE
 
+# --- Instrument ---
+# "options" (default, unchanged live behaviour) trades the OTM option via the
+# Executor + ChainFetcher. "equity" trades the underlying SHARES directly
+# (the validated momentum sleeve) via EquityExecutor — same signal, no option
+# pricing/theta drag. Set INSTRUMENT=equity in .env to run the equity sleeve.
+INSTRUMENT = os.getenv("INSTRUMENT", "options").lower()
+
 # --- Alpaca credentials ---
 ALPACA_API_KEY = os.getenv("ALPACA_API_KEY", "")
 ALPACA_SECRET_KEY = os.getenv("ALPACA_SECRET_KEY", "")
@@ -63,13 +70,25 @@ MAX_SPREAD = 0.10               # absolute spread allowance in dollars; a quote
 MAX_SPREAD_PCT = 5.0            # passes if spread <= max(MAX_SPREAD, mid * pct)
 MIN_OPEN_INTEREST = 500
 
-# --- Exits ---
+# --- Exits (options) ---
 TAKE_PROFIT_PCT = 40.0          # +40% on option price
 STOP_LOSS_PCT = 30.0            # -30% on option price
 TRAIL_TRIGGER_PCT = 20.0        # once a position is up this much...
 TRAIL_GIVEBACK_PCT = 10.0       # ...exit if it gives back this many points
                                 # from its peak (peaked +30% -> exit at +20%)
 MANAGE_INTERVAL_SEC = 5         # exit-check cadence while positions are open
+
+# --- Equity sleeve (INSTRUMENT=equity) ---
+# Trades shares of the same UNIVERSE on the same signal. Stops/targets are % of
+# the SHARE price (not option premium), so they are ~100x tighter. Values match
+# the validated backtest (backtest.py simulate_equity).
+EQ_NOTIONAL_PER_TRADE = 4000.0  # $ exposure per position (uses intraday margin)
+EQ_ALLOW_SHORT = True           # put signals -> short shares (matches backtest)
+EQ_TAKE_PROFIT_PCT = 0.6        # +0.6% move of the share price
+EQ_STOP_LOSS_PCT = 0.4          # -0.4% move of the share price
+EQ_TRAIL_TRIGGER_PCT = 0.5      # arm trailing stop once up this %
+EQ_TRAIL_GIVEBACK_PCT = 0.25    # ...then exit on this much giveback
+EQ_MAX_TRADE_RISK = 50.0        # max $ risk/trade for the shared risk gate
 
 # --- Entry quality filters ---
 VWAP_FILTER = True              # calls only above session VWAP, puts only below
@@ -96,14 +115,17 @@ MODEL_FILE = os.path.join(os.path.dirname(__file__), "model.pkl")
 SCAN_INTERVAL_SEC = 30
 ENTRY_FILL_TIMEOUT_SEC = 20     # cancel unfilled entry limit orders after this
 _DIR = os.path.dirname(__file__)
-TRADES_CSV = os.path.join(_DIR, "trades.csv")
+# Equity sleeve logs to its own file so the options trades.csv (and the learner
+# trained on it) are never mixed with share trades.
+TRADES_CSV = os.path.join(_DIR, "trades_equity.csv" if INSTRUMENT == "equity"
+                          else "trades.csv")
 IV_HISTORY_FILE = os.path.join(_DIR, "iv_history.json")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # --- AI analyst (Claude) — advisory only, never touches trade decisions ---
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 AI_ENABLED = os.getenv("AI_ENABLED", "true").lower() == "true"
-AI_MODEL = "claude-fable-5"          # ~$0.05-0.15 per report at this usage
+AI_MODEL = "claude-opus-4-8"         # $5/$25 per 1M tok (half of fable-5)
 AI_BRIEFING_FILE = os.path.join(_DIR, "morning_briefing.md")
 AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 
@@ -112,11 +134,14 @@ AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 # dashboard hides its Start/Stop/Restart controls and can't fight systemd
 # (two main.py instances = double orders). Defaults off for the laptop.
 MONITOR_ONLY = os.getenv("DASHBOARD_MONITOR_ONLY", "false").lower() == "true"
-STATUS_FILE = os.path.join(_DIR, "status.json")     # bot heartbeat for the UI
-STOP_FLAG_FILE = os.path.join(_DIR, "stop.flag")    # UI asks bot to stop gracefully
-BOT_LOG_FILE = os.path.join(_DIR, "bot.log")
-CONSOLE_LOG_FILE = os.path.join(_DIR, "console.log")
-SETTINGS_FILE = os.path.join(_DIR, "settings.json") # UI-saved overrides
+# These IPC/dashboard paths are env-overridable so a SECOND instance (e.g. the
+# equity sleeve) can run on the same box without clobbering the options bot's
+# status/stop/log files. Unset env = unchanged prod defaults.
+STATUS_FILE = os.getenv("STATUS_FILE", os.path.join(_DIR, "status.json"))     # bot heartbeat for the UI
+STOP_FLAG_FILE = os.getenv("STOP_FLAG_FILE", os.path.join(_DIR, "stop.flag")) # UI asks bot to stop gracefully
+BOT_LOG_FILE = os.getenv("BOT_LOG_FILE", os.path.join(_DIR, "bot.log"))
+CONSOLE_LOG_FILE = os.getenv("CONSOLE_LOG_FILE", os.path.join(_DIR, "console.log"))
+SETTINGS_FILE = os.getenv("SETTINGS_FILE", os.path.join(_DIR, "settings.json")) # UI-saved overrides
 
 # Settings the dashboard may override. Applied last so saved values win;
 # anything not in settings.json keeps its default above.

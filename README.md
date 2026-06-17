@@ -96,6 +96,25 @@ dashboard (8501) is never exposed to the internet — reach it through an SSH
 tunnel: `ssh -L 8501:localhost:8501 -i Options-bot.pem ubuntu@<public-ip>`, then
 open `http://localhost:8501` on your laptop.
 
+### Equity sleeve (paper, runs alongside)
+
+As of **2026-06-16** a second instance trades the **underlying shares** on the
+same momentum signal (`INSTRUMENT=equity`), as a forward-validation sleeve. It
+uses a **separate Alpaca paper account** (keys in `.env.equity`, gitignored) and
+separate runtime files (`status_equity.json`, `stop_equity.flag`,
+`trades_equity.csv`, etc.) so it never collides with the options bot or its
+dashboard. Two systemd units (install commands are in each `.service` file):
+
+```bash
+journalctl -u optionsbot-equity -f             # equity bot (shares) live logs
+sudo systemctl {status,restart,stop} optionsbot-equity
+journalctl -u optionsbot-dashboard-equity -f   # its monitor-only dashboard
+```
+
+Its dashboard binds to **127.0.0.1:8502** — add a second forward to the tunnel
+(`-L 8502:localhost:8502`) and open `http://localhost:8502`. Port 8501 stays the
+options bot.
+
 ## Status & next steps
 
 **Done**

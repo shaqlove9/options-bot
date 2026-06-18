@@ -27,7 +27,7 @@ import pandas as pd
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 
-from iobot import bsm, config, strategies
+from iobot import bsm, config, features as featmod, meta, strategies
 from iobot.broker import build_clients
 from iobot.clock import ET, _at, in_entry_window
 from iobot.executor import single_exit_levels
@@ -62,6 +62,7 @@ class Trade:
     pnl: float
     r_multiple: float
     exit_reason: str
+    features: dict = field(default_factory=dict)   # pre-entry meta features (phase-1)
 
 
 # ---------------- data ----------------
@@ -113,7 +114,19 @@ def _walk_exit(direction, stop, target, path: pd.DataFrame, force_close_t):
     return None
 
 
-def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn) -> list[Trade]:
+def _capture_features(sig, all_daily: dict, day, trades_today: int) -> dict:
+    """Build the SAME pre-entry feature vector the live bot captures, using only
+    data observable at the signal instant (daily frames sliced to before `day`).
+    Sequence features (win/loss streak) are filled later in global trade order; here
+    they are 0. `featmod.build` enforces the leakage guard."""
+    daily_ctx = {s: df[df.index.date < day] for s, df in all_daily.items()}
+    ctx = featmod.RegimeContext(daily=daily_ctx, vix=None,
+                                win_streak=0, loss_streak=0, trades_today=trades_today)
+    return featmod.build(sig, ctx).features
+
+
+def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn,
+                     all_daily: dict | None = None) -> list[Trade]:
     iv_map = _iv_by_day(daily, p.vrp)
     trades: list[Trade] = []
     tf = dt.timedelta(minutes=15)
@@ -165,8 +178,9 @@ def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn)
             pnl = (exit_fill - entry_fill) * 100 * config.QTY - fees
             max_loss = entry_fill * 100 * config.QTY + p.fee_per_contract * config.QTY
             r = pnl / max_loss if max_loss > 0 else 0.0
+            feats = _capture_features(sig, all_daily, day, trades_today) if all_daily else {}
             trades.append(Trade(symbol, otype, close_time, exit_time, S0, S_exit, K,
-                                sigma, entry_fill, exit_fill, pnl, r, reason))
+                                sigma, entry_fill, exit_fill, pnl, r, reason, feats))
             trades_today += 1
             cursor = exit_time
     return trades
@@ -284,9 +298,10 @@ def load_data(p: BTParams) -> dict:
 
 def run(p: BTParams, signal_fn, data: dict | None = None, verbose: bool = True) -> list[Trade]:
     data = data if data is not None else load_data(p)
+    all_daily = {sym: d[2] for sym, d in data.items()}
     all_trades: list[Trade] = []
     for symbol, (sig_bars, path_bars, daily) in data.items():
-        t = _simulate_symbol(symbol, sig_bars, path_bars, daily, p, signal_fn)
+        t = _simulate_symbol(symbol, sig_bars, path_bars, daily, p, signal_fn, all_daily)
         if verbose:
             print(f"  {symbol}: {len(t)} trades over "
                   f"{sig_bars.index.min().date()}..{sig_bars.index.max().date()}")
@@ -378,6 +393,115 @@ def _sweep(trades_base: list[Trade], p: BTParams):
     print("(flips to no-edge where expected R <= 0)")
 
 
+# ---------------- meta-filter (phase 2 validation, in-backtest) ----------------
+
+def _meta_frame(trades: list[Trade]):
+    """Time-order trades by entry and assemble (X, y, net_r, ordered_trades) for the
+    walk-forward. Sequence features (win/loss streak, trades_today) are filled here
+    from the realized order — the live analogue of journal.recent_streaks/governor.
+    Labels mirror journal.label_from_reason (1 iff profit target hit first). net_r is
+    the backtest r_multiple, which is ALREADY net of modeled spread+fees (so, unlike
+    meta._net_r on live rows, no extra friction is subtracted here)."""
+    trades = sorted(trades, key=lambda t: t.entry_time)
+    win = loss = 0
+    day_counts: dict = {}
+    for t in trades:
+        d = t.entry_time.date()
+        t.features["win_streak"] = float(win)
+        t.features["loss_streak"] = float(loss)
+        t.features["trades_today"] = float(day_counts.get(d, 0))
+        day_counts[d] = day_counts.get(d, 0) + 1
+        if t.pnl > 0:
+            win, loss = win + 1, 0
+        else:
+            loss, win = loss + 1, 0
+    cols = sorted({k for t in trades for k in t.features})
+    X = pd.DataFrame([[t.features.get(c, 0.0) for c in cols] for t in trades], columns=cols)
+    y = np.array([1 if t.exit_reason.lower().startswith("profit target") else 0
+                  for t in trades], dtype=int)
+    net_r = np.array([t.r_multiple for t in trades])
+    return X, y, net_r, trades
+
+
+def run_meta(p: BTParams, signal_fn, data: dict | None = None,
+             thresholds=None, verbose: bool = True) -> dict:
+    """Purged+embargoed walk-forward meta-labeling on this signal's backtest trades.
+    Scores model-filtered net E[R] vs the take-every-signal baseline out-of-sample —
+    the same machinery (meta.purged_walk_forward_splits / _make_model) the live trainer
+    uses, so an in-backtest 'meta helps' is comparable to the live gate's verdict."""
+    from sklearn.metrics import roc_auc_score
+
+    trades = run(p, signal_fn, data=data, verbose=verbose)
+    X, y, net_r, trades = _meta_frame(trades)
+    n = len(trades)
+    out = {"n": n}
+    if n < config.META_MIN_TRADES:
+        print(f"\nMETA: {n}/{config.META_MIN_TRADES} trades — insufficient to validate.")
+        return out
+    if len(np.unique(y)) < 2:
+        print(f"\nMETA: labels not both-class ({y.sum()}/{n} wins) — cannot train.")
+        return out
+
+    oos = np.full(n, np.nan)
+    for tr, te in meta.purged_walk_forward_splits(n, config.META_CV_SPLITS,
+                                                  config.META_EMBARGO_FRAC):
+        if len(np.unique(y[tr])) < 2:
+            continue
+        m = meta._make_model()
+        m.fit(X.iloc[tr], y[tr])
+        oos[te] = m.predict_proba(X.iloc[te])[:, 1]
+
+    mask = ~np.isnan(oos)
+    if mask.sum() < config.META_CV_SPLITS or len(np.unique(y[mask])) < 2:
+        print("\nMETA: insufficient out-of-sample coverage to validate.")
+        return out
+
+    yv, pv, rv = y[mask], oos[mask], net_r[mask]
+    auc = float(roc_auc_score(yv, pv))
+    baseline_er = meta._expected_r(rv, np.ones_like(yv, dtype=bool))
+    thresholds = thresholds or [0.45, 0.50, 0.55, 0.60]
+
+    print(f"\n{'='*66}\nMETA-FILTER — purged walk-forward (signal={signal_fn.__name__ if hasattr(signal_fn,'__name__') else 'signal'}, "
+          f"hs={p.half_spread})\n{'='*66}")
+    print(f"  OOS samples       {int(mask.sum())} of {n} trades")
+    print(f"  OOS AUC           {auc:.3f}   (bar {config.META_AUC_BAR})")
+    print(f"  take-all E[R]     {baseline_er:+.3f}   (the no-filter baseline)")
+    print(f"  {'thr':>5}{'kept':>7}{'keep%':>7}{'win%':>7}{'E[R]net':>9}{'vs base':>9}")
+    best = {"er": baseline_er, "thr": None}
+    for thr in thresholds:
+        take = pv >= thr
+        if take.sum() == 0:
+            print(f"  {thr:>5.2f}{0:>7}   (none kept)")
+            continue
+        er = meta._expected_r(rv, take)
+        wr = float(yv[take].mean())
+        print(f"  {thr:>5.2f}{int(take.sum()):>7}{take.mean()*100:>6.0f}%"
+              f"{wr*100:>6.1f}%{er:>+9.3f}{er-baseline_er:>+9.3f}")
+        if er > best["er"]:
+            best = {"er": er, "thr": thr}
+
+    passes = auc >= config.META_AUC_BAR and best["thr"] is not None
+    if best["thr"] is None:
+        verdict = "NO LIFT (filter never beats take-all)"
+    elif passes:
+        verdict = (f"META HELPS — thr={best['thr']:.2f} lifts E[R] {baseline_er:+.3f}"
+                   f" -> {best['er']:+.3f} (AUC clears bar)")
+    else:
+        verdict = (f"WEAK — best thr={best['thr']:.2f} E[R] {best['er']:+.3f} but "
+                   f"AUC {auc:.3f} < bar {config.META_AUC_BAR} (likely overfit)")
+    print(f"  VERDICT           {verdict}")
+
+    # Coefficient read (model fit on all data) — directional, scaled features.
+    final = meta._make_model()
+    final.fit(X, y)
+    coefs = final.named_steps["clf"].coef_[0]
+    top = sorted(zip(X.columns, coefs), key=lambda c: abs(c[1]), reverse=True)[:6]
+    print("  top features      " + ", ".join(f"{c}:{w:+.2f}" for c, w in top))
+    out.update({"oos_auc": auc, "baseline_er": baseline_er,
+                "best_er": best["er"], "best_thr": best["thr"], "passes": passes})
+    return out
+
+
 def _compare(p: BTParams):
     """Run every registered strategy on the same data and rank by net expected R."""
     data = load_data(p)
@@ -413,6 +537,8 @@ def main(argv=None):
     ap.add_argument("--mode", type=str, default="single", choices=["single", "condor"],
                     help="single long leg, or defined-risk iron condor on ranges")
     ap.add_argument("--compare", action="store_true", help="run all strategies head-to-head")
+    ap.add_argument("--meta", action="store_true",
+                    help="validate the meta-filter (walk-forward) on the chosen signal")
     ap.add_argument("--sweep", action="store_true")
     ap.add_argument("--csv", type=str, default="")
     a = ap.parse_args(argv)
@@ -437,6 +563,9 @@ def main(argv=None):
     if a.compare:
         _compare(p)
         return
+    if a.meta:
+        print(f"Strategy: {a.signal}  (meta-filter validation)")
+        return run_meta(p, strategies.REGISTRY[a.signal])
     print(f"Strategy: {a.signal}")
     trades = run(p, strategies.REGISTRY[a.signal])
     s = summarize(trades)
@@ -444,7 +573,8 @@ def main(argv=None):
     if a.sweep:
         _sweep(trades, p)
     if a.csv and trades:
-        pd.DataFrame([t.__dict__ for t in trades]).to_csv(a.csv, index=False)
+        (pd.DataFrame([t.__dict__ for t in trades])
+         .drop(columns=["features"], errors="ignore").to_csv(a.csv, index=False))
         print(f"\nwrote {len(trades)} trades -> {a.csv}")
     return s
 

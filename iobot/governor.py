@@ -85,6 +85,8 @@ class RiskGovernor:
                 self.state.halt_reason = (f"trailing DD {dd:.1f}% >= "
                                           f"{config.TRAILING_DD_PCT:.0f}% off peak")
                 log.critical("SLEEVE HALTED — %s", self.state.halt_reason)
+                from iobot import notify
+                notify.halt(self.state.halt_reason)
         self._save()
 
     # ---------------- gates ----------------

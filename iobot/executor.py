@@ -21,7 +21,7 @@ import logging
 import time
 from dataclasses import asdict, dataclass, field
 
-from iobot import chain, config, journal
+from iobot import chain, config, journal, notify
 from iobot.clock import now_et, past_force_close
 
 log = logging.getLogger("executor")
@@ -183,6 +183,7 @@ class Executor:
             signal_id=signal.signal_id, features=features or {})
         self.positions.append(pos)
         self._persist(pos)
+        notify.entry(pos, signal.reason())
         log.info("OPENED %s @ $%.2f (mid $%.2f) stop u/l %.2f target u/l %.2f maxloss $%.0f",
                  pick.describe(), fill, pick.mid, stop_level, target_level, pos.max_loss)
         return pos
@@ -217,6 +218,7 @@ class Executor:
             signal_id=signal.signal_id, features=features or {})
         self.positions.append(pos)
         self._persist(pos)
+        notify.entry(pos, signal.reason())
         log.info("OPENED %s — paid $%.2f maxloss $%.0f", pick.describe(), debit, pos.max_loss)
         return pos
 
@@ -365,6 +367,7 @@ class Executor:
                               else (pos.entry_debit - pos.entry_mid),
             "exit_reason": reason,
         })
+        notify.exit(pos, exit_fill, pnl, reason)
 
     # ---------------- quotes / fills ----------------
 

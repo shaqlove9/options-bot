@@ -90,8 +90,10 @@ STRUCTURE = _s("IOBOT_STRUCTURE", "single").lower()
 # iobot/strategies.py). Set IOBOT_SIGNAL=trend_momentum / momentum to revert.
 SIGNAL = _s("IOBOT_SIGNAL", "confluence")
 
-# Slightly-ITM target delta band for the single long leg.
-TARGET_DELTA_MIN = _f("IOBOT_DELTA_MIN", 0.60)
+# Target delta band for the single long leg. 0.50–0.70 spans near-ATM (more liquid,
+# cheaper premium) through slightly-ITM (less theta) — widened from 0.60–0.70 so the
+# cheaper, coarser-strike underlyings actually have a qualifying strike.
+TARGET_DELTA_MIN = _f("IOBOT_DELTA_MIN", 0.50)
 TARGET_DELTA_MAX = _f("IOBOT_DELTA_MAX", 0.70)
 
 DTE_MIN = _i("IOBOT_DTE_MIN", 1)
@@ -203,9 +205,9 @@ MAX_HOLD_DAYS = _i("IOBOT_MAX_HOLD_DAYS", 5)               # hard time-stop on a
 
 # ---------------- liquidity filter ----------------
 
-MAX_SPREAD_PCT = _f("IOBOT_MAX_SPREAD_PCT", 8.0)   # per-contract bid/ask as % of mid
-MIN_OPEN_INTEREST = _i("IOBOT_MIN_OI", 250)
-MIN_VOLUME = _i("IOBOT_MIN_VOLUME", 50)
+MAX_SPREAD_PCT = _f("IOBOT_MAX_SPREAD_PCT", 12.0)  # per-contract bid/ask as % of mid
+MIN_OPEN_INTEREST = _i("IOBOT_MIN_OI", 100)
+MIN_VOLUME = _i("IOBOT_MIN_VOLUME", 10)
 
 
 # ---------------- risk governor / kill switches ----------------
@@ -252,6 +254,14 @@ WEBHOOK_SECRET = _s("IOBOT_WEBHOOK_SECRET", "")    # required if enabled; from .
 WEBHOOK_IP_ALLOWLIST = [ip.strip() for ip in
                         _s("IOBOT_WEBHOOK_IP_ALLOWLIST", "").split(",") if ip.strip()]
 WEBHOOK_DEDUP_SEC = _f("IOBOT_WEBHOOK_DEDUP_SEC", 60.0)  # ignore repeat ids within
+
+
+# ---------------- notifications (Discord) ----------------
+
+# Optional Discord webhook for entry/exit/halt notifications (iobot/notify.py).
+# Fire-and-forget from a daemon thread; a Discord outage never blocks trading.
+# No-op (disabled) when unset. Shares the env var name with the legacy alerts.
+DISCORD_WEBHOOK_URL = _s("DISCORD_WEBHOOK_URL", "")
 
 
 # ---------------- meta-labeling layer ----------------

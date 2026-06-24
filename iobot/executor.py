@@ -16,11 +16,12 @@ there is NO single-leg stop; exits are a profit target on spread value + time-st
 from __future__ import annotations
 
 import datetime as dt
+import json
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 
-from iobot import config, journal
+from iobot import chain, config, journal
 from iobot.clock import now_et, past_force_close
 
 log = logging.getLogger("executor")
@@ -85,6 +86,19 @@ def single_exit_levels(direction: str, entry_underlying: float) -> tuple[float, 
     return entry_underlying + risk, entry_underlying - config.TARGET_R * risk
 
 
+def should_carry_overnight(expiry: dt.date, entry_date: dt.date, today: dt.date) -> bool:
+    """PURE: may a position be held past the EOD time-stop? Carry only if overnight is
+    enabled, it hasn't been held MAX_HOLD_DAYS, and it isn't within
+    OVERNIGHT_MIN_DTE_KEEP sessions of expiry (avoid expiry/gamma risk)."""
+    if not config.ALLOW_OVERNIGHT:
+        return False
+    if (today - entry_date).days >= config.MAX_HOLD_DAYS:
+        return False
+    if (expiry - today).days <= config.OVERNIGHT_MIN_DTE_KEEP:
+        return False
+    return True
+
+
 def single_stop_hit(direction: str, price: float, stop_level: float) -> bool:
     return price <= stop_level if direction == "call" else price >= stop_level
 
@@ -137,10 +151,15 @@ class Executor:
                     ) -> SingleLegPosition | None:
         from alpaca.trading.enums import OrderSide, TimeInForce
         from alpaca.trading.requests import LimitOrderRequest
+        qty = chain.position_qty(pick.ask)
+        if qty <= 0:
+            log.info("%s: contract $%.2f unaffordable under $%.0f cap — skip",
+                     pick.underlying, pick.ask, config.POSITION_MAX_DOLLARS)
+            return None
         limit = round(pick.ask + config.ENTRY_SLIP, 2)
         try:
             order = self.trading.submit_order(LimitOrderRequest(
-                symbol=pick.option_symbol, qty=config.QTY, side=OrderSide.BUY,
+                symbol=pick.option_symbol, qty=qty, side=OrderSide.BUY,
                 time_in_force=TimeInForce.DAY, limit_price=limit))
         except Exception as exc:
             log.error("%s: single submit failed: %s", pick.underlying, exc)
@@ -158,11 +177,12 @@ class Executor:
         pos = SingleLegPosition(
             underlying=pick.underlying, direction=signal.direction,
             option_symbol=pick.option_symbol, strike=pick.strike, expiry=pick.expiry,
-            qty=config.QTY, entry_fill=fill, entry_mid=pick.mid,
+            qty=qty, entry_fill=fill, entry_mid=pick.mid,
             entry_underlying=signal.spot, stop_level=stop_level, target_level=target_level,
-            max_loss=fill * 100 * config.QTY, entry_time=now_et(),
+            max_loss=fill * 100 * qty, entry_time=now_et(),
             signal_id=signal.signal_id, features=features or {})
         self.positions.append(pos)
+        self._persist(pos)
         log.info("OPENED %s @ $%.2f (mid $%.2f) stop u/l %.2f target u/l %.2f maxloss $%.0f",
                  pick.describe(), fill, pick.mid, stop_level, target_level, pos.max_loss)
         return pos
@@ -196,6 +216,7 @@ class Executor:
             entry_underlying=signal.spot, entry_time=now_et(),
             signal_id=signal.signal_id, features=features or {})
         self.positions.append(pos)
+        self._persist(pos)
         log.info("OPENED %s — paid $%.2f maxloss $%.0f", pick.describe(), debit, pos.max_loss)
         return pos
 
@@ -203,15 +224,23 @@ class Executor:
 
     def manage(self, force_close: bool = False) -> list[float]:
         """Check every open position once; close on stop/target/time-stop.
-        Returns realized P&L of any closes (engine forwards to the governor)."""
+        Returns realized P&L of any closes (engine forwards to the governor).
+
+        Overnight-aware: at the EOD time-stop a position is force-flattened ONLY if it
+        is unsafe to carry (near expiry / past the hold horizon). Otherwise its normal
+        stop/target check still runs (a broken thesis exits), and an intact position is
+        carried overnight."""
         realized: list[float] = []
         eod = force_close or past_force_close(now_et())
+        today = now_et().date()
         for pos in list(self.positions):
-            if eod:
-                pnl = self._close(pos, "time stop (EOD flat)")
+            if eod and not should_carry_overnight(pos.expiry, pos.entry_time.date(), today):
+                pnl = self._close(pos, self._eod_reason(pos, today))
                 if pnl is not None:
                     realized.append(pnl)
                 continue
+            # Intraday management — also runs at EOD for carried positions so a
+            # last-bar stop/target still exits before we hold overnight.
             if isinstance(pos, SingleLegPosition):
                 pnl = self._manage_single(pos)
             else:
@@ -219,6 +248,14 @@ class Executor:
             if pnl is not None:
                 realized.append(pnl)
         return realized
+
+    @staticmethod
+    def _eod_reason(pos, today: dt.date) -> str:
+        if (today - pos.entry_time.date()).days >= config.MAX_HOLD_DAYS:
+            return "time stop (max hold days)"
+        if (pos.expiry - today).days <= config.OVERNIGHT_MIN_DTE_KEEP:
+            return "time stop (near expiry)"
+        return "time stop (EOD flat)"
 
     def _manage_single(self, pos: SingleLegPosition) -> float | None:
         px = self._underlying_price(pos.underlying)
@@ -267,6 +304,7 @@ class Executor:
         exit_fill = float(getattr(filled, "filled_avg_price", None) or pos.last_value or 0.0)
         pnl = (exit_fill - pos.entry_fill) * 100 * pos.qty
         self.positions.remove(pos)
+        self._unpersist(pos)
         self._log(pos, exit_fill, pnl, reason)
         log.info("CLOSED %s @ $%.2f vs $%.2f → P&L $%+.2f (%s)",
                  pos.option_symbol, exit_fill, pos.entry_fill, pnl, reason)
@@ -291,6 +329,7 @@ class Executor:
                                          closing=True)
         pnl = (exit_value - pos.entry_debit) * 100 * pos.qty
         self.positions.remove(pos)
+        self._unpersist(pos)
         self._log(pos, exit_value, pnl, reason)
         log.info("CLOSED %s exit $%.2f vs debit $%.2f → P&L $%+.2f (%s)",
                  pos.underlying, exit_value, pos.entry_debit, pnl, reason)
@@ -397,9 +436,76 @@ class Executor:
             return fallback
         return net if closing else -net
 
+    # ---------------- persistence (overnight carry survives restarts) ----------------
+
+    @staticmethod
+    def _pos_key(pos) -> str:
+        return pos.option_symbol if isinstance(pos, SingleLegPosition) else pos.long_symbol
+
+    @staticmethod
+    def _serialize(pos) -> dict:
+        d = asdict(pos)
+        d["entry_time"] = pos.entry_time.isoformat()
+        d["expiry"] = pos.expiry.isoformat()
+        return d
+
+    @staticmethod
+    def _deserialize(structure: str, d: dict):
+        d = dict(d)
+        d["entry_time"] = dt.datetime.fromisoformat(d["entry_time"])
+        d["expiry"] = dt.date.fromisoformat(d["expiry"])
+        cls = SingleLegPosition if structure == "single" else SpreadPosition
+        return cls(**d)
+
+    def _persist(self, pos):
+        try:
+            self.conn.execute(
+                "INSERT OR REPLACE INTO positions(key, structure, opened_at, expiry, "
+                "data_json) VALUES (?,?,?,?,?)",
+                (self._pos_key(pos), pos.structure, pos.entry_time.isoformat(),
+                 pos.expiry.isoformat(), json.dumps(self._serialize(pos))))
+            self.conn.commit()
+        except Exception:
+            log.exception("%s: persist position failed", getattr(pos, "underlying", "?"))
+
+    def _unpersist(self, pos):
+        try:
+            self.conn.execute("DELETE FROM positions WHERE key=?", (self._pos_key(pos),))
+            self.conn.commit()
+        except Exception:
+            log.exception("%s: unpersist position failed", getattr(pos, "underlying", "?"))
+
+    def _rehydrate(self, held: set[str]):
+        """Reload persisted positions, keeping only those still held at the broker;
+        delete rows for any that closed while the bot was down."""
+        try:
+            rows = self.conn.execute(
+                "SELECT structure, data_json FROM positions").fetchall()
+        except Exception:
+            log.exception("rehydrate query failed")
+            return
+        recovered = 0
+        for row in rows:
+            try:
+                pos = self._deserialize(row["structure"], json.loads(row["data_json"]))
+            except Exception:
+                log.exception("could not deserialize a persisted position — dropping row")
+                continue
+            if isinstance(pos, SingleLegPosition):
+                legs_ok = pos.option_symbol in held
+            else:
+                legs_ok = pos.long_symbol in held and pos.short_symbol in held
+            if legs_ok:
+                self.positions.append(pos)
+                recovered += 1
+            else:
+                self._unpersist(pos)
+        if recovered:
+            log.warning("rehydrated %d open position(s) from store on restart", recovered)
+
     def reconcile(self):
-        """On restart, cancel stale orders and warn about orphaned option legs;
-        never auto-close leg-by-leg."""
+        """On restart, cancel stale orders, rehydrate persisted positions that the
+        broker still holds, and warn about any broker legs we don't track."""
         try:
             self.trading.cancel_orders()
             live = self.trading.get_all_positions()
@@ -407,10 +513,19 @@ class Executor:
             log.warning("reconcile failed: %s", exc)
             return
         opts = [p for p in live if str(getattr(p, "asset_class", "")).endswith("option")]
-        if opts:
-            log.warning("Found %d open option leg(s) at broker on restart — review/close "
-                        "manually if orphaned: %s", len(opts),
-                        ", ".join(p.symbol for p in opts))
+        held = {p.symbol for p in opts}
+        self._rehydrate(held)
+        accounted: set[str] = set()
+        for pos in self.positions:
+            if isinstance(pos, SingleLegPosition):
+                accounted.add(pos.option_symbol)
+            else:
+                accounted.update({pos.long_symbol, pos.short_symbol})
+        orphans = held - accounted
+        if orphans:
+            log.warning("Found %d broker option leg(s) with no tracked position — "
+                        "review/close manually if orphaned: %s", len(orphans),
+                        ", ".join(sorted(orphans)))
 
     def positions_snapshot(self) -> list[dict]:
         out = []

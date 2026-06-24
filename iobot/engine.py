@@ -50,28 +50,36 @@ class Engine:
         # the market is open and inside the entry window (same guard as scanner
         # signals), otherwise they're dropped here.
         queued = self._drain_webhook()
+        sleeve_eq = self._sleeve_equity()
 
         if not broker.market_is_open(self.clients.trading):
             for sig in queued:
                 self._drop_webhook(sig, "market closed")
-            self._write_status(market_open=False, account=None)
+            self._write_status(market_open=False, account=None, sleeve_equity=sleeve_eq)
             return
         acct = broker.account_snapshot(self.clients.trading)
-        self.gov.begin_day(acct.equity)
-        self.gov.update_equity(acct.equity)
+        self.gov.begin_day(sleeve_eq)
+        self.gov.update_equity(sleeve_eq)
 
-        # Manage / exit first (also forces EOD flat).
+        # Manage / exit first. Overnight-aware: only force EOD-flat the contracts the
+        # executor deems unsafe to carry (near expiry / past the hold horizon).
         for pnl in self.exec.manage(force_close=past_force_close(now_et())):
             self.gov.record_exit(pnl)
-        self.gov.update_equity(broker.account_snapshot(self.clients.trading).equity)
+        sleeve_eq = self._sleeve_equity()        # reflect just-closed trades
+        self.gov.update_equity(sleeve_eq)
 
         if in_entry_window(now_et()):
-            self._consider_entries(acct, queued)
+            self._consider_entries(acct, sleeve_eq, queued)
         else:
             for sig in queued:
                 self._drop_webhook(sig, "outside entry window")
 
-        self._write_status(market_open=True, account=acct)
+        self._write_status(market_open=True, account=acct, sleeve_equity=sleeve_eq)
+
+    def _sleeve_equity(self) -> float:
+        """The $1,000 sleeve's equity = seed capital + its own realized P&L. This,
+        not the (paper) account equity, is the governor's risk base."""
+        return config.SLEEVE_CAPITAL + journal.realized_pnl_total(self.conn)
 
     def _drain_webhook(self) -> list:
         """Pop all queued webhook signals (FIFO). Empty list if disabled."""
@@ -87,7 +95,7 @@ class Engine:
         log.info("webhook %s %s dropped — %s", sig.symbol, sig.direction.upper(), why)
         journal.log_reject(self.conn, sig.symbol, sig.direction, "window", why)
 
-    def _consider_entries(self, acct, queued=()):
+    def _consider_entries(self, acct, sleeve_eq, queued=()):
         # Webhook-sourced signals first, then scanner signals — one shared path.
         signals = list(queued) + self.signals.scan()
         if not signals:
@@ -96,13 +104,13 @@ class Engine:
         ctx = self.featbuilder.context(win_streak, loss_streak, self.gov.state.trades_today)
         for sig in signals:
             try:
-                self._handle_signal(sig, acct, ctx)
+                self._handle_signal(sig, acct, sleeve_eq, ctx)
             except Exception:
                 log.exception("%s: signal handling error", sig.symbol)
             if self.exec.open_count() >= config.MAX_CONCURRENT:
                 break
 
-    def _handle_signal(self, sig, acct, ctx):
+    def _handle_signal(self, sig, acct, sleeve_eq, ctx):
         # 1. Phase-1 capture (always, pre-entry, leakage-guarded).
         try:
             row = features.build(sig, ctx)
@@ -113,8 +121,8 @@ class Engine:
             journal.log_reject(self.conn, sig.symbol, sig.direction, "features", str(exc))
             return
 
-        # 2. Governor count / kill-switch gate.
-        ok, why = self.gov.can_open(acct.equity, self.exec.open_count())
+        # 2. Governor count / kill-switch gate (on SLEEVE equity, not the account).
+        ok, why = self.gov.can_open(sleeve_eq, self.exec.open_count())
         if not ok:
             journal.log_reject(self.conn, sig.symbol, sig.direction, "governor", why)
             return
@@ -149,8 +157,9 @@ class Engine:
             journal.log_reject(self.conn, sig.symbol, sig.direction, "selection", why)
             return
 
-        # 5. Per-trade risk cap + buying-power check.
-        ok, why = self.gov.approve_risk(pick.max_loss, required_bp, acct)
+        # 5. Per-trade risk cap (% of sleeve) + buying-power check (real account).
+        ok, why = self.gov.approve_risk(pick.max_loss, required_bp, acct,
+                                        cap_equity=sleeve_eq)
         if not ok:
             journal.log_reject(self.conn, sig.symbol, sig.direction, "risk", why)
             return
@@ -165,19 +174,24 @@ class Engine:
 
     # ---------------- status ----------------
 
-    def _write_status(self, market_open: bool, account):
+    def _write_status(self, market_open: bool, account, sleeve_equity: float):
         try:
-            eq = account.equity if account else self.gov.state.peak_equity
             status = {
                 "updated": now_et().isoformat(timespec="seconds"),
                 "market_open": market_open,
                 "signal": config.SIGNAL,
                 "structure": config.STRUCTURE,
                 "spread_enabled": config.SPREAD_ENABLED,
+                "sleeve_capital": config.SLEEVE_CAPITAL,
+                "sleeve_equity": sleeve_equity,
+                "account_equity": account.equity if account else None,
                 "meta_active": self.meta.active(),
                 "meta_has_model": self.meta.has_model(),
                 "open_positions": self.exec.positions_snapshot(),
-                "governor": self.gov.snapshot(eq),
+                # governor risk is measured on the sleeve, not the (paper) account.
+                "governor": self.gov.snapshot(sleeve_equity),
+                # The validation "gate" is INFORMATIONAL only — it never blocks paper
+                # entries. Capital protection comes solely from the governor above.
                 "gate": gate.evaluate(self.conn),
                 "go_live": config.GO_LIVE,
                 "live_execution": config.ALLOW_LIVE_EXECUTION,

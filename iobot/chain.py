@@ -23,6 +23,16 @@ from iobot.clock import now_et
 log = logging.getLogger("chain")
 
 
+def position_qty(ask: float) -> int:
+    """How many whole contracts to buy so a single-leg position deploys up to
+    POSITION_MAX_DOLLARS (the $300/position cap). 0 if even one lot is unaffordable
+    (the liquidity filter rejects those before sizing, so this is a guard)."""
+    cost = ask * 100.0
+    if cost <= 0 or cost > config.POSITION_MAX_DOLLARS:
+        return 0
+    return max(1, int(config.POSITION_MAX_DOLLARS // cost))
+
+
 @dataclass
 class Candidate:
     """One quoted contract considered for the long leg."""
@@ -48,6 +58,9 @@ class Candidate:
     def liquid(self) -> tuple[bool, str]:
         if self.bid <= 0 or self.ask <= 0:
             return False, "no quote"
+        if self.ask * 100 > config.POSITION_MAX_DOLLARS:
+            return False, (f"contract ${self.ask*100:.0f} > ${config.POSITION_MAX_DOLLARS:.0f} "
+                           f"per-position cap")
         if self.spread_pct > config.MAX_SPREAD_PCT:
             return False, f"wide spread {self.spread_pct:.0f}%"
         if self.open_interest < config.MIN_OPEN_INTEREST:
@@ -76,13 +89,19 @@ class ContractPick:
         return (self.bid + self.ask) / 2
 
     @property
+    def qty(self) -> int:
+        """Dollar-sized lots for this contract (deploy up to POSITION_MAX_DOLLARS)."""
+        return position_qty(self.ask)
+
+    @property
     def max_loss(self) -> float:
-        """Defined risk of a long option = premium paid (worst case = full ask)."""
-        return self.ask * 100 * config.QTY
+        """Defined risk of the long position = premium paid (worst case = full ask),
+        across the dollar-sized quantity."""
+        return self.ask * 100 * self.qty
 
     def describe(self) -> str:
         d = f"{self.delta:+.2f}" if self.delta is not None else "n/a"
-        return (f"{self.underlying} LONG {self.otype.upper()} {self.strike:g} "
+        return (f"{self.underlying} LONG {self.qty}x {self.otype.upper()} {self.strike:g} "
                 f"exp {self.expiry} delta {d} ask ${self.ask:.2f} "
                 f"maxloss ${self.max_loss:.0f}")
 

@@ -36,6 +36,18 @@ def _today(intraday: pd.DataFrame, now: dt.datetime) -> pd.DataFrame:
     return intraday[intraday.index.date == now.date()]
 
 
+def _ema(closes: pd.Series, span: int) -> float:
+    return float(closes.ewm(span=span, adjust=False).mean().iloc[-1])
+
+
+def _macd_hist(closes: pd.Series, fast: int, slow: int, signal: int) -> float:
+    """MACD histogram (macd line - signal line) as of the last bar."""
+    macd = (closes.ewm(span=fast, adjust=False).mean()
+            - closes.ewm(span=slow, adjust=False).mean())
+    sig = macd.ewm(span=signal, adjust=False).mean()
+    return float((macd - sig).iloc[-1])
+
+
 def _mk(symbol, direction, intraday, daily, now, source) -> Signal | None:
     """Assemble a Signal with the shared feature helpers (spot = last close)."""
     spot = float(intraday.iloc[-1]["close"])
@@ -213,6 +225,93 @@ def range_scalp(symbol, intraday, daily, now):
                   stop_level=stop, target_level=target)
 
 
+def confluence(symbol, intraday, daily, now):
+    """Senior-trader multi-factor confluence. Scores aligned technical factors and
+    fires only when at least CONFLUENCE_MIN agree on a direction. Five factors:
+
+      1. trend     : fast EMA over slow EMA AND price the right side of session VWAP
+      2. regime    : daily close vs its SMA (trade with the higher-timeframe trend)
+      3. momentum  : MACD histogram in the trade direction AND RSI not exhausted
+      4. structure : breaks the recent intraday swing high/low (continuation)
+      5. volume    : relative volume >= REL_VOLUME_MIN (confirms the leading side)
+
+    Exits are ATR-based, carried per-signal (stop = ATR_STOP_MULT*ATR from entry,
+    target = ATR_TARGET_R*risk). PURE — identical in live and backtest.
+    """
+    need = max(config.EMA_SLOW, config.MACD_SLOW + config.MACD_SIGNAL,
+               config.CONFLUENCE_SWING_BARS) + 2
+    if intraday is None or len(intraday) < need:
+        return None
+    closes = intraday["close"]
+    candle = intraday.iloc[-1]
+    if candle["open"] <= 0:
+        return None
+    spot = float(candle["close"])
+
+    vwap = signals._session_vwap(intraday, now.date())
+    if vwap is None:
+        return None
+    rsi = signals._wilder_rsi(closes, config.RSI_PERIOD)
+    ema_fast, ema_slow = _ema(closes, config.EMA_FAST), _ema(closes, config.EMA_SLOW)
+    hist = _macd_hist(closes, config.MACD_FAST, config.MACD_SLOW, config.MACD_SIGNAL)
+
+    # directional factor votes: +1 favours a call, -1 a put, 0 neutral
+    f_trend = 1 if (ema_fast > ema_slow and spot > vwap) else (
+        -1 if (ema_fast < ema_slow and spot < vwap) else 0)
+
+    f_regime = 0
+    if daily is not None:
+        prior = daily[daily.index.date < now.date()]
+        if len(prior) >= config.CONFLUENCE_DAILY_SMA:
+            sma = float(prior["close"].tail(config.CONFLUENCE_DAILY_SMA).mean())
+            f_regime = 1 if float(prior["close"].iloc[-1]) > sma else -1
+
+    f_momo = 0
+    if hist > 0 and rsi < config.RSI_OVERBOUGHT:
+        f_momo = 1
+    elif hist < 0 and rsi > config.RSI_OVERSOLD:
+        f_momo = -1
+
+    window = intraday.iloc[-(config.CONFLUENCE_SWING_BARS + 1):-1]
+    swing_hi, swing_lo = float(window["high"].max()), float(window["low"].min())
+    prev = float(intraday.iloc[-2]["close"])
+    f_struct = 1 if (prev <= swing_hi < spot) else (-1 if (prev >= swing_lo > spot) else 0)
+
+    rel_vol = signals._relative_volume(intraday, daily, now)
+    vol_ok = rel_vol >= config.REL_VOLUME_MIN
+
+    bull = sum(1 for v in (f_trend, f_regime, f_momo, f_struct) if v > 0)
+    bear = sum(1 for v in (f_trend, f_regime, f_momo, f_struct) if v < 0)
+    if bull == bear:
+        return None
+    direction = "call" if bull > bear else "put"
+    lead = bull if direction == "call" else bear
+    score = lead + (1 if vol_ok else 0)        # volume confirms the leading side
+    if score < config.CONFLUENCE_MIN:
+        return None
+
+    atr_pct = signals._atr_pct(intraday, spot)
+    momentum_pct = (candle["close"] - candle["open"]) / candle["open"] * 100
+    sig = Signal(symbol=symbol, direction=direction, spot=spot, momentum_pct=momentum_pct,
+                 rsi=rsi, rel_volume=rel_vol, vwap_dist_pct=(spot - vwap) / vwap * 100,
+                 atr_pct=atr_pct, time=now, source="confluence")
+    # ATR-based exits (fall back to the fixed-% exit if ATR is unavailable).
+    if atr_pct > 0:
+        risk = config.ATR_STOP_MULT * atr_pct / 100 * spot
+        if direction == "call":
+            sig.stop_level, sig.target_level = spot - risk, spot + config.ATR_TARGET_R * risk
+        else:
+            sig.stop_level, sig.target_level = spot + risk, spot - config.ATR_TARGET_R * risk
+    # confluence sub-scores ride along for feature capture (dynamic attrs).
+    sig.conf_score = float(score)
+    sig.conf_trend = float(f_trend if direction == "call" else -f_trend)
+    sig.conf_regime = float(f_regime if direction == "call" else -f_regime)
+    sig.conf_momentum = float(f_momo if direction == "call" else -f_momo)
+    sig.conf_structure = float(f_struct if direction == "call" else -f_struct)
+    sig.conf_volume = 1.0 if vol_ok else 0.0
+    return sig
+
+
 REGISTRY = {
     "momentum": momentum,
     "trend_momentum": trend_momentum,
@@ -220,4 +319,5 @@ REGISTRY = {
     "donchian": donchian,
     "trend_donchian": trend_donchian,
     "range_scalp": range_scalp,
+    "confluence": confluence,
 }

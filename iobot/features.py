@@ -83,6 +83,14 @@ def build(signal, ctx: RegimeContext) -> FeatureRow:
         "win_streak": float(ctx.win_streak),
         "loss_streak": float(ctx.loss_streak),
         "trades_today": float(ctx.trades_today),
+        # confluence sub-scores (0.0 for non-confluence signals) — lets the meta
+        # model learn which technical factors actually precede winners.
+        "conf_score": float(getattr(signal, "conf_score", 0.0)),
+        "conf_trend": float(getattr(signal, "conf_trend", 0.0)),
+        "conf_regime": float(getattr(signal, "conf_regime", 0.0)),
+        "conf_momentum": float(getattr(signal, "conf_momentum", 0.0)),
+        "conf_structure": float(getattr(signal, "conf_structure", 0.0)),
+        "conf_volume": float(getattr(signal, "conf_volume", 0.0)),
     }
 
     # Regime: each underlying's last close vs its 20/50 SMA.

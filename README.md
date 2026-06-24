@@ -1,257 +1,127 @@
-# Options Scalping Bot — $500 Account
+# iobot — intraday options scalper (paper)
 
-Momentum + IV-based options scalper for Alpaca. **Options only, never holds
-overnight, paper mode by default.**
+A "senior-trader" multi-factor **technical-analysis confluence** scalper for Alpaca
+options. Trades a fixed **$1,000 sleeve**, aggressively, and learns from its own trade
+history. **Paper only** — `broker.py` hard-pins the Alpaca paper endpoint; there is no
+live-execution code in this build.
 
-## ⚠️ Read this first
+> ⚠️ Aggressive by design: up to 30% of the sleeve on a single position. Defined risk
+> (a long option's max loss is the premium), but expect large swings. Not financial advice.
 
-- **Options scalping on a $500 account is extremely high risk.** Short-dated
-  OTM options can lose most of their value in minutes. Expect to lose money
-  while validating; the $75 daily loss cap is 15% of the account.
-- **Run paper mode for weeks before considering live.** The backtest uses
-  synthetic Black-Scholes prices — it's an upper bound, not a forecast.
-- **SPX is not on Alpaca.** CBOE index options aren't tradable there, so the
-  universe uses SPY/QQQ for index exposure (plus NVDA, TSLA, AAPL, AMZN).
-- **IV rank warm-up:** Alpaca doesn't provide historical IV, so the bot builds
-  its own IV history in `iv_history.json` (one reading per symbol per session).
-  The IV-rank > 60 filter activates after 20 sessions; until then it's skipped
-  with a warning. More reason to paper trade for a few weeks first.
+## What it does
 
-## Setup
+Every 30s while the market is open it scans a universe of liquid, mid-priced optionable
+names and fires the **confluence** signal only when ≥ `CONFLUENCE_MIN` (default 4 of 5)
+technical factors agree on a direction:
 
-```powershell
-cd options-bot
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env       # then fill in your keys
-```
-
-Your Alpaca account needs **options trading enabled** (Level 1 — long
-calls/puts — is sufficient). Use your **paper** API keys first.
-
-## Run — Dashboard (recommended)
-
-Double-click **`Launch Options Bot.bat`** — it opens the dashboard in your
-browser at `http://localhost:8501`:
-
-- ▶ **Start / ⏹ Stop** the bot (stop is graceful — flattens positions first)
-- Live daily P&L, open positions with unrealized P&L, win rate, ML model status
-- Equity curve + full trade history with CSV download
-- ⚙️ Settings panel — universe, $/trade, TP/SL, daily halt, ML threshold
-  (saved to `settings.json`; restart the bot to apply)
-- Live log viewer
-
-The bot runs as its own process — closing the dashboard tab does **not** stop
-trading. Use the ⏹ Stop button for that.
-
-## Run — command line
-
-```powershell
-python main.py               # paper mode (default)
-python scanner.py            # one-off scan to sanity-check signals
-python backtest.py --days 60 # backtest on 60 days of 15-min bars
-```
-
-To go live: set `LIVE_MODE=true` in `.env` **and** swap in your live API keys.
-Both are required on purpose.
-
-## Deployment — AWS VPS (24/7 paper)
-
-As of **2026-06-15** the bot runs **24/7 in paper mode** on an AWS EC2 instance,
-so it no longer depends on the laptop being on.
-
-**Infrastructure**
-
-| | |
+| Factor | Bullish when… |
 |---|---|
-| Instance | EC2 **t3.medium** (2 vCPU, 4 GiB), **us-east-1** (closest to Alpaca) |
-| OS | Ubuntu Server 26.04 LTS (x86), 30 GiB gp3 root |
-| Cost | ~$36/mo (instance ~$30 + EBS ~$2.40 + public IPv4 ~$3.60) |
-| App path | `/home/ubuntu/options-bot` |
-| Login | `ssh -i Options-bot.pem ubuntu@<public-ip>` (SSH from My IP only) |
+| **Trend** | fast EMA (9) over slow EMA (21) **and** price above session VWAP |
+| **Regime** | daily close above its 20-day SMA (trade with the higher timeframe) |
+| **Momentum** | MACD histogram positive **and** RSI not exhausted |
+| **Structure** | breaks the recent intraday swing high (continuation) |
+| **Volume** | relative volume ≥ `REL_VOLUME_MIN` (confirms the leading side) |
 
-The Windows `.venv` does **not** port — it's rebuilt on Linux
-(`python3 -m venv .venv && pip install -r requirements.txt`). TA-Lib stays
-optional; the pandas RSI fallback is used.
+It buys a slightly-ITM long call/put (delta 0.60–0.70, 1–5 DTE), **dollar-sized** to
+deploy up to `$300` per position (cheap names buy multiple lots; a contract over $300 is
+skipped). Exits are ATR-based (stop `1.2·ATR`, target `1.8R`). Positions whose thesis is
+intact are **held overnight**; only near-expiry (≤1 DTE) or `MAX_HOLD_DAYS`-old positions
+are force-flattened at the EOD time-stop. Open positions are persisted to SQLite and
+rehydrated on restart, so a restart never orphans a live contract.
 
-**Runs as a systemd service** (`/etc/systemd/system/optionsbot.service`) that
-launches `main.py` directly with `Restart=always` and is `enabled` (auto-starts
-on reboot, auto-restarts on crash):
+## Run
+
+The bot runs on an AWS EC2 VM as two systemd services (paper, 24/7):
 
 ```bash
-sudo systemctl status optionsbot          # is it running?
-sudo systemctl restart optionsbot         # restart
-sudo systemctl stop optionsbot            # stop trading
-journalctl -u optionsbot -f               # live logs
+sudo systemctl status  iobot.service            # the engine ( python -m iobot.engine )
+sudo systemctl restart iobot.service            # picks up .env changes
+sudo systemctl status  iobot-dashboard.service  # Streamlit monitor (localhost:8501)
+tail -f iobot_data/iobot.log                     # live logs
 ```
 
-> **Important:** on the VM, systemd owns the bot. Control it with `systemctl`,
-> **not** the dashboard's Start/Stop buttons — those launch/kill `main.py`
-> independently and would fight systemd (risking two bot instances = double
-> orders).
+Local / offline commands:
 
-**Security:** the security group allows **inbound SSH (22) only**. The Streamlit
-dashboard (8501) is never exposed to the internet — reach it through an SSH
-tunnel: `ssh -L 8501:localhost:8501 -i Options-bot.pem ubuntu@<public-ip>`, then
-open `http://localhost:8501` on your laptop.
+```bash
+.venv/bin/python -m iobot.engine                 # run the engine
+.venv/bin/python -m iobot.cli status             # latest engine status JSON
+.venv/bin/python -m iobot.cli train              # retrain + walk-forward validate meta
+.venv/bin/python -m iobot.cli gate               # validation-gate read-out (informational)
+.venv/bin/python -m iobot.backtest --signal confluence --days 60          # sanity backtest
+.venv/bin/python -m iobot.backtest --compare --days 365                   # all signals head-to-head
+.venv/bin/python -m pytest iobot/tests -q                                  # test suite
+```
 
-## Status & next steps
+The dashboard is monitoring-only and never exposed publicly — reach it via an SSH tunnel
+(`ssh -L 8501:localhost:8501 …`).
 
-**Done**
-- ✅ Migrated from old PC → laptop; `.venv` rebuilt, paper keys verified (Jun 2026).
-- ✅ Deployed to AWS EC2, running 24/7 via systemd in paper mode.
-- ✅ Smoke-tested on Linux — clean boot, same package versions as laptop.
+## Configuration
 
-**Next steps**
-- [ ] **Set a billing budget** in AWS (Budgets → ~$45/mo alert) to avoid surprise charges.
-- [ ] **Dashboard on the VM (monitoring only).** `app.py`'s `start_bot()` uses the
-      Windows-only `subprocess.CREATE_NO_WINDOW` flag, which breaks on Linux — patch
-      that, then run the dashboard as a second systemd service and view it over the
-      SSH tunnel above.
-- [ ] **(Optional) Elastic IP** to pin the public IP so it survives a stop/start.
-- [ ] **Let paper mode run for weeks.** Accumulate **50 closed trades** so the ML
-      learner can train, and build up IV-rank history (20 sessions) before judging
-      signal quality.
-- [ ] **Only consider live** after sustained paper validation — and even then, start
-      with the smallest possible size. See the risk warnings at the top.
+Everything is a tunable in `iobot/config.py`, overridable by environment variable (set in
+`.env`). Keys live under the `IOBOT_*` prefix. Highlights of the current live config:
 
-## Strategy
+| Setting | Default | Meaning |
+|---|---|---|
+| `IOBOT_SIGNAL` | `confluence` | active entry signal (key in `strategies.REGISTRY`) |
+| `IOBOT_UNIVERSE` | 14 liquid names | scan list (SPY/QQQ for context; sub-$60 movers for fills) |
+| `IOBOT_SLEEVE_CAPITAL` | `1000` | sleeve size; governor risk is a % of this, not the account |
+| `IOBOT_POSITION_MAX_DOLLARS` | `300` | max deployed per position / max contract cost |
+| `IOBOT_RISK_PCT` | `30` | per-trade max-loss cap, % of sleeve equity |
+| `IOBOT_MAX_CONCURRENT` | `2` | concurrent positions |
+| `IOBOT_DAILY_MAX_LOSS_PCT` / `IOBOT_TRAILING_DD_PCT` | `25` / `40` | kill-switches |
+| `IOBOT_ALLOW_OVERNIGHT` | `true` | carry valid positions overnight |
 
-Two entry strategies share all filters and risk rules:
-
-| Rule | Value |
-|---|---|
-| **Scalp** signal | >0.5% move on a single 15-min candle |
-| Scalp confirm | RSI(5) > 65 (calls) / < 35 (puts) |
-| **Runner** signal | ±2% from today's open AND still making new session highs/lows |
-| Runner confirm | RSI(5) > 60 / < 40; runner take profit is +60% (scalp +40%) |
-| Both | volume ≥ 1.5× 20-day avg |
-| VWAP filter | calls only above session VWAP, puts only below |
-| Earnings | single names skipped when earnings fall inside the DTE window |
-| Contract | 1–3.5% OTM, 1–7 DTE, OI > 500, spread ≤ max($0.10, 5% of mid), IV rank ≤ 60 |
-| Entry window | 9:45 AM – 3:30 PM ET only |
-| Take profit | +40% on premium |
-| Stop loss | −30% on premium |
-| Trailing stop | after +20%, exit if 10 points are given back from the peak |
-| Exit cadence | positions checked every 5s; scans every 30s |
-| Time stop | flatten everything at 3:45 PM ET |
-| Per trade | $50 max premium, 1 contract |
-| Positions | 3 max concurrent |
-| Daily halt | −$75 P&L → flatten + halt + Discord alert |
-| Loss pause | 2 consecutive losses → 30-min pause |
-
-**Crash recovery:** on startup the bot cancels stray orders, adopts any option
-positions still held at Alpaca (so nothing is ever orphaned overnight), and
-rebuilds today's P&L from `trades.csv` so the daily loss limit and pause logic
-survive restarts.
+Risk math runs off **sleeve equity** = `SLEEVE_CAPITAL + realized P&L`, so the bot behaves
+as if it has $1,000 growing/shrinking with its own results — independent of the (large)
+paper account balance.
 
 ## Architecture
 
 ```
-app.py            Streamlit dashboard (start/stop, P&L, positions, settings)
-main.py           orchestrator loop (30s cadence)
-├── scanner.py        momentum signals (15-min candle + RSI + rel volume)
-├── options_chain.py  chain fetch, OI/spread/IV-rank/budget filters
-├── executor.py       order placement, TP/SL/time-stop exits, trades.csv log
-├── risk_manager.py   daily loss halt, position caps, consecutive-loss pause
-├── learner.py        ML win-probability filter trained on trades.csv
-├── alerts.py         Discord webhooks (entry/exit/halt/pause/summary)
-├── webhook.py        TradingView alert receiver -> same entry pipeline (optional)
-├── backtest.py       Black-Scholes backtest harness
-├── config.py         every tunable in one place
-└── utils.py          ET session-time helpers
+iobot/
+├── engine.py      main 30s loop: signal → features → governor → meta → select → execute
+├── signals.py     Signal dataclass + shared TA helpers (RSI, VWAP, ATR, rel-volume)
+├── strategies.py  pure entry signals (confluence + momentum/ORB/donchian baselines)
+├── chain.py       slightly-ITM contract selection, $300 affordability filter, dollar sizing
+├── executor.py    order placement, ATR stop/target, overnight carry, position persistence
+├── governor.py    risk caps + kill switches (per-trade %, daily loss, trailing DD, counts)
+├── features.py    pre-entry feature capture (leakage-guarded) for the learning loop
+├── journal.py     trade log, reject log, shadow log, realized-P&L queries
+├── meta.py        meta-labeling model (learns which setups win; shadow until it earns gating)
+├── gate.py        informational validation read-out (never blocks paper entries)
+├── store.py       single SQLite store (signals, features, trades, positions, …)
+├── broker.py      Alpaca clients — PAPER ONLY (refuses any live endpoint)
+├── webhook.py     optional TradingView alert receiver → same entry pipeline
+├── backtest.py    Black-Scholes backtest harness (sanity / signal comparison)
+├── bsm.py         Black-Scholes pricing for the backtest
+├── dashboard.py   Streamlit monitor
+└── cli.py         offline operator commands (status / train / gate / run)
 ```
 
-Every closed trade is appended to `trades.csv`: ticker, option symbol, strike,
-expiry, entry/exit price, P&L, entry/exit reason — plus the signal features at
-entry (momentum, RSI, rel volume, IV, spread, DTE, time of day), which become
-the learner's training data.
+## Learning loop
+
+The bot improves from its own mistakes rather than from a pre-proven edge:
+
+- `features.py` snapshots a leakage-guarded feature vector (including the confluence
+  sub-scores) the instant each signal fires.
+- `journal.py` logs every closed trade and its label (target hit before stop?).
+- `meta.py` trains a meta-labeling model on `features ⋈ outcomes`. It runs in **shadow**
+  (logs P(win), never blocks) until its walk-forward AUC clears the bar — then it can size
+  and soft-filter entries. The validation **gate is informational only**; capital
+  protection comes solely from the risk governor.
 
 ## TradingView webhook (optional)
 
-Feed your own TradingView alerts into the bot. When `WEBHOOK_ENABLED=true`,
-`webhook.py` runs a tiny stdlib HTTP server in a daemon thread (no new
-dependencies) listening on `WEBHOOK_HOST:WEBHOOK_PORT`, endpoint `POST /tv-webhook`.
-
-A received alert does **not** trade directly. It is authenticated, de-duplicated,
-enriched into the same `Signal` the scanner produces (live RSI / rel-volume /
-VWAP-distance / spot), and pushed onto a queue. The main loop drains that queue
-and runs each signal through the **identical** `try_enter()` path as scanner
-signals — so the entry window, daily-loss halt, position caps, symbol cooldown,
-earnings block, IV/OI/spread filters and ML gate **all still apply**. There is no
-parallel trading path and no duplicated budget logic.
-
-**Alert message (set TradingView's webhook to your public URL, JSON body):**
-
-```json
-{
-  "secret": "YOUR_WEBHOOK_SECRET",
-  "id": "{{timenow}}",
-  "symbol": "{{ticker}}",
-  "direction": "call",
-  "strategy": "scalp",
-  "price": {{close}}
-}
-```
-
-- `secret` (**required**) must equal `WEBHOOK_SECRET` or the request is rejected `401`.
-- `symbol` and `direction` (`call`/`put`) are **required**; `strategy` defaults to
-  `scalp` (or `runner`); `price` is optional/advisory.
-- `id` enables 60s de-duplication (TradingView can fire an alert twice).
-- If live data can't be fetched when the alert arrives, the signal is still taken
-  but flagged **advisory** — the ML gate is skipped (its features would be
-  unreliable) while all hard risk limits remain enforced.
-
-**Security (the URL is public — treat it as hostile):**
-
-- `WEBHOOK_SECRET` is mandatory; the server refuses to start without it. The
-  comparison is constant-time. The secret travels in the request body, so put the
-  endpoint behind TLS (a reverse proxy such as Caddy/nginx, or a Cloudflare
-  tunnel) — plain `http://…:8080` sends it in cleartext.
-- Optionally set `WEBHOOK_IP_ALLOWLIST` to TradingView's published webhook IPs
-  (`52.89.214.238,34.212.75.30,54.218.53.128,52.32.178.7`) to drop everything else.
-- `webhook.py` only ever reads market data and enqueues; it never touches the
-  executor/risk/learner (those run solely on the main thread).
-
-Test it locally without TradingView:
+When `IOBOT_WEBHOOK_ENABLED=true`, a stdlib HTTP server runs in a daemon thread
+(`POST /tv-webhook`). Alerts are authenticated (mandatory secret, constant-time compare;
+optional IP allowlist), de-duplicated, enriched into a `Signal`, and run through the
+**same** `_handle_signal` pipeline as scanner signals — governor, meta, selection, and
+risk all apply. The receiver thread only reads data and enqueues; it never touches the
+executor/governor/meta. Put the endpoint behind TLS (a Cloudflare tunnel is scaffolded in
+`deploy/`); the secret travels in the request body.
 
 ```bash
-curl -X POST http://127.0.0.1:8080/tv-webhook \
-  -H 'Content-Type: application/json' \
-  -d '{"secret":"YOUR_WEBHOOK_SECRET","id":"t1","symbol":"SPY","direction":"call"}'
-# -> {"status": "ok", "message": "accepted"}
-curl http://127.0.0.1:8080/health      # -> {"status": "ok", "message": "ok"}
+curl -X POST http://127.0.0.1:8080/tv-webhook -H 'Content-Type: application/json' \
+  -d '{"secret":"YOUR_SECRET","id":"t1","symbol":"SPY","direction":"call"}'
+curl http://127.0.0.1:8080/health
 ```
-
-## ML learner — how the bot learns from its mistakes
-
-`learner.py` trains a gradient-boosting classifier on your own closed trades:
-*features at entry → did the trade win?* New signals are scored before entry.
-
-- **Warm-up:** needs 50 closed trades before its first training run. Until
-  then it just collects data (another reason to paper trade for a while).
-- **Earned veto:** the model only gets to *block* entries once its
-  cross-validated AUC clears 0.55 — i.e., it has demonstrated real predictive
-  power on held-out trades. Below that it runs in advisory mode: P(win) is
-  logged on every entry so you can judge it, but it can't veto. This stops a
-  noise-fit model on small data from blocking good trades.
-- **Gate:** when gating, entries scoring below `ML_WIN_PROB_THRESHOLD` (0.45)
-  are skipped and logged.
-- **Retraining:** automatic after every 10 new closed trades (end of day).
-  Run `python learner.py` anytime to force a retrain and see AUC + top factors.
-- Tune everything in `config.py` (`ML_*`); set `ML_ENABLED = False` to turn
-  it off.
-
-## Backtest output
-
-`python backtest.py --days 60` prints: total trades, win rate, avg profit,
-avg loss, total P&L, max drawdown, annualized Sharpe, and exit-reason
-breakdown. Option prices are synthesized via Black-Scholes at fixed per-symbol
-IVs with a $0.06 synthetic spread — real fills will be worse (IV crush, wider
-spreads, slippage).
-
-## Not financial advice
-
-This is software, not investment advice. You are responsible for every order
-it places. Test in paper mode.

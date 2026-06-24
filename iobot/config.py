@@ -72,15 +72,23 @@ ALLOW_LIVE_EXECUTION = False  # compile-time guard; never True in this build
 
 # ---------------- universe / structure ----------------
 
-UNIVERSE = [s.strip().upper() for s in _s("IOBOT_UNIVERSE", "SPY,QQQ").split(",") if s.strip()]
+# Liquid, mid-priced, optionable names where a slightly-ITM contract can fit under
+# the $300/position cap. The ETFs (SPY/QQQ/XLF) give VWAP-clean scalps + regime
+# context; the rest are high-beta sub-$60 movers with deep weekly chains. The
+# liquidity filter + the $300 affordability cap auto-reject anything unsuitable, so
+# this list is a generous candidate pool, tunable via one env var.
+UNIVERSE = [s.strip().upper() for s in _s(
+    "IOBOT_UNIVERSE",
+    "SPY,QQQ,AMD,AAPL,F,SOFI,PLTR,INTC,BAC,NIO,CCL,T,GOLD,XLF",
+).split(",") if s.strip()]
 
 # "single" = slightly-ITM long option (default). "spread" = debit vertical upgrade.
 STRUCTURE = _s("IOBOT_STRUCTURE", "single").lower()
 
-# Active entry signal (a key in strategies.REGISTRY). trend_momentum = momentum
-# gated to the daily-trend direction; the best backtested candidate (see
-# iobot/strategies.py). Set IOBOT_SIGNAL=momentum to revert to the plain baseline.
-SIGNAL = _s("IOBOT_SIGNAL", "trend_momentum")
+# Active entry signal (a key in strategies.REGISTRY). `confluence` = the senior-trader
+# multi-factor TA signal (trend + momentum + structure + volume; see
+# iobot/strategies.py). Set IOBOT_SIGNAL=trend_momentum / momentum to revert.
+SIGNAL = _s("IOBOT_SIGNAL", "confluence")
 
 # Slightly-ITM target delta band for the single long leg.
 TARGET_DELTA_MIN = _f("IOBOT_DELTA_MIN", 0.60)
@@ -89,7 +97,20 @@ TARGET_DELTA_MAX = _f("IOBOT_DELTA_MAX", 0.70)
 DTE_MIN = _i("IOBOT_DTE_MIN", 1)
 DTE_MAX = _i("IOBOT_DTE_MAX", 5)
 ALLOW_0DTE = _b("IOBOT_ALLOW_0DTE", False)        # gamma/theta knife-edge — off by default
-QTY = _i("IOBOT_QTY", 1)                           # contracts per position (tiny account: 1)
+QTY = _i("IOBOT_QTY", 1)                           # base lots (spread path; singles size by $)
+
+
+# ---------------- sleeve capital / position sizing ----------------
+
+# The bot manages a fixed-size SLEEVE, not the whole (paper) account: all governor
+# risk math (per-trade cap, daily-loss kill, trailing DD) is a % of sleeve equity,
+# where sleeve equity = SLEEVE_CAPITAL + the sleeve's own realized P&L. Buying-power
+# checks still use the real account (paper BP is ample).
+SLEEVE_CAPITAL = _f("IOBOT_SLEEVE_CAPITAL", 1000.0)
+# Max dollars deployed per single-leg position. Single legs size up to this many
+# whole contracts (>=1); a contract whose one-lot cost exceeds it is rejected. This
+# is the "max contract price $300" cap.
+POSITION_MAX_DOLLARS = _f("IOBOT_POSITION_MAX_DOLLARS", 300.0)
 
 
 # ---------------- debit-vertical upgrade path ----------------
@@ -111,6 +132,31 @@ RSI_PUT_MAX = _f("IOBOT_RSI_PUT_MAX", 40.0)
 REL_VOLUME_MIN = _f("IOBOT_REL_VOLUME_MIN", 1.2)
 VWAP_FILTER = _b("IOBOT_VWAP_FILTER", True)        # don't fight the session VWAP
 VOLUME_LOOKBACK_DAYS = _i("IOBOT_VOL_LOOKBACK", 20)
+
+
+# ---------------- confluence signal (senior-trader multi-factor TA) ----------------
+
+# The `confluence` signal scores aligned technical factors and fires only when at
+# least CONFLUENCE_MIN of them agree on a direction:
+#   trend  : fast EMA over slow EMA + price the right side of session VWAP
+#   regime : daily close vs its SMA (trade with the higher-timeframe trend)
+#   momentum: MACD histogram in the trade direction + RSI not exhausted
+#   structure: breaks the recent intraday swing high/low (continuation)
+#   volume : relative volume >= REL_VOLUME_MIN
+CONFLUENCE_MIN = _i("IOBOT_CONFLUENCE_MIN", 4)     # of 5 factors
+EMA_FAST = _i("IOBOT_EMA_FAST", 9)
+EMA_SLOW = _i("IOBOT_EMA_SLOW", 21)
+MACD_FAST = _i("IOBOT_MACD_FAST", 12)
+MACD_SLOW = _i("IOBOT_MACD_SLOW", 26)
+MACD_SIGNAL = _i("IOBOT_MACD_SIGNAL", 9)
+CONFLUENCE_SWING_BARS = _i("IOBOT_CONFLUENCE_SWING_BARS", 8)   # intraday breakout lookback
+CONFLUENCE_DAILY_SMA = _i("IOBOT_CONFLUENCE_DAILY_SMA", 20)
+RSI_OVERBOUGHT = _f("IOBOT_RSI_OVERBOUGHT", 80.0)  # don't chase calls above this
+RSI_OVERSOLD = _f("IOBOT_RSI_OVERSOLD", 20.0)      # don't chase puts below this
+# ATR-based exits for confluence (carried per-signal as stop_level/target_level):
+# stop = ATR_STOP_MULT * ATR from entry; target = ATR_TARGET_R * that risk distance.
+ATR_STOP_MULT = _f("IOBOT_ATR_STOP_MULT", 1.2)
+ATR_TARGET_R = _f("IOBOT_ATR_TARGET_R", 1.8)
 
 
 # ---------------- session windows (ET, 24h) ----------------
@@ -142,6 +188,19 @@ TARGET_R = _f("IOBOT_TARGET_R", 1.5)
 ORB_TARGET_R = _f("IOBOT_ORB_TARGET_R", 4.0)
 
 
+# ---------------- overnight holds ----------------
+
+# When True, positions whose thesis is intact (stop not hit) are NOT force-flattened
+# at FORCE_CLOSE — they carry overnight. A position is still force-closed at EOD if it
+# expires within OVERNIGHT_MIN_DTE_KEEP sessions (avoid expiry/gamma risk) or it has
+# been held MAX_HOLD_DAYS calendar days. Stops/targets keep running every tick across
+# days, so a broken thesis still exits intraday. Overnight holds REQUIRE position
+# persistence (store.positions) so a restart never orphans a live contract.
+ALLOW_OVERNIGHT = _b("IOBOT_ALLOW_OVERNIGHT", True)
+OVERNIGHT_MIN_DTE_KEEP = _i("IOBOT_OVERNIGHT_MIN_DTE", 1)   # flatten if <= this many DTE
+MAX_HOLD_DAYS = _i("IOBOT_MAX_HOLD_DAYS", 5)               # hard time-stop on a carry
+
+
 # ---------------- liquidity filter ----------------
 
 MAX_SPREAD_PCT = _f("IOBOT_MAX_SPREAD_PCT", 8.0)   # per-contract bid/ask as % of mid
@@ -151,12 +210,14 @@ MIN_VOLUME = _i("IOBOT_MIN_VOLUME", 50)
 
 # ---------------- risk governor / kill switches ----------------
 
-RISK_PCT_PER_TRADE = _f("IOBOT_RISK_PCT", 2.0)     # max loss as % of equity (1-3)
-DAILY_MAX_LOSS_PCT = _f("IOBOT_DAILY_MAX_LOSS_PCT", 5.0)
-TRAILING_DD_PCT = _f("IOBOT_TRAILING_DD_PCT", 20.0)
-MAX_TRADES_PER_DAY = _i("IOBOT_MAX_TRADES_DAY", 6)
-MAX_CONCURRENT = _i("IOBOT_MAX_CONCURRENT", 1)
-MAX_ROUND_TRIPS_PER_DAY = _i("IOBOT_MAX_ROUND_TRIPS", 6)
+# Aggressive by design (user-chosen): a single $300 position is ~30% of the $1,000
+# sleeve, so the per-trade cap is 30%. Kill-switches still bound the downside.
+RISK_PCT_PER_TRADE = _f("IOBOT_RISK_PCT", 30.0)    # max loss as % of SLEEVE equity
+DAILY_MAX_LOSS_PCT = _f("IOBOT_DAILY_MAX_LOSS_PCT", 25.0)
+TRAILING_DD_PCT = _f("IOBOT_TRAILING_DD_PCT", 40.0)
+MAX_TRADES_PER_DAY = _i("IOBOT_MAX_TRADES_DAY", 10)
+MAX_CONCURRENT = _i("IOBOT_MAX_CONCURRENT", 2)
+MAX_ROUND_TRIPS_PER_DAY = _i("IOBOT_MAX_ROUND_TRIPS", 10)
 # Cash account: one full-capital round-trip/day on T+1 settled funds, no leverage.
 CASH_ACCOUNT_MODE = _b("IOBOT_CASH_ACCOUNT", False)
 

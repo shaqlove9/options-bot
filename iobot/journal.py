@@ -77,6 +77,15 @@ def recent_streak(conn) -> tuple[int, int]:
     return wins, losses
 
 
+def realized_pnl_total(conn) -> float:
+    """Cumulative realized P&L of every closed trade — the sleeve's running result.
+    Added to SLEEVE_CAPITAL to get sleeve equity (the governor's risk base)."""
+    row = conn.execute(
+        "SELECT COALESCE(SUM(pnl), 0.0) AS s FROM trades WHERE pnl IS NOT NULL"
+    ).fetchone()
+    return float(row["s"] or 0.0)
+
+
 def closed_trades_df(conn) -> pd.DataFrame:
     return pd.read_sql_query(
         "SELECT * FROM trades ORDER BY exit_time", conn)

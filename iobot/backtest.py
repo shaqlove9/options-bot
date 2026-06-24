@@ -186,99 +186,6 @@ def _simulate_symbol(symbol, sig_bars, path_bars, daily, p: BTParams, signal_fn,
     return trades
 
 
-def _simulate_condor(symbol, sig_bars, path_bars, daily, p: BTParams, hs: float) -> list[Trade]:
-    """One iron condor per range-bound day: shorts just outside the day's range,
-    held for theta; exit on profit target, range break, value stop, or EOD."""
-    from iobot import condor, strategies
-    iv_map = _iv_by_day(daily, p.vrp)
-    trades: list[Trade] = []
-    tf = dt.timedelta(minutes=15)
-    for day in sorted({d for d in sig_bars.index.date}):
-        sigma = iv_map.get(day)
-        if sigma is None:
-            continue
-        day_bars = sig_bars[sig_bars.index.date == day]
-        force_close_t = _at(dt.datetime.combine(day, dt.time()).replace(tzinfo=ET),
-                            config.FORCE_CLOSE)
-        placed = False
-        for start in day_bars.index:
-            if placed:
-                break
-            close_time = start + tf
-            if not in_entry_window(close_time):
-                continue
-            today = day_bars[day_bars.index <= start]
-            if len(today) < strategies.RANGE_MIN_BARS:
-                continue
-            dl, dh = float(today["low"].min()), float(today["high"].max())
-            spot = float(today.iloc[-1]["close"])
-            rng = dh - dl
-            if rng <= 0:
-                continue
-            rng_pct = rng / spot * 100
-            if not (strategies.RANGE_MIN_PCT <= rng_pct <= strategies.RANGE_MAX_PCT):
-                continue
-            if abs(spot - (dl + dh) / 2) > condor.CONDOR_MID_TOL * rng:
-                continue  # only enter mid-range so both shorts have room
-            T0 = p.dte / 365.0
-            pick, why = condor.select_condor(symbol, spot, dl, dh, sigma, T0, p.strike_inc)
-            if pick is None:
-                continue
-            entry_credit = condor.credit_with_costs(pick.sp, pick.lp, pick.sc, pick.lc, hs)
-            if entry_credit <= 0:
-                continue
-            max_loss = (pick.wing - entry_credit) * 100 * config.QTY
-            if max_loss <= 0:
-                continue
-
-            path = path_bars[(path_bars.index > close_time)
-                             & (path_bars.index <= force_close_t)
-                             & (path_bars.index.date == day)]
-            raw_credit = pick.raw_credit
-            exit_spot, exit_ts, reason = spot, close_time, "time stop (EOD flat)"
-            for ts, bar in path.iterrows():
-                T_now = max(0.0, T0 - (ts - close_time).total_seconds() / 86400.0 / 365.0)
-                if bar["low"] <= pick.short_put_k:
-                    exit_spot, exit_ts, reason = pick.short_put_k, ts, "stop (range break down)"
-                    break
-                if bar["high"] >= pick.short_call_k:
-                    exit_spot, exit_ts, reason = pick.short_call_k, ts, "stop (range break up)"
-                    break
-                legs = condor.leg_prices(float(bar["close"]), T_now, sigma, pick)
-                cur_mid = (legs[0] - legs[1]) + (legs[2] - legs[3])
-                if cur_mid <= raw_credit * (1 - condor.CONDOR_TARGET_FRAC):
-                    exit_spot, exit_ts, reason = float(bar["close"]), ts, "profit target (theta)"
-                    break
-                if cur_mid >= raw_credit * (1 + condor.CONDOR_STOP_MULT):
-                    exit_spot, exit_ts, reason = float(bar["close"]), ts, "stop (value)"
-                    break
-            else:
-                if not path.empty:
-                    exit_spot, exit_ts = float(path.iloc[-1]["close"]), path.index[-1]
-
-            T_exit = max(0.0, T0 - (exit_ts - close_time).total_seconds() / 86400.0 / 365.0)
-            ex = condor.leg_prices(exit_spot, T_exit, sigma, pick)
-            exit_cost = condor.cost_to_close(*ex, hs)
-            fees = p.fee_per_contract * 8 * config.QTY      # 4 legs, open + close
-            pnl = (entry_credit - exit_cost) * 100 * config.QTY - fees
-            r = pnl / max_loss if max_loss > 0 else 0.0
-            trades.append(Trade(symbol, "condor", close_time, exit_ts, spot, exit_spot,
-                                pick.short_put_k, sigma, entry_credit, exit_cost, pnl, r, reason))
-            placed = True
-    return trades
-
-
-def run_condor(p: BTParams, data: dict, hs: float | None = None, verbose=False) -> list[Trade]:
-    hs = p.half_spread if hs is None else hs
-    out: list[Trade] = []
-    for symbol, (sig_bars, path_bars, daily) in data.items():
-        t = _simulate_condor(symbol, sig_bars, path_bars, daily, p, hs)
-        if verbose:
-            print(f"  {symbol}: {len(t)} condors")
-        out += t
-    return out
-
-
 def load_data(p: BTParams) -> dict:
     """Fetch bars once so multiple strategies can be compared without refetching."""
     clients = build_clients()
@@ -532,10 +439,8 @@ def main(argv=None):
     ap.add_argument("--half-spread", type=float, default=0.02)
     ap.add_argument("--fee", type=float, default=0.65)
     ap.add_argument("--vrp", type=float, default=1.1)
-    ap.add_argument("--signal", type=str, default="momentum",
+    ap.add_argument("--signal", type=str, default="confluence",
                     choices=list(strategies.REGISTRY))
-    ap.add_argument("--mode", type=str, default="single", choices=["single", "condor"],
-                    help="single long leg, or defined-risk iron condor on ranges")
     ap.add_argument("--compare", action="store_true", help="run all strategies head-to-head")
     ap.add_argument("--meta", action="store_true",
                     help="validate the meta-filter (walk-forward) on the chosen signal")
@@ -545,21 +450,6 @@ def main(argv=None):
     p = BTParams(days=a.days, path_tf=a.path_tf, dte=a.dte, target_delta=a.delta,
                  half_spread=a.half_spread, fee_per_contract=a.fee, vrp=a.vrp)
     print(f"Backtest: universe={config.UNIVERSE} days={p.days} signal=15m path={p.path_tf}m")
-    if a.mode == "condor":
-        data = load_data(p)
-        trades = run_condor(p, data, verbose=True)
-        s = summarize(trades)
-        _print_summary(s, p)
-        if a.sweep and trades:
-            print(f"\n{'='*60}\nCOST SENSITIVITY — expected R (net), iron condor\n{'='*60}")
-            spreads = [0.01, 0.015, 0.02, 0.03, 0.05]
-            ers = [summarize(run_condor(p, data, hs=hs)).get("expected_r", 0) for hs in spreads]
-            print("half_spread:  " + "  ".join(f"{s:>6.3f}" for s in spreads))
-            print("expected R:   " + "  ".join(f"{e:>+6.3f}" for e in ers))
-        if a.csv and trades:
-            pd.DataFrame([t.__dict__ for t in trades]).to_csv(a.csv, index=False)
-            print(f"\nwrote {len(trades)} condors -> {a.csv}")
-        return
     if a.compare:
         _compare(p)
         return

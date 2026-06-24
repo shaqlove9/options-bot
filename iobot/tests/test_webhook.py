@@ -137,7 +137,7 @@ class _Gov:
         self.appr = (True, "")
     def can_open(self, equity, open_count):
         return self.can
-    def approve_risk(self, max_loss, required_bp, acct):
+    def approve_risk(self, max_loss, required_bp, acct, cap_equity=None):
         return self.appr
     def record_entry(self):
         self.entries += 1
@@ -211,28 +211,28 @@ def test_queued_signal_enters(conn, monkeypatch):
     eng = _make_engine(monkeypatch, conn)
     eng.webhook_queue.put(_mk())
     (sig,) = eng._drain_webhook()
-    eng._handle_signal(sig, _acct(), _ctx())
+    eng._handle_signal(sig, _acct(), 1000.0, _ctx())
     assert len(eng.exec.opened) == 1 and eng.gov.entries == 1
 
 
 def test_governor_blocks(conn, monkeypatch):
     gov = _Gov(); gov.can = (False, "max trades/day")
     eng = _make_engine(monkeypatch, conn, gov=gov)
-    eng._handle_signal(_mk(), _acct(), _ctx())
+    eng._handle_signal(_mk(), _acct(), 1000.0, _ctx())
     assert eng.exec.opened == [] and eng.gov.entries == 0
 
 
 def test_existing_position_blocks(conn, monkeypatch):
     ex = _Exec(); ex._pos.add("SPY")
     eng = _make_engine(monkeypatch, conn, ex=ex)
-    eng._handle_signal(_mk(), _acct(), _ctx())
+    eng._handle_signal(_mk(), _acct(), 1000.0, _ctx())
     assert len(ex.opened) == 0
 
 
 def test_risk_cap_blocks(conn, monkeypatch):
     gov = _Gov(); gov.appr = (False, "exceeds per-trade risk")
     eng = _make_engine(monkeypatch, conn, gov=gov)
-    eng._handle_signal(_mk(), _acct(), _ctx())
+    eng._handle_signal(_mk(), _acct(), 1000.0, _ctx())
     assert eng.exec.opened == []
 
 
@@ -240,17 +240,17 @@ def test_no_contract_blocks(conn, monkeypatch):
     eng = _make_engine(monkeypatch, conn)
     monkeypatch.setattr("iobot.chain.build_contract",
                         lambda sig, trading, option_data: (None, "no liquid contract"))
-    eng._handle_signal(_mk(), _acct(), _ctx())
+    eng._handle_signal(_mk(), _acct(), 1000.0, _ctx())
     assert eng.exec.opened == []
 
 
 def test_meta_vetoes_live_signal_when_active(conn, monkeypatch):
     eng = _make_engine(monkeypatch, conn, meta_obj=_Meta(would_skip=True, active=True))
-    eng._handle_signal(_mk(), _acct(), _ctx())
+    eng._handle_signal(_mk(), _acct(), 1000.0, _ctx())
     assert eng.exec.opened == [] and eng.meta.calls == 1
 
 
 def test_advisory_bypasses_meta_veto(conn, monkeypatch):
     eng = _make_engine(monkeypatch, conn, meta_obj=_Meta(would_skip=True, active=True))
-    eng._handle_signal(_mk(advisory=True), _acct(), _ctx())
+    eng._handle_signal(_mk(advisory=True), _acct(), 1000.0, _ctx())
     assert len(eng.exec.opened) == 1            # advisory entered despite would-skip

@@ -67,6 +67,16 @@ CREATE TABLE IF NOT EXISTS shadow (
     size_mult    REAL,
     actual_action TEXT
 );
+-- Open positions, persisted so an overnight carry survives a restart (the executor
+-- rehydrates these and reconciles them against the live broker positions). A row is
+-- written on open and deleted on close.
+CREATE TABLE IF NOT EXISTS positions (
+    key        TEXT PRIMARY KEY,   -- option_symbol (single) / long_symbol (spread)
+    structure  TEXT,               -- "single" | "spread"
+    opened_at  TEXT,
+    expiry     TEXT,
+    data_json  TEXT                -- full serialized position
+);
 """
 
 

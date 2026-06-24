@@ -112,14 +112,17 @@ class RiskGovernor:
         return True, "ok"
 
     def approve_risk(self, max_loss: float, required_bp: float,
-                     account) -> tuple[bool, str]:
+                     account, cap_equity: float | None = None) -> tuple[bool, str]:
         """Per-trade defined-risk cap + buying-power/settled-funds check.
 
         max_loss      = defined worst-case dollars (premium, or spread net debit)
         required_bp   = capital the broker needs reserved (premium, or debit+margin)
+        cap_equity    = equity base for the per-trade % cap (the SLEEVE equity; falls
+                        back to the account equity when not supplied)
         Returns (ok, reason). On failure the engine SKIPS — never resizes up.
         """
-        cap = config.RISK_PCT_PER_TRADE / 100 * account.equity
+        base = account.equity if cap_equity is None else cap_equity
+        cap = config.RISK_PCT_PER_TRADE / 100 * base
         if max_loss > cap:
             return False, (f"max loss ${max_loss:.0f} > per-trade cap ${cap:.0f} "
                            f"({config.RISK_PCT_PER_TRADE:.0f}% of equity) — skip")

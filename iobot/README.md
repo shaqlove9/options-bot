@@ -57,9 +57,24 @@ pytest iobot/tests -q                 # unit tests (incl. leakage + mleg invaria
 Deploy: `deploy/iobot.service` (engine) and `deploy/iobot-dashboard.service` (monitor).
 Runtime data lives in `iobot_data/` (sqlite db, logs, governor state, models).
 
+## TradingView webhook (optional)
+Set `IOBOT_WEBHOOK_ENABLED=true` (+ a mandatory `IOBOT_WEBHOOK_SECRET`) and the
+engine starts a stdlib HTTP receiver in a daemon thread (`POST /tv-webhook`, no new
+deps). An alert is authenticated (constant-time secret, optional
+`IOBOT_WEBHOOK_IP_ALLOWLIST`), de-duped (`IOBOT_WEBHOOK_DEDUP_SEC`, 60s), enriched
+into a `signals.Signal` from live bars, and queued. Each tick drains the queue and
+runs every signal through the **same `_handle_signal` path** as scanner signals —
+feature capture, governor gate, meta layer, contract selection and the per-trade
+risk/BP check all apply. The server thread only reads data and enqueues; it never
+touches the executor/governor/meta. Body: `{"secret","id","symbol","direction":"call|put","price"}`
+(only `symbol`+`direction` required). If live data can't be fetched the signal is
+taken **advisory** — meta gate skipped, all hard risk limits still enforced. Put the
+public endpoint behind TLS (the secret travels in the body).
+
 ## Layout
 `config` settings · `broker` paper clients · `signals` strategy interface ·
 `chain` single-leg selection · `spread` vertical selection · `governor` risk/kill
 switches · `features` Phase-1 capture · `store`/`journal` sqlite + logs · `executor`
 orders + underlying-stops + mleg · `gate` validation · `meta` phases 2–3 ·
-`engine` main loop · `dashboard` monitor · `cli` operator commands.
+`webhook` TradingView receiver · `engine` main loop · `dashboard` monitor · `cli`
+operator commands.

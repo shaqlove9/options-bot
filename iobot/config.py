@@ -170,6 +170,24 @@ MODELED_FEE_PER_CONTRACT = _f("IOBOT_FEE_PER_CONTRACT", 0.65)
 MODELED_SLIP_PER_LEG = _f("IOBOT_SLIP_PER_LEG", 0.02)
 
 
+# ---------------- TradingView webhook receiver ----------------
+
+# Optional inbound alert endpoint (iobot/webhook.py). When enabled a stdlib
+# http.server runs in a daemon thread; valid alerts are enqueued and run through
+# the SAME _handle_signal pipeline as scanner signals (governor + meta + selection
+# + risk) — no parallel trading path. Boot-time / SECURITY settings: the secret
+# and IP allowlist come only from the environment, never a settings file.
+WEBHOOK_ENABLED = _b("IOBOT_WEBHOOK_ENABLED", False)
+WEBHOOK_HOST = _s("IOBOT_WEBHOOK_HOST", "0.0.0.0")
+WEBHOOK_PORT = _i("IOBOT_WEBHOOK_PORT", 8080)
+WEBHOOK_SECRET = _s("IOBOT_WEBHOOK_SECRET", "")    # required if enabled; from .env
+# Comma-separated IPs (empty = allow all). TradingView's published webhook IPs are
+# 52.89.214.238,34.212.75.30,54.218.53.128,52.32.178.7 (see webhook.TRADINGVIEW_IPS).
+WEBHOOK_IP_ALLOWLIST = [ip.strip() for ip in
+                        _s("IOBOT_WEBHOOK_IP_ALLOWLIST", "").split(",") if ip.strip()]
+WEBHOOK_DEDUP_SEC = _f("IOBOT_WEBHOOK_DEDUP_SEC", 60.0)  # ignore repeat ids within
+
+
 # ---------------- meta-labeling layer ----------------
 
 META_MIN_TRADES = _i("IOBOT_META_MIN_TRADES", 40)

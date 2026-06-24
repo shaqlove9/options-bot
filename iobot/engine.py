@@ -13,10 +13,11 @@ from __future__ import annotations
 
 import json
 import logging
+import queue
 import time
 
 from iobot import (broker, chain, config, executor, features, gate, governor,
-                   journal, meta, spread, store, strategies)
+                   journal, meta, spread, store, strategies, webhook)
 from iobot.clock import in_entry_window, now_et, past_force_close
 from iobot.signals import StrategySignal
 
@@ -35,13 +36,24 @@ class Engine:
                                       self.clients.option_data, self.conn)
         self.meta = meta.MetaGate()
         self.exec.reconcile()
+        # Optional TradingView webhook receiver: a daemon thread that only
+        # ENQUEUES signals; tick() drains them into the same _handle_signal path.
+        self.webhook_queue: queue.Queue = queue.Queue()
+        webhook.start_webhook_server(self.webhook_queue, self.signals)
         log.info("engine ready — universe %s, signal=%s, structure=%s, meta_active=%s",
                  config.UNIVERSE, config.SIGNAL, config.STRUCTURE, self.meta.active())
 
     # ---------------- one cycle ----------------
 
     def tick(self):
+        # Drain webhook alerts every tick so none go stale; they only TRADE when
+        # the market is open and inside the entry window (same guard as scanner
+        # signals), otherwise they're dropped here.
+        queued = self._drain_webhook()
+
         if not broker.market_is_open(self.clients.trading):
+            for sig in queued:
+                self._drop_webhook(sig, "market closed")
             self._write_status(market_open=False, account=None)
             return
         acct = broker.account_snapshot(self.clients.trading)
@@ -54,12 +66,30 @@ class Engine:
         self.gov.update_equity(broker.account_snapshot(self.clients.trading).equity)
 
         if in_entry_window(now_et()):
-            self._consider_entries(acct)
+            self._consider_entries(acct, queued)
+        else:
+            for sig in queued:
+                self._drop_webhook(sig, "outside entry window")
 
         self._write_status(market_open=True, account=acct)
 
-    def _consider_entries(self, acct):
-        signals = self.signals.scan()
+    def _drain_webhook(self) -> list:
+        """Pop all queued webhook signals (FIFO). Empty list if disabled."""
+        out: list = []
+        while True:
+            try:
+                out.append(self.webhook_queue.get_nowait())
+            except queue.Empty:
+                break
+        return out
+
+    def _drop_webhook(self, sig, why: str):
+        log.info("webhook %s %s dropped — %s", sig.symbol, sig.direction.upper(), why)
+        journal.log_reject(self.conn, sig.symbol, sig.direction, "window", why)
+
+    def _consider_entries(self, acct, queued=()):
+        # Webhook-sourced signals first, then scanner signals — one shared path.
+        signals = list(queued) + self.signals.scan()
         if not signals:
             return
         win_streak, loss_streak = journal.recent_streak(self.conn)
@@ -93,9 +123,12 @@ class Engine:
                                "already holding this underlying")
             return
 
-        # 3. Meta layer (shadow by default; gates only when active).
+        # 3. Meta layer (shadow by default; gates only when active). A webhook
+        #    signal flagged ADVISORY (live data was unavailable at enrichment)
+        #    keeps its shadow log but is never vetoed — its features are unreliable.
+        advisory = getattr(sig, "advisory", False)
         proba, would_skip, size_mult = self.meta.decision(feats)
-        if self.meta.active() and would_skip:
+        if self.meta.active() and would_skip and not advisory:
             journal.log_shadow(self.conn, sig.signal_id, proba, True, size_mult, "skipped(meta)")
             journal.log_reject(self.conn, sig.symbol, sig.direction, "meta",
                                f"P(win)={proba:.2f} < {config.META_PROBA_THRESHOLD}")

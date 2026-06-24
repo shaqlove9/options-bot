@@ -107,6 +107,23 @@ AI_MODEL = "claude-fable-5"          # ~$0.05-0.15 per report at this usage
 AI_BRIEFING_FILE = os.path.join(_DIR, "morning_briefing.md")
 AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 
+# --- TradingView webhook receiver (webhook.py) ---
+# Optional inbound alert endpoint. When WEBHOOK_ENABLED, a stdlib http.server runs
+# in a daemon thread; valid alerts are enqueued and run through the SAME entry
+# pipeline (try_enter) as scanner signals — no parallel trading path. These are
+# boot-time / SECURITY settings and are deliberately NOT in _TUNABLE: the secret
+# and IP allowlist must never be overridable from settings.json, and the listener
+# host/port/enabled are only read once at startup.
+WEBHOOK_ENABLED = os.getenv("WEBHOOK_ENABLED", "false").lower() == "true"
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "0.0.0.0")
+WEBHOOK_PORT = int(os.getenv("WEBHOOK_PORT", "8080"))
+WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "")   # required if enabled; from .env
+# Comma-separated IPs (empty = allow all). TradingView's published webhook IPs are
+# 52.89.214.238,34.212.75.30,54.218.53.128,52.32.178.7 (see webhook.TRADINGVIEW_IPS).
+WEBHOOK_IP_ALLOWLIST = [ip.strip() for ip in
+                        os.getenv("WEBHOOK_IP_ALLOWLIST", "").split(",") if ip.strip()]
+WEBHOOK_DEDUP_SEC = float(os.getenv("WEBHOOK_DEDUP_SEC", "60"))  # ignore repeat ids within
+
 # --- Dashboard integration (app.py) ---
 # On the VM, systemd owns the bot. Set DASHBOARD_MONITOR_ONLY=true there so the
 # dashboard hides its Start/Stop/Restart controls and can't fight systemd

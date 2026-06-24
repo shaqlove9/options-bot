@@ -157,6 +157,7 @@ main.py           orchestrator loop (30s cadence)
 ├── risk_manager.py   daily loss halt, position caps, consecutive-loss pause
 ├── learner.py        ML win-probability filter trained on trades.csv
 ├── alerts.py         Discord webhooks (entry/exit/halt/pause/summary)
+├── webhook.py        TradingView alert receiver -> same entry pipeline (optional)
 ├── backtest.py       Black-Scholes backtest harness
 ├── config.py         every tunable in one place
 └── utils.py          ET session-time helpers
@@ -166,6 +167,62 @@ Every closed trade is appended to `trades.csv`: ticker, option symbol, strike,
 expiry, entry/exit price, P&L, entry/exit reason — plus the signal features at
 entry (momentum, RSI, rel volume, IV, spread, DTE, time of day), which become
 the learner's training data.
+
+## TradingView webhook (optional)
+
+Feed your own TradingView alerts into the bot. When `WEBHOOK_ENABLED=true`,
+`webhook.py` runs a tiny stdlib HTTP server in a daemon thread (no new
+dependencies) listening on `WEBHOOK_HOST:WEBHOOK_PORT`, endpoint `POST /tv-webhook`.
+
+A received alert does **not** trade directly. It is authenticated, de-duplicated,
+enriched into the same `Signal` the scanner produces (live RSI / rel-volume /
+VWAP-distance / spot), and pushed onto a queue. The main loop drains that queue
+and runs each signal through the **identical** `try_enter()` path as scanner
+signals — so the entry window, daily-loss halt, position caps, symbol cooldown,
+earnings block, IV/OI/spread filters and ML gate **all still apply**. There is no
+parallel trading path and no duplicated budget logic.
+
+**Alert message (set TradingView's webhook to your public URL, JSON body):**
+
+```json
+{
+  "secret": "YOUR_WEBHOOK_SECRET",
+  "id": "{{timenow}}",
+  "symbol": "{{ticker}}",
+  "direction": "call",
+  "strategy": "scalp",
+  "price": {{close}}
+}
+```
+
+- `secret` (**required**) must equal `WEBHOOK_SECRET` or the request is rejected `401`.
+- `symbol` and `direction` (`call`/`put`) are **required**; `strategy` defaults to
+  `scalp` (or `runner`); `price` is optional/advisory.
+- `id` enables 60s de-duplication (TradingView can fire an alert twice).
+- If live data can't be fetched when the alert arrives, the signal is still taken
+  but flagged **advisory** — the ML gate is skipped (its features would be
+  unreliable) while all hard risk limits remain enforced.
+
+**Security (the URL is public — treat it as hostile):**
+
+- `WEBHOOK_SECRET` is mandatory; the server refuses to start without it. The
+  comparison is constant-time. The secret travels in the request body, so put the
+  endpoint behind TLS (a reverse proxy such as Caddy/nginx, or a Cloudflare
+  tunnel) — plain `http://…:8080` sends it in cleartext.
+- Optionally set `WEBHOOK_IP_ALLOWLIST` to TradingView's published webhook IPs
+  (`52.89.214.238,34.212.75.30,54.218.53.128,52.32.178.7`) to drop everything else.
+- `webhook.py` only ever reads market data and enqueues; it never touches the
+  executor/risk/learner (those run solely on the main thread).
+
+Test it locally without TradingView:
+
+```bash
+curl -X POST http://127.0.0.1:8080/tv-webhook \
+  -H 'Content-Type: application/json' \
+  -d '{"secret":"YOUR_WEBHOOK_SECRET","id":"t1","symbol":"SPY","direction":"call"}'
+# -> {"status": "ok", "message": "accepted"}
+curl http://127.0.0.1:8080/health      # -> {"status": "ok", "message": "ok"}
+```
 
 ## ML learner — how the bot learns from its mistakes
 

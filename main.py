@@ -8,6 +8,7 @@ import json
 import logging
 import math
 import os
+import queue
 import sys
 import time
 
@@ -21,6 +22,7 @@ import ai_analyst
 import alerts
 import config
 import earnings
+import webhook
 from executor import Executor
 from learner import Learner, extract_features
 from options_chain import ChainFetcher
@@ -29,6 +31,67 @@ from scanner import Scanner
 from utils import in_entry_window, is_market_day, now_et, past_force_close
 
 log = logging.getLogger("main")
+
+
+def try_enter(signal, *, chain, risk, executor, learner, cooldowns, now) -> bool:
+    """The single entry code path shared by the scanner loop and the webhook
+    drain. Applies every guard exactly once — entry window, daily halt, symbol
+    cooldown, existing position, earnings block, contract selection, risk budget
+    and ML gating — then opens the position. Returns True iff a position opened.
+
+    There is intentionally ONE copy of this logic so scanner-sourced and
+    webhook-sourced signals share identical risk controls and budget accounting.
+
+    NOT thread-safe: must run only on the main loop thread (it touches
+    executor / risk / learner). Webhook alerts reach it via the queue, never
+    directly. A signal flagged ``advisory`` (webhook enrichment couldn't fetch
+    live data) skips ML gating, since its features are unreliable.
+    """
+    if not in_entry_window(now) or risk.state.halted:
+        return False
+
+    last = cooldowns.get(signal.symbol)
+    if last and (now - last).total_seconds() < config.SYMBOL_COOLDOWN_MIN * 60:
+        return False
+    if executor.has_position_in(signal.symbol):
+        return False
+    if earnings.blocks(signal.symbol):          # IV-crush protection
+        return False
+
+    pick = chain.find_contract(signal)
+    if pick is None:
+        return False
+
+    ok, why = risk.can_enter(executor.open_count(), pick.cost)
+    if not ok:
+        log.info("Entry blocked: %s", why)
+        return False
+
+    features = extract_features(signal, pick)
+    if getattr(signal, "advisory", False):
+        win_prob = None
+        log.info("ADVISORY entry (live data missing → ML gating skipped): %s",
+                 pick.option_symbol)
+    else:
+        allowed, win_prob = learner.allows(features)
+        if not allowed:
+            log.info("ENTRY BLOCKED by model: %s P(win)=%.2f < %.2f",
+                     pick.option_symbol, win_prob, config.ML_WIN_PROB_THRESHOLD)
+            return False
+        if win_prob is not None:
+            log.info("Model P(win)=%.2f for %s", win_prob, pick.option_symbol)
+
+    tp = (config.RUNNER_TAKE_PROFIT_PCT if signal.strategy == "runner"
+          else config.TAKE_PROFIT_PCT)
+    if executor.open_position(pick, signal.reason(), features, win_prob, tp_pct=tp):
+        cooldowns[signal.symbol] = now
+        if getattr(signal, "source", None) == "tradingview":
+            try:
+                alerts.webhook_trade(pick, signal.reason())
+            except Exception:
+                log.exception("webhook trade alert failed (non-fatal)")
+        return True
+    return False
 
 
 def build_clients():
@@ -113,6 +176,12 @@ def main():
     executor.reconcile()
     risk.restore_from_log()
 
+    # Optional TradingView webhook receiver. Runs in a daemon thread and only
+    # ENQUEUES signals; the main loop below drains the queue and trades them
+    # through the same try_enter() path as scanner signals.
+    webhook_queue: "queue.Queue" = queue.Queue()
+    webhook.start_webhook_server(webhook_queue, scanner)
+
     cooldowns: dict[str, dt.datetime] = {}   # underlying -> last entry time
     summary_sent_for: dt.date | None = None
     briefing_sent_for: dt.date | None = None
@@ -168,45 +237,30 @@ def main():
                         for p in executor.flatten_all("daily loss halt"):
                             risk.record_exit(p)
 
+            # --- drain TradingView webhook alerts FIRST, every cycle, through
+            #     the shared try_enter() path (its own window/halt guards apply) ---
+            while True:
+                try:
+                    queued = webhook_queue.get_nowait()
+                except queue.Empty:
+                    break
+                try:
+                    if try_enter(queued, chain=chain, risk=risk, executor=executor,
+                                 learner=learner, cooldowns=cooldowns, now=now):
+                        log.info("Webhook entry taken: %s %s",
+                                 queued.symbol, queued.direction.upper())
+                except Exception:
+                    log.exception("webhook signal %s failed in try_enter",
+                                  getattr(queued, "symbol", "?"))
+
             # --- look for new entries (every SCAN_INTERVAL_SEC; exits are
             #     checked more often when positions are open) ---
             if (in_entry_window(now) and not risk.state.halted
                     and time.monotonic() >= next_scan):
                 next_scan = time.monotonic() + config.SCAN_INTERVAL_SEC
                 for signal in scanner.scan():
-                    last = cooldowns.get(signal.symbol)
-                    if last and (now - last).total_seconds() < config.SYMBOL_COOLDOWN_MIN * 60:
-                        continue
-                    if executor.has_position_in(signal.symbol):
-                        continue
-                    if earnings.blocks(signal.symbol):   # IV-crush protection
-                        continue
-
-                    pick = chain.find_contract(signal)
-                    if pick is None:
-                        continue
-
-                    ok, why = risk.can_enter(executor.open_count(), pick.cost)
-                    if not ok:
-                        log.info("Entry blocked: %s", why)
-                        continue
-
-                    # ML filter: block setups that resemble past losers
-                    features = extract_features(signal, pick)
-                    allowed, win_prob = learner.allows(features)
-                    if not allowed:
-                        log.info("ENTRY BLOCKED by model: %s P(win)=%.2f < %.2f",
-                                 pick.option_symbol, win_prob,
-                                 config.ML_WIN_PROB_THRESHOLD)
-                        continue
-                    if win_prob is not None:
-                        log.info("Model P(win)=%.2f for %s", win_prob, pick.option_symbol)
-
-                    tp = (config.RUNNER_TAKE_PROFIT_PCT if signal.strategy == "runner"
-                          else config.TAKE_PROFIT_PCT)
-                    if executor.open_position(pick, signal.reason(), features,
-                                              win_prob, tp_pct=tp):
-                        cooldowns[signal.symbol] = now
+                    try_enter(signal, chain=chain, risk=risk, executor=executor,
+                              learner=learner, cooldowns=cooldowns, now=now)
 
             write_status(executor, risk, learner, market_open=True)
             # Tight loop while holding positions (fast TP/SL/trailing checks);

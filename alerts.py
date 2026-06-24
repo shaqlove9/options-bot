@@ -82,6 +82,30 @@ def error(message: str):
     _send("⚠️ Bot error", message[:1900], ORANGE)
 
 
+def webhook_received(sig):
+    """A TradingView alert passed auth/validation and was enqueued."""
+    mode = "LIVE" if config.LIVE_MODE else "PAPER"
+    extra = ("\n⚠️ _advisory only — live data unavailable, ML gating skipped_"
+             if getattr(sig, "advisory", False) else "")
+    _send(
+        f"📡 [{mode}] Webhook alert — {sig.symbol} {sig.direction.upper()}",
+        f"Strategy **{sig.strategy}** from TradingView. Queued for the entry "
+        f"pipeline (risk limits + ML gate still apply).{extra}",
+        BLUE,
+    )
+
+
+def webhook_trade(pick, reason: str):
+    """A TradingView-sourced alert made it all the way through to a filled trade."""
+    mode = "LIVE" if config.LIVE_MODE else "PAPER"
+    _send(
+        f"📡✅ [{mode}] Webhook → TRADE {pick.underlying} {pick.otype.upper()}",
+        f"**{pick.option_symbol}** opened from a TradingView alert.\n"
+        f"Reason: {reason}",
+        PURPLE,
+    )
+
+
 PURPLE = 0x9B59B6
 
 

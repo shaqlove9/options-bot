@@ -1,0 +1,99 @@
+//@version=6
+// iobot ORB + VWAP — webhook signal source for the iobot options bot.
+//
+// Strategy: Opening Range Breakout (Zarattini, Barbon & Aziz — "Can Day Trading
+// Really Be Profitable?", SSRN 2023/2024; 5-min ORB on QQQ, ~2.4 Sharpe, beta≈0).
+//   - Build the opening range (high/low) over the first `orMin` minutes after 09:30 ET.
+//   - LONG (-> option CALL) on a close breaking ABOVE the OR high; SHORT (-> PUT) on a
+//     close breaking BELOW the OR low. One shot per direction per day.
+//   - Optional VWAP filter: only take longs above session VWAP, shorts below (cuts
+//     counter-trend false breakouts; matches the bot's own VWAP philosophy).
+//
+// On each entry it calls alert() with the bot's webhook JSON. The bot does the rest
+// (contract selection, risk caps, stops, EOD flat) — so this script's own stop/target
+// below only drive TradingView's backtest DISPLAY, not the live option exits.
+//
+// Apply to a 5-min SPY (and a separate QQQ) chart. See SETUP.md for the alert wiring.
+
+strategy("iobot ORB + VWAP (webhook)", overlay=true, pyramiding=0,
+     initial_capital=10000, default_qty_type=strategy.percent_of_equity,
+     default_qty_value=100, process_orders_on_close=true, calc_on_every_tick=false)
+
+// ----------------------------- inputs -----------------------------
+secret  = input.string("PASTE_YOUR_WEBHOOK_SECRET", "Webhook secret", group="Webhook")
+orMin   = input.int(15, "Opening-range length (minutes)", minval=1, maxval=60, group="Signal",
+   tooltip="15 aligns the breakout with the bot's 09:45 ET entry window. Use 5 (the paper's value) only if you also set IOBOT_ENTRY_START=09:35 on the bot.")
+useVwap = input.bool(true, "VWAP filter (longs above / shorts below)", group="Signal")
+entryWin = input.session("0945-1530", "Entry window (ET)", group="Signal")
+sessTime = input.session("0930-1600", "Regular session (ET)", group="Signal")
+rTarget = input.float(10.0, "Profit target = R × (entry−stop)  [TV display only]",
+     minval=1.0, group="TradingView backtest display")
+
+TZ = "America/New_York"
+
+// ----------------------------- session / opening range -----------------------------
+inRTH   = not na(time(timeframe.period, sessTime, TZ))
+inEntry = not na(time(timeframe.period, entryWin, TZ))
+
+y  = year(time, TZ)
+mo = month(time, TZ)
+dd = dayofmonth(time, TZ)
+openTs  = timestamp(TZ, y, mo, dd, 9, 30, 0)
+orEndTs = openTs + orMin * 60 * 1000
+newSession = ta.change(openTs) != 0
+
+var float orH = na
+var float orL = na
+var bool  orReady     = false
+var bool  tradedLong  = false
+var bool  tradedShort = false
+
+if newSession
+    orH := na
+    orL := na
+    orReady     := false
+    tradedLong  := false
+    tradedShort := false
+
+// accumulate the opening range over [09:30, 09:30 + orMin)
+if inRTH and time >= openTs and time < orEndTs
+    orH := na(orH) ? high : math.max(orH, high)
+    orL := na(orL) ? low  : math.min(orL, low)
+
+if not orReady and time >= orEndTs and not na(orH) and not na(orL)
+    orReady := true
+
+vwapVal = ta.vwap(hlc3)   // resets each session on an intraday chart
+
+// ----------------------------- signals -----------------------------
+longCond  = orReady and inEntry and not tradedLong and strategy.position_size == 0 and
+   ta.crossover(close, orH)  and (not useVwap or close > vwapVal)
+shortCond = orReady and inEntry and not tradedShort and strategy.position_size == 0 and
+   ta.crossunder(close, orL) and (not useVwap or close < vwapVal)
+
+idStr  = str.tostring(time)
+jLong  = '{"secret":"' + secret + '","id":"' + idStr + '","symbol":"' + syminfo.ticker +
+   '","direction":"call","price":' + str.tostring(close) + '}'
+jShort = '{"secret":"' + secret + '","id":"' + idStr + '","symbol":"' + syminfo.ticker +
+   '","direction":"put","price":' + str.tostring(close) + '}'
+
+if longCond
+    tradedLong := true
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Long-x", "Long", stop=orL, limit=close + (close - orL) * rTarget)
+    alert(jLong, alert.freq_once_per_bar_close)
+
+if shortCond
+    tradedShort := true
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Short-x", "Short", stop=orH, limit=close - (orH - close) * rTarget)
+    alert(jShort, alert.freq_once_per_bar_close)
+
+// EOD flat (display realism; the bot flattens live on its own)
+if inRTH and not na(time(timeframe.period, "1545-1600", TZ)) and strategy.position_size != 0
+    strategy.close_all(comment="EOD flat")
+
+// ----------------------------- plots -----------------------------
+plot(orReady ? orH : na, "OR High", color.new(color.green, 0), 2, plot.style_linebr)
+plot(orReady ? orL : na, "OR Low",  color.new(color.red, 0),   2, plot.style_linebr)
+plot(useVwap ? vwapVal : na, "VWAP", color.new(color.blue, 40))

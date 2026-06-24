@@ -1,0 +1,13 @@
+# Cloudflare Tunnel config for the iobot TradingView webhook.
+# The finish script (setup-cloudflare-tunnel.sh) fills in TUNNEL_UUID + HOSTNAME
+# and writes the real file to ~/.cloudflared/config.yml. Edit by hand only if you
+# are not using the script.
+tunnel: TUNNEL_UUID
+credentials-file: /home/ubuntu/.cloudflared/TUNNEL_UUID.json
+
+ingress:
+  # Public HTTPS hostname -> the localhost-only webhook receiver.
+  - hostname: HOSTNAME
+    service: http://127.0.0.1:8080
+  # Everything else is refused.
+  - service: http_status:404

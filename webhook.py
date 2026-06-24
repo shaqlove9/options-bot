@@ -269,7 +269,13 @@ def start_webhook_server(signal_queue, scanner, deduper: Deduper | None = None):
 
     deduper = deduper or Deduper(config.WEBHOOK_DEDUP_SEC)
     handler = make_handler(signal_queue, scanner, deduper)
-    httpd = HTTPServer((config.WEBHOOK_HOST, config.WEBHOOK_PORT), handler)
+    try:
+        httpd = HTTPServer((config.WEBHOOK_HOST, config.WEBHOOK_PORT), handler)
+    except OSError as exc:
+        # Never let a webhook bind failure take down the trading loop.
+        log.error("Webhook receiver could not bind %s:%d (%s) — continuing WITHOUT it",
+                  config.WEBHOOK_HOST, config.WEBHOOK_PORT, exc)
+        return None
     thread = threading.Thread(target=httpd.serve_forever, name="webhook", daemon=True)
     thread.start()
     log.info("Webhook receiver listening on %s:%d  (POST /tv-webhook)  "

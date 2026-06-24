@@ -207,7 +207,9 @@ MAX_HOLD_DAYS = _i("IOBOT_MAX_HOLD_DAYS", 5)               # hard time-stop on a
 
 MAX_SPREAD_PCT = _f("IOBOT_MAX_SPREAD_PCT", 12.0)  # per-contract bid/ask as % of mid
 MIN_OPEN_INTEREST = _i("IOBOT_MIN_OI", 100)
-MIN_VOLUME = _i("IOBOT_MIN_VOLUME", 10)
+# Intraday option volume is a noisy gate (0 early in the day even for liquid names);
+# OI + the spread cap are the real liquidity signals, so the volume floor is off.
+MIN_VOLUME = _i("IOBOT_MIN_VOLUME", 0)
 
 
 # ---------------- risk governor / kill switches ----------------

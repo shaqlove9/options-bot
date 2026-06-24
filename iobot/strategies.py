@@ -107,6 +107,16 @@ def orb(symbol, intraday, daily, now):
     if config.VWAP_FILTER and ((direction == "call" and spot <= signals._session_vwap(intraday, now.date()))
                                or (direction == "put" and spot >= signals._session_vwap(intraday, now.date()))):
         return None
+    # ORB's own exit (Zarattini/Aziz): stop at the OPPOSITE end of the opening range
+    # (adaptive to the day's range), profit target at ORB_TARGET_R x that risk distance,
+    # else flat at EOD. Carried per-signal so it overrides the fixed-% exit for ORB only.
+    s = sig.spot
+    if direction == "call":
+        sig.stop_level = or_low
+        sig.target_level = s + config.ORB_TARGET_R * (s - or_low)
+    else:
+        sig.stop_level = or_high
+        sig.target_level = s - config.ORB_TARGET_R * (or_high - s)
     return sig
 
 

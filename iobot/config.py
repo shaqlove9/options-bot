@@ -135,6 +135,11 @@ SCAN_INTERVAL_SEC = _i("IOBOT_SCAN_INTERVAL", 30)
 STOP_UNDERLYING_PCT = _f("IOBOT_STOP_PCT", 0.40)
 # Profit target as an R-multiple of the underlying risk distance (target = R * stop).
 TARGET_R = _f("IOBOT_TARGET_R", 1.5)
+# ORB uses the breakout strategy's own exit (Zarattini/Aziz): stop at the OPPOSITE end
+# of the opening range, target a large R-multiple of that adaptive risk distance, else
+# flat at EOD. Attached per-signal in strategies.orb (overrides the fixed-% exit above
+# for ORB only; other signals keep STOP_UNDERLYING_PCT / TARGET_R).
+ORB_TARGET_R = _f("IOBOT_ORB_TARGET_R", 4.0)
 
 
 # ---------------- liquidity filter ----------------

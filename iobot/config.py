@@ -222,6 +222,12 @@ TRAILING_DD_PCT = _f("IOBOT_TRAILING_DD_PCT", 40.0)
 MAX_TRADES_PER_DAY = _i("IOBOT_MAX_TRADES_DAY", 10)
 MAX_CONCURRENT = _i("IOBOT_MAX_CONCURRENT", 2)
 MAX_ROUND_TRIPS_PER_DAY = _i("IOBOT_MAX_ROUND_TRIPS", 10)
+# Post-close re-entry cooldown (minutes): after a position in a given symbol+direction
+# CLOSES, block a fresh entry in that same symbol+direction for this many minutes. Kills
+# the same-name churn where a just-closed winner/loser is immediately re-traded minutes
+# later (the second fire reliably underperformed the first). 0 disables. Note: concurrent
+# same-symbol holds are already blocked separately by executor.has_position_in.
+SYMBOL_COOLDOWN_MIN = _i("IOBOT_SYMBOL_COOLDOWN_MIN", 0)
 # Cash account: one full-capital round-trip/day on T+1 settled funds, no leverage.
 CASH_ACCOUNT_MODE = _b("IOBOT_CASH_ACCOUNT", False)
 

@@ -9,6 +9,14 @@ from __future__ import annotations
 
 import json
 import os
+import sys
+from pathlib import Path
+
+# Make `iobot` importable no matter the launch cwd: `streamlit run iobot/dashboard.py`
+# only puts iobot/ on sys.path, so add the repo root (this file's parent's parent).
+_REPO_ROOT = str(Path(__file__).resolve().parent.parent)
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
 
 import pandas as pd
 import streamlit as st

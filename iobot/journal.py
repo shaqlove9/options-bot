@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime
 
 import pandas as pd
 
@@ -75,6 +76,22 @@ def recent_streak(conn) -> tuple[int, int]:
         else:
             break
     return wins, losses
+
+
+def minutes_since_last_exit(conn, symbol: str, direction: str) -> float | None:
+    """Minutes since the most recently CLOSED trade in this symbol+direction, or None
+    if there has never been one. Used by the post-close re-entry cooldown."""
+    row = conn.execute(
+        "SELECT exit_time FROM trades WHERE symbol=? AND direction=? "
+        "AND exit_time IS NOT NULL ORDER BY exit_time DESC LIMIT 1",
+        (symbol, direction)).fetchone()
+    if not row or not row["exit_time"]:
+        return None
+    try:
+        last = datetime.fromisoformat(row["exit_time"])
+    except ValueError:
+        return None
+    return (now_et() - last).total_seconds() / 60.0
 
 
 def realized_pnl_total(conn) -> float:

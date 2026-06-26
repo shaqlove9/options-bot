@@ -131,6 +131,17 @@ class Engine:
                                "already holding this underlying")
             return
 
+        # 2b. Post-close re-entry cooldown on the same symbol+direction. Blocks the
+        #     churn where a just-closed name is immediately re-traded (the second fire
+        #     reliably underperformed the first). 0 disables.
+        if config.SYMBOL_COOLDOWN_MIN > 0:
+            mins = journal.minutes_since_last_exit(self.conn, sig.symbol, sig.direction)
+            if mins is not None and 0 <= mins < config.SYMBOL_COOLDOWN_MIN:
+                journal.log_reject(self.conn, sig.symbol, sig.direction, "cooldown",
+                                   f"{mins:.0f}m since last {sig.direction} close "
+                                   f"< {config.SYMBOL_COOLDOWN_MIN}m cooldown")
+                return
+
         # 3. Meta layer (shadow by default; gates only when active). A webhook
         #    signal flagged ADVISORY (live data was unavailable at enrichment)
         #    keeps its shadow log but is never vetoed — its features are unreliable.

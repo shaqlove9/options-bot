@@ -1,0 +1,9 @@
+[Unit]
+Description=iobot_data off-box backup (SQL dump + state -> git branch iobot-data-backup)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/home/ubuntu/options-bot/deploy/backup-iobot-data.sh

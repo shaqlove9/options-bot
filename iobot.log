@@ -8171,3 +8171,6 @@
 2026-07-01 20:53:28,473 INFO    features | captured features for SPY-20260701T165328-call (46 fields)
 2026-07-01 20:53:28,473 INFO    journal | REJECT SPY call [meta] — P(win)=0.20 < 0.5
 2026-07-01 20:53:28,475 INFO    features | captured features for SPY-20260701T165328-call (46 fields)
+2026-07-01 21:09:16,918 INFO    webhook | Webhook receiver listening on 127.0.0.1:8080  (POST /tv-webhook)  IP allowlist: ALL (open)
+2026-07-01 21:09:16,918 INFO    engine | engine ready — universe ['SPY', 'QQQ', 'AMD', 'AAPL', 'F', 'SOFI', 'PLTR', 'INTC', 'BAC', 'NIO', 'CCL', 'T', 'GOLD', 'XLF'], signal=confluence, structure=single, meta_active=False
+2026-07-01 21:09:16,918 INFO    engine | iobot starting — PAPER ONLY (go_live=False, live_exec=False)

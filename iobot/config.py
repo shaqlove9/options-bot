@@ -236,6 +236,9 @@ CASH_ACCOUNT_MODE = _b("IOBOT_CASH_ACCOUNT", False)
 
 ENTRY_SLIP = _f("IOBOT_ENTRY_SLIP", 0.03)          # limit padding over mid/ask
 ORDER_FILL_TIMEOUT = _i("IOBOT_FILL_TIMEOUT", 20)  # seconds
+# On restart, flatten broker option legs we don't track (orphans from stale fills). An
+# untracked position can't be managed/exited by the bot, so it's pure unmanaged risk.
+RECONCILE_FLATTEN_ORPHANS = _b("IOBOT_RECONCILE_FLATTEN_ORPHANS", True)
 
 
 # ---------------- validation gate ----------------

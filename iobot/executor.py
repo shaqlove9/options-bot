@@ -502,20 +502,30 @@ class Executor:
                 self.positions.append(pos)
                 recovered += 1
             else:
+                # The broker no longer holds this leg: it closed/expired while we were down,
+                # OR a close never recorded P&L. Never drop silently — that's how an open
+                # paper trade vanishes from the book without a trades-row.
+                log.warning("dropping persisted %s position %s — broker no longer holds it "
+                            "(closed/expired while down, or lost fill); no exit P&L recorded",
+                            pos.structure, self._pos_key(pos))
                 self._unpersist(pos)
         if recovered:
             log.warning("rehydrated %d open position(s) from store on restart", recovered)
 
     def reconcile(self):
-        """On restart, cancel stale orders, rehydrate persisted positions that the
-        broker still holds, and warn about any broker legs we don't track."""
+        """On restart, cancel stale orders, rehydrate persisted positions that the broker
+        still holds, and clear any broker legs we don't track (orphans from stale fills —
+        the bot can't manage what it doesn't know about, so it would ride to expiry)."""
         try:
             self.trading.cancel_orders()
             live = self.trading.get_all_positions()
         except Exception as exc:
             log.warning("reconcile failed: %s", exc)
             return
-        opts = [p for p in live if str(getattr(p, "asset_class", "")).endswith("option")]
+        # asset_class stringifies to "AssetClass.US_OPTION" (uppercase) — match case-
+        # insensitively, else held is ALWAYS empty and every tracked option is dropped
+        # on restart (and orphans never detected).
+        opts = [p for p in live if "option" in str(getattr(p, "asset_class", "")).lower()]
         held = {p.symbol for p in opts}
         self._rehydrate(held)
         accounted: set[str] = set()
@@ -525,10 +535,21 @@ class Executor:
             else:
                 accounted.update({pos.long_symbol, pos.short_symbol})
         orphans = held - accounted
-        if orphans:
-            log.warning("Found %d broker option leg(s) with no tracked position — "
-                        "review/close manually if orphaned: %s", len(orphans),
+        if not orphans:
+            return
+        if not config.RECONCILE_FLATTEN_ORPHANS:
+            log.warning("Found %d untracked broker option leg(s) — review/close manually "
+                        "(IOBOT_RECONCILE_FLATTEN_ORPHANS=0): %s", len(orphans),
                         ", ".join(sorted(orphans)))
+            return
+        log.warning("Flattening %d untracked broker option leg(s) — unmanaged risk: %s",
+                    len(orphans), ", ".join(sorted(orphans)))
+        for sym in sorted(orphans):
+            try:
+                self.trading.close_position(sym)
+                log.warning("  flattened orphan %s", sym)
+            except Exception as exc:
+                log.error("  failed to flatten orphan %s: %s — CLOSE MANUALLY", sym, exc)
 
     def positions_snapshot(self) -> list[dict]:
         out = []

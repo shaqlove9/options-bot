@@ -1,0 +1,9 @@
+{
+  "n_labeled": 9,
+  "min_trades": 40,
+  "auc_bar": 0.55,
+  "threshold": 0.5,
+  "passes": false,
+  "verdict": "INSUFFICIENT",
+  "detail": "9/40 labeled trades \u2014 accruing"
+}

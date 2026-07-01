@@ -1,14 +1,35 @@
-"""Shared test fixtures."""
+"""Shared test fixtures.
+
+Environment is redirected BEFORE any iobot import (config resolves paths and
+the Discord URL at import time, and load_dotenv never overrides pre-set vars):
+  - IOBOT_DATA -> a temp dir, so test runs don't write into the production
+    iobot_data/ (the prod log was collecting fake CRITICAL "SLEEVE HALTED"
+    lines from the governor kill-switch tests);
+  - DISCORD_WEBHOOK_URL -> blank, so those same halt tests can't send real
+    Discord alerts. An autouse fixture re-blanks the config attr per-test as
+    a guard against any future test that sets it.
+"""
 from __future__ import annotations
+
+import os
+import tempfile
+
+os.environ["IOBOT_DATA"] = tempfile.mkdtemp(prefix="iobot-test-")
+os.environ["DISCORD_WEBHOOK_URL"] = ""
 
 import datetime as dt
 from types import SimpleNamespace
 
 import pytest
 
-from iobot import store
+from iobot import config, store
 from iobot.clock import ET
 from iobot.signals import Signal
+
+
+@pytest.fixture(autouse=True)
+def _no_discord(monkeypatch):
+    monkeypatch.setattr(config, "DISCORD_WEBHOOK_URL", "")
 
 
 @pytest.fixture

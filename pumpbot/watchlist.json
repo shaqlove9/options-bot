@@ -1,0 +1,20 @@
+[
+  {
+    "wallet": "8ENq6YR5BXBUb5Quxy38PWhoKhc6GDXsJV3yTKaf7rG5",
+    "tier": "core",
+    "added_ts": 1782776592,
+    "reason": "seeded from config.yaml"
+  },
+  {
+    "wallet": "BhSLLjrf8yfdRV6HUfCrrwuS583A5s43bs84wyr7Fefw",
+    "tier": "core",
+    "added_ts": 1782776592,
+    "reason": "seeded from config.yaml"
+  },
+  {
+    "wallet": "FbGVZjhUUrJxSPmEyrfr5QKPp5CLrnC7wTnwVDj9tKqH",
+    "tier": "core",
+    "added_ts": 1782776592,
+    "reason": "seeded from config.yaml"
+  }
+]

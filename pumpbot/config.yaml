@@ -1,0 +1,87 @@
+# pumpbot paper-mode config. All sizing is SIMULATED — no real funds are ever moved.
+
+# SEED ONLY. The live watched set now lives in watchlist.json, which is owned by
+# `python -m pumpbot.rotate` (auto-promote/demote on a 6h timer) and hot-reloaded by the
+# running bot. This list is read ONCE to seed watchlist.json on first run; after that,
+# edit watchlist.json (or let rotation manage it) — changes here no longer take effect.
+watched_wallets:
+  - "8ENq6YR5BXBUb5Quxy38PWhoKhc6GDXsJV3yTKaf7rG5"   # +40.6 SOL, 90% win, 12 mints, ~5.3 SOL/buy
+  - "BhSLLjrf8yfdRV6HUfCrrwuS583A5s43bs84wyr7Fefw"   # +3.4 SOL, 71% win, 14 mints
+  - "FbGVZjhUUrJxSPmEyrfr5QKPp5CLrnC7wTnwVDj9tKqH"   # +1.7 SOL, 80% win, 5 mints
+  - "Eva9NSSvy5a9uqStXaCMHxJuC6BC8p5i4AqkhhBnVBPf"   # +0.8 SOL, 78% win, 9 mints
+
+paper:
+  # Fixed simulated position size per copied buy, in SOL. Keep tiny — this is the
+  # single most important discipline knob. Real edge or not, fixed sizing survives.
+  position_size_sol: 0.10
+
+  # Only mirror a lead buy if the lead wallet spent at least this much SOL
+  # (filters out their dust/test buys). 2026-07-01: raised 0.20 -> 0.50 — the post-fix
+  # book split cleanly on this: copies of 0.2-0.5 SOL lead buys were net LOSERS
+  # (-0.017 over 15, 33% win) while >=0.5 SOL buys carried all the profit
+  # (+0.241 over 25). Conviction buys copy; dust churn doesn't.
+  min_lead_buy_sol: 0.50
+
+  # Take-profit / stop-loss on the simulated position, as fraction of entry.
+  take_profit_pct: 0.50      # +50% -> simulate exit
+  stop_loss_pct: 0.30        # -30% -> simulate exit
+
+  # Latency floor: you can't detect, sign, and land a copy-trade instantly, so a
+  # TP/SL exit isn't realizable until at least this many ON-CHAIN seconds after the
+  # entry event. Blocks same-block/same-second phantom fills (the bonding-curve
+  # reserve jump you'd actually be buying INTO, not ahead of). lead_sell exits are
+  # not gated — those mirror the lead's real sell. 0 = old behaviour (no floor).
+  min_hold_seconds: 5.0
+
+  # ── realistic-cost model (2026-07-01) ─────────────────────────────────────────
+  # The gross post-fix book (+0.224 SOL / 40 trades) was roughly equal to what live
+  # costs would have eaten; without modeling them the paper book optimizes for
+  # cost-fragile behaviour. pnl_sol is now NET of these; pnl_pct stays the raw move.
+  fee_pct: 0.01              # pump.fun protocol fee, charged each side
+  entry_slippage_pct: 0.01   # block-delay + own curve impact haircut on entry
+  tx_fee_sol: 0.0005         # priority/network fee per transaction (2 per round trip)
+
+  # Force-close after this many on-chain seconds regardless of price. Dead mints stop
+  # emitting events, so TP/SL can never fire — 5 such zombies pinned all 5 concurrent
+  # slots and froze the book for 7h on 2026-07-01. Post-fix winners resolved in
+  # minutes; >15m holds were net losers.
+  max_hold_seconds: 3600
+
+risk:
+  # Hard daily simulated-loss cap (SOL). Once hit, no new paper entries that day.
+  daily_loss_limit_sol: 1.0
+  # Max simultaneous open paper positions.
+  max_concurrent_positions: 5
+  # Mints / creators to never touch. Seeded like Arb-bot's ai_blacklist.json.
+  mint_blacklist: []
+  creator_blacklist: []
+
+rotation:
+  # Auto-rotating wallet scoreboard (python -m pumpbot.rotate, on a 6h timer).
+  # Defaults below encode a CONSERVATIVE churn: promote only persistent performers,
+  # demote slowly, keep the list small.
+  harvest_secs: 180          # live from-feed window per run
+  # 2026-07-01: 60 -> 20 and score_max_sigs 120 -> 50, timer 6h -> 12h. Scoring is
+  # ~1 getTransaction per signature; the old settings burned the Helius plan's
+  # monthly credits in ~3 days ("max usage reached" — firehose blind from 14:26).
+  max_candidates: 20         # cap before the RPC-heavy scoring step
+  score_max_sigs: 50         # signatures (=getTransaction calls) per scored wallet
+  persistence_window: 3      # N — look back this many harvests
+  promote_min_hits: 2        # K — profitable in K of last N harvests to promote
+  promote_thresh_sol: 0.0    # on-chain realized_sol bar to count a harvest as a "hit"
+  max_watch: 8               # hard cap on watchlist size
+  min_paper_trades: 15       # only demote on paper loss after this many closed trades
+  cold_days: 5               # demote a silent wallet after this long with no paper trades
+  min_trades: 4              # promotion eligibility (mirrors discover defaults)
+  min_mints: 3
+  # Judge wallets only on paper fills opened at/after this unix ts. Set to the
+  # 2026-06-30 19:19:42 UTC phantom-fill-fix deploy: pre-fix fills booked instant
+  # same-block "wins" that were never realizable, and they were keeping bad
+  # wallets alive in the scoreboard (ARu4n5's all-time record hid -0.032 over 33
+  # honest post-fix trades).
+  paper_since_ts: 1782847182
+
+storage:
+  db_path: "pumpbot.db"
+
+log_level: "INFO"

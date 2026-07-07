@@ -1,7 +1,7 @@
 """learner.py — ML win-probability filter that learns from the bot's own trades.
 
 How it works:
-  1. Every entry logs its signal features to trades.csv (executor.py).
+  1. Every entry logs its signal features via trade_store.
   2. After ML_MIN_TRADES closed trades, a gradient-boosting classifier is
      trained: features at entry -> did the trade win?
   3. New signals are scored. If the model has proven predictive power
@@ -26,14 +26,14 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 import config
+import trade_store
 from utils import now_et
 
 log = logging.getLogger("learner")
 
-NUMERIC = ["momentum_pct", "day_change_pct", "rsi", "rel_volume",
-           "vwap_dist_pct", "iv", "spread", "dte", "minutes_since_open"]
+NUMERIC = trade_store.FEATURE_NUMERIC
 CATEGORICAL = ["ticker", "type", "strategy"]
-FEATURES = NUMERIC + CATEGORICAL
+FEATURES = trade_store.FEATURE_COLS
 
 
 def extract_features(signal, pick) -> dict:
@@ -106,20 +106,7 @@ class Learner:
     # ---------------- training ----------------
 
     def _training_data(self) -> tuple[pd.DataFrame, pd.Series] | None:
-        if not os.path.exists(config.TRADES_CSV):
-            return None
-        df = pd.read_csv(config.TRADES_CSV)
-        # Only rows that carry features (older/legacy rows won't).
-        missing = [c for c in FEATURES if c not in df.columns]
-        if missing:
-            return None
-        df = df.dropna(subset=["momentum_pct", "rsi", "pnl"])
-        if df.empty:
-            return None
-        X = df[FEATURES].copy()
-        X[NUMERIC] = X[NUMERIC].apply(pd.to_numeric, errors="coerce")
-        y = (pd.to_numeric(df["pnl"], errors="coerce") > 0).astype(int)
-        return X, y
+        return trade_store.training_data()
 
     def maybe_retrain(self, force: bool = False):
         """Retrain when enough new trades have accumulated."""
@@ -184,8 +171,11 @@ class Learner:
         """P(win) for a prospective entry, or None if no model yet."""
         if not config.ML_ENABLED or self.pipeline is None:
             return None
-        row = pd.DataFrame([features])[FEATURES]
-        row[NUMERIC] = row[NUMERIC].apply(pd.to_numeric, errors="coerce")
+        # Build single-row DataFrame with columns pre-ordered to match training
+        ordered = {col: features.get(col) for col in FEATURES}
+        row = pd.DataFrame([ordered])
+        for col in NUMERIC:
+            row[col] = pd.to_numeric(row[col], errors="coerce")
         try:
             return float(self.pipeline.predict_proba(row)[0, 1])
         except Exception:

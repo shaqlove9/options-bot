@@ -10,15 +10,14 @@ import re
 import time
 from dataclasses import dataclass
 
-from alpaca.data.historical.option import OptionHistoricalDataClient
-from alpaca.data.requests import OptionLatestQuoteRequest
 from alpaca.trading.client import TradingClient
 from alpaca.trading.enums import AssetClass, OrderSide, OrderStatus, TimeInForce
 from alpaca.trading.requests import LimitOrderRequest, MarketOrderRequest
 
-import alerts
+import alerts as _default_alerts
 import config
 import trade_store
+from data_protocols import OptionQuoteProvider, OrderEventProvider
 from options_chain import ContractPick
 from utils import now_et
 
@@ -76,11 +75,15 @@ def parse_occ(symbol: str) -> tuple[str, dt.date, str, float] | None:
 
 
 class Executor:
-    def __init__(self, trading: TradingClient, option_data: OptionHistoricalDataClient,
-                 risk):
+    def __init__(self, trading: TradingClient,
+                 quote_provider: OptionQuoteProvider,
+                 order_provider: OrderEventProvider,
+                 risk, alerts=None):
         self.trading = trading
-        self.data = option_data
+        self._quotes = quote_provider
+        self._orders = order_provider
         self.risk = risk
+        self._alerts = alerts or _default_alerts
         self.positions: dict[str, Position] = {}
         self._underlying_symbols: set[str] = set()    # O(1) lookup for has_position_in
         self._pending_entries: dict[str, PendingOrder] = {}   # order_id -> PendingOrder
@@ -118,7 +121,7 @@ class Executor:
             if not parsed:
                 log.error("Cannot parse option symbol %s — close it manually!",
                           p.symbol)
-                alerts.error(f"Unmanageable position {p.symbol} — close manually!")
+                self._alerts.error(f"Unmanageable position {p.symbol} — close manually!")
                 continue
             underlying, expiry, otype, strike = parsed
             self.positions[p.symbol] = Position(
@@ -133,7 +136,7 @@ class Executor:
             log.warning("ADOPTED existing position %s x%s @ $%.2f — now managed",
                         p.symbol, p.qty, float(p.avg_entry_price))
         if adopted:
-            alerts.error(f"Restart recovery: adopted {adopted} existing "
+            self._alerts.error(f"Restart recovery: adopted {adopted} existing "
                          f"position(s) — TP/SL/time-stop now active on them.")
         return adopted
 
@@ -175,10 +178,9 @@ class Executor:
         filled: list[Position] = []
         for oid in list(self._pending_entries):
             pending = self._pending_entries[oid]
-            try:
-                order = self.trading.get_order_by_id(oid)
-            except Exception as exc:
-                log.warning("Entry order %s status check failed: %s", oid, exc)
+            order = self._orders.get_order_status(oid)
+            if order is None:
+                log.warning("Entry order %s status check failed", oid)
                 continue
 
             if order.status == OrderStatus.FILLED:
@@ -201,10 +203,13 @@ class Executor:
                 )
                 self.positions[pick.option_symbol] = pos
                 self._underlying_symbols.add(pick.underlying)
+                # Subscribe to real-time quote stream for this option
+                if hasattr(self._quotes, "subscribe"):
+                    self._quotes.subscribe([pick.option_symbol])
                 log.info("FILLED %s x%d @ $%.2f ($%.0f)",
                          pos.option_symbol, pos.qty, fill,
                          fill * 100 * pos.qty)
-                alerts.entry(pick, pos.qty, fill, pending.entry_reason)
+                self._alerts.entry(pick, pos.qty, fill, pending.entry_reason)
                 filled.append(pos)
                 continue
 
@@ -235,9 +240,6 @@ class Executor:
 
     # ---------------- exits ----------------
 
-    _FAILED_EXIT_MAX_RETRIES = 3
-    _FAILED_EXIT_ALERT_INTERVAL = 60  # seconds between repeated alerts
-
     def manage_positions(self, force_close: bool = False) -> list[float]:
         """Check every open position against TP/SL/time stop. Returns the list
         of realized P&Ls from this pass (fed to the risk manager by main).
@@ -247,29 +249,14 @@ class Executor:
         # Collect fills from previously submitted exit orders
         realized.extend(self.check_pending_exits())
 
-        # Retry previously failed exits before normal management
-        for sym in list(self._failed_exits):
-            if sym not in self.positions:
-                self._failed_exits.pop(sym, None)
-                self._failed_exit_last_alert.pop(sym, None)
-                continue
-            if sym in self._pending_exits:
-                continue  # already has a pending exit order
-            count = self._failed_exits[sym]
-            if count < self._FAILED_EXIT_MAX_RETRIES:
-                log.info("%s: retrying failed exit (attempt %d)", sym, count + 1)
-                self._initiate_close(self.positions[sym],
-                                     "retry after failed exit", market=True)
-            else:
-                # Stop retrying to prevent order spam, but keep alerting
-                now = time.monotonic()
-                last = self._failed_exit_last_alert.get(sym, 0)
-                if now - last >= self._FAILED_EXIT_ALERT_INTERVAL:
-                    self._failed_exit_last_alert[sym] = now
-                    log.error("%s: exit failed %d times — MANUAL CLOSE REQUIRED",
-                              sym, count)
-                    alerts.error(f"{sym}: exit failed {count} times — "
-                                 f"close manually!")
+        self._retry_failed_exits()
+
+        # Batch-fetch quotes for all positions needing management
+        symbols_needing_quotes = [
+            sym for sym in self.positions
+            if sym not in self._pending_exits and not force_close
+        ]
+        batch_quotes = self._quotes.get_latest_quotes(symbols_needing_quotes)
 
         for sym in list(self.positions):
             if sym in self._pending_exits:
@@ -279,15 +266,9 @@ class Executor:
                 self._initiate_close(pos, "time stop 3:45 PM ET", market=True)
                 continue
 
-            quote = self._latest_quote(sym)
+            quote = batch_quotes.get(sym)
             if quote is None:
-                fails = self._quote_failures.get(sym, 0) + 1
-                self._quote_failures[sym] = fails
-                if fails >= 5 and fails % 5 == 0:
-                    log.error("%s: %d consecutive quote failures — position unmanaged",
-                              sym, fails)
-                    alerts.error(f"{sym}: {fails} consecutive quote failures — "
-                                 f"TP/SL not being checked!")
+                self._handle_quote_failure(sym, pos)
                 continue
             self._quote_failures.pop(sym, None)
             bid, _ask = quote
@@ -297,19 +278,64 @@ class Executor:
             pos.last_bid, pos.last_pnl_pct = bid, change_pct
             pos.peak_pct = max(pos.peak_pct, change_pct)
 
-            tp = pos.tp_pct or config.TAKE_PROFIT_PCT
-            if change_pct >= tp:
-                reason = f"take profit ({change_pct:+.0f}%)"
-            elif change_pct <= -config.STOP_LOSS_PCT:
-                reason = f"stop loss ({change_pct:+.0f}%)"
-            elif (pos.peak_pct >= config.TRAIL_TRIGGER_PCT
-                  and pos.peak_pct - change_pct >= config.TRAIL_GIVEBACK_PCT):
-                reason = (f"trailing stop (peaked {pos.peak_pct:+.0f}%, "
-                          f"now {change_pct:+.0f}%)")
-            else:
-                continue
-            self._initiate_close(pos, reason)
+            exit_reason = self._check_exit_conditions(pos, change_pct)
+            if exit_reason:
+                self._initiate_close(pos, exit_reason)
         return realized
+
+    def _retry_failed_exits(self):
+        """Retry previously failed exits; alert if retries exhausted."""
+        for sym in list(self._failed_exits):
+            if sym not in self.positions:
+                self._failed_exits.pop(sym, None)
+                self._failed_exit_last_alert.pop(sym, None)
+                continue
+            if sym in self._pending_exits:
+                continue
+            count = self._failed_exits[sym]
+            if count < config.FAILED_EXIT_MAX_RETRIES:
+                log.info("%s: retrying failed exit (attempt %d)", sym, count + 1)
+                self._initiate_close(self.positions[sym],
+                                     "retry after failed exit", market=True)
+            else:
+                now = time.monotonic()
+                last = self._failed_exit_last_alert.get(sym, 0)
+                if now - last >= config.FAILED_EXIT_ALERT_SEC:
+                    self._failed_exit_last_alert[sym] = now
+                    log.error("%s: exit failed %d times — MANUAL CLOSE REQUIRED",
+                              sym, count)
+                    self._alerts.error(f"{sym}: exit failed {count} times — "
+                                 f"close manually!")
+
+    def _handle_quote_failure(self, sym: str, pos: Position):
+        """Track consecutive quote failures; force-close if threshold exceeded."""
+        fails = self._quote_failures.get(sym, 0) + 1
+        self._quote_failures[sym] = fails
+        if fails >= 5 and fails % 5 == 0:
+            log.error("%s: %d consecutive quote failures — position unmanaged",
+                      sym, fails)
+            self._alerts.error(f"{sym}: {fails} consecutive quote failures — "
+                         f"TP/SL not being checked!")
+        if fails >= config.QUOTE_FAIL_FORCE_CLOSE:
+            log.error("%s: %d quote failures — force-closing at market",
+                      sym, fails)
+            self._alerts.error(f"{sym}: {fails} quote failures — force-closing!")
+            self._initiate_close(pos, f"quote failure force-close ({fails} failures)",
+                                 market=True)
+
+    @staticmethod
+    def _check_exit_conditions(pos: Position, change_pct: float) -> str | None:
+        """Evaluate TP/SL/trailing stop. Returns exit reason or None."""
+        tp = pos.tp_pct or config.TAKE_PROFIT_PCT
+        if change_pct >= tp:
+            return f"take profit ({change_pct:+.0f}%)"
+        if change_pct <= -config.STOP_LOSS_PCT:
+            return f"stop loss ({change_pct:+.0f}%)"
+        if (pos.peak_pct >= config.TRAIL_TRIGGER_PCT
+                and pos.peak_pct - change_pct >= config.TRAIL_GIVEBACK_PCT):
+            return (f"trailing stop (peaked {pos.peak_pct:+.0f}%, "
+                    f"now {change_pct:+.0f}%)")
+        return None
 
     def flatten_all(self, reason: str) -> list[float]:
         """Close everything at market — used for halts and the 3:45 time stop.
@@ -319,8 +345,8 @@ class Executor:
             if sym not in self._pending_exits:
                 self._initiate_close(self.positions[sym], reason, market=True)
 
-        # Poll until all pending exits resolve or 60s hard cap
-        deadline = time.monotonic() + 60
+        # Poll until all pending exits resolve or hard cap
+        deadline = time.monotonic() + config.FLATTEN_TIMEOUT_SEC
         realized: list[float] = []
         while self._pending_exits and time.monotonic() < deadline:
             realized.extend(self.check_pending_exits())
@@ -329,8 +355,8 @@ class Executor:
         # Drain any stragglers
         realized.extend(self.check_pending_exits())
         if self._pending_exits:
-            log.error("flatten_all: %d exits still pending after 60s hard cap",
-                      len(self._pending_exits))
+            log.error("flatten_all: %d exits still pending after %ds hard cap",
+                      len(self._pending_exits), config.FLATTEN_TIMEOUT_SEC)
             for sym in list(self._pending_exits):
                 del self._pending_exits[sym]
         return realized
@@ -339,21 +365,30 @@ class Executor:
         """Bookkeeping after a confirmed fill on an exit order. Returns P&L."""
         pnl = (fill - pos.entry_price) * 100 * pos.qty
         pnl_pct = (fill - pos.entry_price) / pos.entry_price * 100
-        trade_store.append_trade(
-            entry_time=pos.entry_time, underlying=pos.underlying,
-            option_symbol=pos.option_symbol, otype=pos.otype,
-            strike=pos.strike, expiry=pos.expiry, qty=pos.qty,
-            entry_price=pos.entry_price, exit_price=fill,
-            pnl=pnl, pnl_pct=pnl_pct,
-            entry_reason=pos.entry_reason, exit_reason=reason,
-            features=pos.features, win_prob=pos.win_prob,
-        )
+        try:
+            trade_store.append_trade(
+                entry_time=pos.entry_time, underlying=pos.underlying,
+                option_symbol=pos.option_symbol, otype=pos.otype,
+                strike=pos.strike, expiry=pos.expiry, qty=pos.qty,
+                entry_price=pos.entry_price, exit_price=fill,
+                pnl=pnl, pnl_pct=pnl_pct,
+                entry_reason=pos.entry_reason, exit_reason=reason,
+                features=pos.features, win_prob=pos.win_prob,
+            )
+        except Exception:
+            log.exception("%s: trade_store.append_trade failed — trade NOT persisted",
+                          pos.option_symbol)
+            self._alerts.error(f"DB write failed for {pos.option_symbol} exit — "
+                               f"P&L ${pnl:+.2f} NOT saved to trade history")
         del self.positions[pos.option_symbol]
         self._underlying_symbols = {p.underlying for p in self.positions.values()}
+        # Unsubscribe from real-time quote stream for this option
+        if hasattr(self._quotes, "unsubscribe"):
+            self._quotes.unsubscribe([pos.option_symbol])
         self._failed_exits.pop(pos.option_symbol, None)
         self._failed_exit_last_alert.pop(pos.option_symbol, None)
         self._quote_failures.pop(pos.option_symbol, None)
-        alerts.trade_exit(pos, fill, pnl, reason)
+        self._alerts.trade_exit(pos, fill, pnl, reason)
         log.info("CLOSED %s @ $%.2f — P&L $%+.2f (%s)", pos.option_symbol, fill, pnl, reason)
         return pnl
 
@@ -370,7 +405,7 @@ class Executor:
                                          time_in_force=TimeInForce.DAY)
                 is_market = True
             else:
-                quote = self._latest_quote(sym)
+                quote = self._quotes.get_latest_quote(sym)
                 bid = quote[0] if quote else 0
                 if bid <= 0:
                     req = MarketOrderRequest(symbol=sym, qty=pos.qty,
@@ -398,7 +433,7 @@ class Executor:
             count = self._failed_exits.get(sym, 0) + 1
             self._failed_exits[sym] = count
             log.exception("%s: exit submit failed (attempt %d)", sym, count)
-            alerts.error(f"Exit submit error on {sym} (attempt {count}): {exc}")
+            self._alerts.error(f"Exit submit error on {sym} (attempt {count}): {exc}")
             return False
 
     def check_pending_exits(self) -> list[float]:
@@ -406,10 +441,9 @@ class Executor:
         realized: list[float] = []
         for sym in list(self._pending_exits):
             pending = self._pending_exits[sym]
-            try:
-                order = self.trading.get_order_by_id(pending.order_id)
-            except Exception as exc:
-                log.warning("%s: exit order status check failed: %s", sym, exc)
+            order = self._orders.get_order_status(pending.order_id)
+            if order is None:
+                log.warning("%s: exit order status check failed", sym)
                 continue
 
             if order.status == OrderStatus.FILLED:
@@ -438,49 +472,43 @@ class Executor:
 
             if terminal:
                 del self._pending_exits[sym]
-                if pending.is_market:
-                    # Market order rejected/cancelled — record as failed exit
-                    count = self._failed_exits.get(sym, 0) + 1
-                    self._failed_exits[sym] = count
-                    log.error("%s: market exit failed (status %s, attempt %d)",
-                              sym, order.status, count)
-                    alerts.error(f"Market exit failed on {sym} "
-                                 f"(attempt {count}) — will retry")
-                    continue
-                # Limit order didn't fill — check if position still at broker
-                try:
-                    broker_pos = self.trading.get_open_position(sym)
-                except Exception:
-                    broker_pos = None
-                if broker_pos is None or int(float(broker_pos.qty)) <= 0:
-                    # Position gone — order likely filled in race window
-                    log.info("%s: position gone at broker after exit cancel",
-                             sym)
-                    if order.status == OrderStatus.FILLED:
-                        fill = float(order.filled_avg_price)
-                    else:
-                        fill = pending.position.last_bid or pending.position.entry_price
-                        log.warning("%s: using estimated fill $%.2f",
-                                    sym, fill)
-                    pnl = self._finalize_exit(pending.position, fill,
-                                              pending.exit_reason)
+                pnl = self._handle_terminal_exit(sym, pending, order)
+                if pnl is not None:
                     realized.append(pnl)
-                else:
-                    # Still held — escalate to market
-                    log.warning("%s: exit limit not filled — retrying at market",
-                                sym)
-                    self._initiate_close(pending.position,
-                                         pending.exit_reason, market=True)
         return realized
 
-    def _latest_quote(self, symbol: str) -> tuple[float, float] | None:
+    def _handle_terminal_exit(self, sym: str, pending: PendingOrder,
+                              order) -> float | None:
+        """Handle a terminal exit order (cancelled/rejected/expired).
+        Returns realized P&L if position was closed, None otherwise."""
+        if pending.is_market:
+            count = self._failed_exits.get(sym, 0) + 1
+            self._failed_exits[sym] = count
+            log.error("%s: market exit failed (status %s, attempt %d)",
+                      sym, order.status, count)
+            self._alerts.error(f"Market exit failed on {sym} "
+                         f"(attempt {count}) — will retry")
+            return None
+
+        # Limit order didn't fill — broker may have filled in a race window
+        # between our cancel and their processing.
         try:
-            quotes = self.data.get_option_latest_quote(
-                OptionLatestQuoteRequest(symbol_or_symbols=symbol))
-            q = quotes[symbol]
-            return float(q.bid_price or 0), float(q.ask_price or 0)
-        except Exception as exc:
-            log.warning("%s: quote fetch failed: %s", symbol, exc)
+            broker_pos = self.trading.get_open_position(sym)
+        except Exception:
+            broker_pos = None
+        if broker_pos is None or int(float(broker_pos.qty)) <= 0:
+            log.info("%s: position gone at broker after exit cancel", sym)
+            if order.status == OrderStatus.FILLED:
+                fill = float(order.filled_avg_price)
+            else:
+                fill = pending.position.last_bid or pending.position.entry_price
+                log.warning("%s: using estimated fill $%.2f", sym, fill)
+            return self._finalize_exit(pending.position, fill,
+                                       pending.exit_reason)
+        else:
+            log.warning("%s: exit limit not filled — retrying at market", sym)
+            self._initiate_close(pending.position,
+                                 pending.exit_reason, market=True)
             return None
 
     # ---------------- helpers ----------------

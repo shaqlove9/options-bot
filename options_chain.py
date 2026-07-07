@@ -18,15 +18,14 @@ import logging
 import os
 from dataclasses import dataclass
 
-from alpaca.data.historical.option import OptionHistoricalDataClient
-from alpaca.data.requests import OptionSnapshotRequest
 from alpaca.trading.client import TradingClient
 from alpaca.trading.enums import AssetStatus, ContractType
 from alpaca.trading.requests import GetOptionContractsRequest
 
 import config
+from data_protocols import OptionSnapshotProvider
 from scanner import Signal
-from utils import now_et
+from utils import now_et, retry
 
 log = logging.getLogger("options_chain")
 
@@ -56,9 +55,10 @@ class ContractPick:
 
 
 class ChainFetcher:
-    def __init__(self, trading: TradingClient, option_data: OptionHistoricalDataClient):
+    def __init__(self, trading: TradingClient,
+                 snapshot_provider: OptionSnapshotProvider):
         self.trading = trading
-        self.data = option_data
+        self._snapshots = snapshot_provider
         self._iv_history = self._load_iv_history()
 
     # ---------------- IV rank ----------------
@@ -73,8 +73,10 @@ class ChainFetcher:
         return {}
 
     def _save_iv_history(self):
-        with open(config.IV_HISTORY_FILE, "w") as f:
+        tmp = config.IV_HISTORY_FILE + ".tmp"
+        with open(tmp, "w") as f:
             json.dump(self._iv_history, f, indent=1)
+        os.replace(tmp, config.IV_HISTORY_FILE)
 
     def _record_iv(self, underlying: str, iv: float):
         """Persist one ATM-ish IV reading per underlying per session."""
@@ -100,6 +102,8 @@ class ChainFetcher:
 
     # ---------------- chain fetch ----------------
 
+    @retry(max_attempts=3, delay=2.0, backoff=2.0,
+           exceptions=(ConnectionError, OSError))
     def _contracts(self, signal: Signal) -> list:
         today = now_et().date()
         ctype = ContractType.CALL if signal.direction == "call" else ContractType.PUT
@@ -175,9 +179,7 @@ class ChainFetcher:
             return None
 
         try:
-            snaps = self.data.get_option_snapshot(
-                OptionSnapshotRequest(symbol_or_symbols=list(viable))
-            )
+            snaps = self._snapshots.get_snapshots(list(viable))
         except Exception as exc:
             log.warning("%s: snapshot fetch failed: %s", signal.symbol, exc)
             return None

@@ -22,6 +22,7 @@ import pandas as pd
 
 import alerts
 import config
+import trade_store
 from utils import now_et
 
 log = logging.getLogger("ai_analyst")
@@ -74,9 +75,12 @@ def _ask(prompt: str, tools: list | None = None) -> str:
 
 def _deliver(title: str, text: str, path: str):
     """Save the report for the dashboard and post it to Discord."""
+    import os
     stamp = now_et().strftime("%A, %B %d %Y — %I:%M %p ET")
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write(f"## {title}\n*{stamp}*\n\n{text}\n")
+    os.replace(tmp, path)
     alerts.ai_report(title, text)
 
 
@@ -115,13 +119,7 @@ def daily_report() -> str | None:
     """Plain-English explanation of today's closed trades. None if no trades."""
     if not _enabled():
         return None
-    today = now_et().date()
-    try:
-        df = pd.read_csv(config.TRADES_CSV)
-        df["exit_time"] = pd.to_datetime(df["exit_time"], errors="coerce")
-        df = df[df["exit_time"].dt.date == today]
-    except (FileNotFoundError, KeyError, ValueError):
-        df = pd.DataFrame()
+    df, pnl = trade_store.today_trades_csv()
     if df.empty:
         log.info("AI daily report skipped — no closed trades today")
         return None
@@ -130,7 +128,6 @@ def daily_report() -> str | None:
                         "exit_time", "entry_price", "exit_price", "pnl",
                         "pnl_pct", "entry_reason", "exit_reason", "strategy",
                         "win_prob") if c in df.columns]
-    pnl = pd.to_numeric(df["pnl"], errors="coerce").sum()
     mode = "LIVE (real money)" if config.LIVE_MODE else "PAPER (practice money)"
     prompt = (
         f"The bot just finished the trading day in {mode} mode. "

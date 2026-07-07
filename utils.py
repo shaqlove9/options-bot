@@ -1,7 +1,9 @@
 """Shared time/session helpers."""
 import datetime as dt
+import functools
 import logging
 import logging.handlers
+import time
 from zoneinfo import ZoneInfo
 
 import config
@@ -50,3 +52,27 @@ def session_elapsed_fraction(t: dt.datetime) -> float:
     if t >= close:
         return 1.0
     return (t - open_).total_seconds() / (close - open_).total_seconds()
+
+
+def retry(max_attempts=3, delay=2.0, backoff=2.0,
+          exceptions=(ConnectionError, OSError)):
+    """Decorator that retries a function on transient errors."""
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exc = None
+            wait = delay
+            for attempt in range(max_attempts):
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as exc:
+                    last_exc = exc
+                    if attempt < max_attempts - 1:
+                        logging.getLogger("retry").warning(
+                            "%s failed (attempt %d/%d): %s — retrying in %.0fs",
+                            func.__name__, attempt + 1, max_attempts, exc, wait)
+                        time.sleep(wait)
+                        wait *= backoff
+            raise last_exc
+        return wrapper
+    return decorator

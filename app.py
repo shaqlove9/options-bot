@@ -18,6 +18,7 @@ import streamlit as st
 
 import ai_analyst
 import config
+import trade_store
 
 BOT_DIR = os.path.dirname(os.path.abspath(__file__))
 # venv layout differs by OS: Scripts/python.exe on Windows, bin/python on POSIX.
@@ -93,15 +94,18 @@ def bot_running(status: dict | None = None) -> bool:
 def start_bot():
     if os.path.exists(config.STOP_FLAG_FILE):
         os.remove(config.STOP_FLAG_FILE)
-    console = open(config.CONSOLE_LOG_FILE, "a")
     # CREATE_NO_WINDOW only exists on Windows; on POSIX detach via start_new_session.
     kwargs = ({"creationflags": subprocess.CREATE_NO_WINDOW}
               if os.name == "nt" else {"start_new_session": True})
-    proc = subprocess.Popen(
-        [PYTHON, os.path.join(BOT_DIR, "main.py")],
-        cwd=BOT_DIR, stdout=console, stderr=subprocess.STDOUT,
-        **kwargs,
-    )
+    console = open(config.CONSOLE_LOG_FILE, "a")
+    try:
+        proc = subprocess.Popen(
+            [PYTHON, os.path.join(BOT_DIR, "main.py")],
+            cwd=BOT_DIR, stdout=console, stderr=subprocess.STDOUT,
+            **kwargs,
+        )
+    finally:
+        console.close()
     with open(PID_FILE, "w") as f:
         f.write(str(proc.pid))
     st.session_state["started_at"] = time.time()
@@ -127,17 +131,7 @@ def _finish_restart_if_needed():
 
 
 def load_trades() -> pd.DataFrame:
-    if not os.path.exists(config.TRADES_CSV):
-        return pd.DataFrame()
-    try:
-        df = pd.read_csv(config.TRADES_CSV)
-    except Exception:
-        return pd.DataFrame()
-    if df.empty:
-        return df
-    df["exit_time"] = pd.to_datetime(df["exit_time"], errors="coerce")
-    df["pnl"] = pd.to_numeric(df["pnl"], errors="coerce")
-    return df.dropna(subset=["exit_time", "pnl"])
+    return trade_store.all_trades()
 
 
 def tail(path: str, lines: int = 50) -> str:
@@ -149,7 +143,8 @@ def tail(path: str, lines: int = 50) -> str:
 
 
 def save_settings(universe, max_cost, max_pos, max_loss, tp, sl, mom, ml_on, ml_thr):
-    with open(config.SETTINGS_FILE, "w") as f:
+    tmp = config.SETTINGS_FILE + ".tmp"
+    with open(tmp, "w") as f:
         json.dump({
             "UNIVERSE": universe,
             "MAX_TRADE_COST": max_cost,
@@ -161,6 +156,7 @@ def save_settings(universe, max_cost, max_pos, max_loss, tp, sl, mom, ml_on, ml_
             "ML_ENABLED": ml_on,
             "ML_WIN_PROB_THRESHOLD": ml_thr,
         }, f, indent=1)
+    os.replace(tmp, config.SETTINGS_FILE)
 
 
 # ---------------- sidebar: control + settings ----------------

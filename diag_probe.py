@@ -1,11 +1,12 @@
 """Ad-hoc diagnostic: show live scanner state per symbol. Safe/read-only."""
 import config
 from alpaca.data.historical import StockHistoricalDataClient
+from data_rest import RestStockBarProvider
 from scanner import Scanner, rsi_last
 from utils import now_et, session_elapsed_fraction
 
 client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
-sc = Scanner(client)
+sc = Scanner(RestStockBarProvider(client))
 
 print(f"now_et={now_et()}  session_elapsed={session_elapsed_fraction(now_et()):.3f}")
 print(f"MOMENTUM_PCT={config.MOMENTUM_PCT} RSI_CALL_MIN={config.RSI_CALL_MIN} "
@@ -13,8 +14,10 @@ print(f"MOMENTUM_PCT={config.MOMENTUM_PCT} RSI_CALL_MIN={config.RSI_CALL_MIN} "
       f"VWAP_FILTER={config.VWAP_FILTER}")
 print("-" * 90)
 
+intraday_batch = sc._fetch_intraday_batch(list(config.UNIVERSE))
+
 for sym in config.UNIVERSE:
-    intraday = sc._intraday_bars(sym)
+    intraday = intraday_batch.get(sym)
     if intraday is None:
         print(f"{sym}: intraday bars = None (fetch failed or empty)")
         continue

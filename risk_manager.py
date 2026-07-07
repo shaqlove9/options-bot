@@ -6,13 +6,12 @@ Rules:
   - Daily P&L <= -$75  -> halt for the day
   - 2 consecutive losses -> pause new entries for 30 minutes
 """
-import csv
 import datetime as dt
 import logging
-import os
 from dataclasses import dataclass, field
 
 import config
+import trade_store
 from utils import now_et
 
 log = logging.getLogger("risk")
@@ -47,22 +46,7 @@ class RiskManager:
         """Rebuild today's P&L from trades.csv so the daily loss limit and
         pause logic survive a mid-day restart. Without this, a crash at -$60
         would reset the limit and allow another -$75 of losses."""
-        if not os.path.exists(config.TRADES_CSV):
-            return
-        today = now_et().date()
-        pnls: list[float] = []
-        try:
-            with open(config.TRADES_CSV, newline="") as f:
-                for row in csv.DictReader(f):
-                    try:
-                        exit_day = dt.datetime.fromisoformat(row["exit_time"]).date()
-                        if exit_day == today:
-                            pnls.append(float(row["pnl"]))
-                    except (KeyError, ValueError):
-                        continue
-        except OSError:
-            log.warning("Could not read trades.csv for P&L restore")
-            return
+        pnls = trade_store.today_pnls()
         if not pnls:
             return
 

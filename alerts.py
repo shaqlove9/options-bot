@@ -35,7 +35,7 @@ def entry(pick, qty: int, fill_price: float, reason: str):
     )
 
 
-def exit(pos, exit_price: float, pnl: float, reason: str):
+def trade_exit(pos, exit_price: float, pnl: float, reason: str):
     mode = "LIVE" if config.LIVE_MODE else "PAPER"
     color = GREEN if pnl >= 0 else RED
     pct = (exit_price - pos.entry_price) / pos.entry_price * 100 if pos.entry_price else 0

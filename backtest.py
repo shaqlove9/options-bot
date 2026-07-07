@@ -115,7 +115,19 @@ def pick_strike(symbol: str, spot: float, direction: str) -> float:
 def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
     trades: list[SimTrade] = []
     adv = {sym: avg_daily_volume(b) for sym, b in all_bars.items()}
-    days = sorted({d for b in all_bars.values() for d in set(b.index.date)})
+
+    # Pre-merge all symbols into one sorted DataFrame with a "sym" column.
+    # Much faster than per-day iterrows() + list sort.
+    frames = []
+    for sym, bars in all_bars.items():
+        f = bars.copy()
+        f["sym"] = sym
+        frames.append(f)
+    if not frames:
+        return trades
+    merged = pd.concat(frames).sort_index()
+    merged["_date"] = merged.index.date
+    days = sorted(merged["_date"].unique())
 
     for day in days:
         daily_pnl = 0.0
@@ -125,23 +137,19 @@ def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
         open_pos: dict[str, dict] = {}      # symbol -> position state
         cooldown: dict[str, dt.datetime] = {}
 
-        # Merge each symbol's bars for the day into one time-ordered stream.
-        day_bars = []
-        for sym, bars in all_bars.items():
-            b = bars[bars.index.date == day]
-            for ts, row in b.iterrows():
-                day_bars.append((ts, sym, row))
-        day_bars.sort(key=lambda x: x[0])
+        day_slice = merged[merged["_date"] == day]
 
-        for ts, sym, row in day_bars:
-            t = ts.to_pydatetime()
+        for row in day_slice.itertuples():
+            ts = row.Index
+            t = ts.to_pydatetime() if hasattr(ts, "to_pydatetime") else ts
+            sym = row.sym
             force_close = t.time() >= dt.time(15, 45)
 
             # ---- manage an open position in this symbol ----
             if sym in open_pos:
                 pos = open_pos[sym]
                 tte = max((pos["expiry"] - t).total_seconds() / (365 * 86400), 1e-6)
-                mid = black_scholes(row["close"], pos["strike"], tte,
+                mid = black_scholes(row.close, pos["strike"], tte,
                                     ASSUMED_IV[sym], pos["direction"])
                 bid = max(0.01, mid - SIM_SPREAD / 2)
                 chg = (bid - pos["entry_price"]) / pos["entry_price"] * 100
@@ -184,9 +192,9 @@ def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
 
             bars = all_bars[sym]
             history = bars[bars.index <= ts]
-            if len(history) < config.RSI_PERIOD + 2 or row["open"] <= 0:
+            if len(history) < config.RSI_PERIOD + 2 or row.open <= 0:
                 continue
-            momentum = (row["close"] - row["open"]) / row["open"] * 100
+            momentum = (row.close - row.open) / row.open * 100
             rsi = rsi_last(history["close"], config.RSI_PERIOD)
 
             # Strategy 1: scalp (one strong candle)
@@ -201,17 +209,17 @@ def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
             today_hist = history[history.index.date == day]
             if (direction is None and config.RUNNER_ENABLED
                     and len(today_hist) >= 3 and today_hist["open"].iloc[0] > 0):
-                day_change = ((row["close"] - today_hist["open"].iloc[0])
+                day_change = ((row.close - today_hist["open"].iloc[0])
                               / today_hist["open"].iloc[0] * 100)
                 tol = config.RUNNER_BREAKOUT_TOL
                 if (day_change >= config.RUNNER_DAY_PCT
-                        and row["close"] > row["open"]
-                        and row["close"] >= today_hist["high"].iloc[:-1].max() * (1 - tol)
+                        and row.close > row.open
+                        and row.close >= today_hist["high"].iloc[:-1].max() * (1 - tol)
                         and rsi > config.RUNNER_RSI_MIN):
                     direction, strategy = "call", "runner"
                 elif (day_change <= -config.RUNNER_DAY_PCT
-                        and row["close"] < row["open"]
-                        and row["close"] <= today_hist["low"].iloc[:-1].min() * (1 + tol)
+                        and row.close < row.open
+                        and row.close <= today_hist["low"].iloc[:-1].min() * (1 + tol)
                         and rsi < config.RUNNER_RSI_MAX):
                     direction, strategy = "put", "runner"
             if direction is None:
@@ -219,12 +227,12 @@ def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
 
             # VWAP direction filter (mirrors scanner)
             if config.VWAP_FILTER:
-                vwap = row.get("session_vwap")
+                vwap = getattr(row, "session_vwap", None)
                 if vwap is None or pd.isna(vwap):
                     continue
-                if direction == "call" and row["close"] <= vwap:
+                if direction == "call" and row.close <= vwap:
                     continue
-                if direction == "put" and row["close"] >= vwap:
+                if direction == "put" and row.close >= vwap:
                     continue
 
             # Relative volume (time-adjusted vs 20-day avg)
@@ -237,10 +245,10 @@ def simulate(all_bars: dict[str, pd.DataFrame]) -> list[SimTrade]:
                 continue
 
             # Price the synthetic contract
-            strike = pick_strike(sym, row["close"], direction)
+            strike = pick_strike(sym, row.close, direction)
             expiry = (t + dt.timedelta(days=SIM_DTE)).replace(hour=16, minute=0)
             tte = (expiry - t).total_seconds() / (365 * 86400)
-            mid = black_scholes(row["close"], strike, tte, ASSUMED_IV[sym], direction)
+            mid = black_scholes(row.close, strike, tte, ASSUMED_IV[sym], direction)
             ask = mid + SIM_SPREAD / 2
             if ask * 100 > config.MAX_TRADE_COST or ask < 0.05:
                 continue

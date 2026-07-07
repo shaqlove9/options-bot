@@ -11,11 +11,9 @@ import time
 from dataclasses import dataclass
 
 import pandas as pd
-from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest
-from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 
 import config
+from data_protocols import StockBarProvider
 from utils import ET, now_et, session_elapsed_fraction
 
 log = logging.getLogger("scanner")
@@ -61,45 +59,41 @@ class Signal:
 class Scanner:
     _HEARTBEAT_INTERVAL = 300  # log a "still scanning" line every 5 min when quiet
 
-    def __init__(self, data_client: StockHistoricalDataClient):
-        self.data = data_client
+    def __init__(self, bar_provider: StockBarProvider):
+        self._bars = bar_provider
         self._last_heartbeat: float = 0.0
+        # Daily bars cache: historical days don't change intraday, so fetch once
+        # per session instead of every 30s scan cycle.
+        self._daily_cache: dict[str, tuple[dt.date, pd.DataFrame]] = {}
 
     # ---------------- data fetch ----------------
 
-    def _intraday_bars(self, symbol: str) -> pd.DataFrame | None:
-        """15-min bars covering today plus enough history for RSI(5)."""
-        start = now_et() - dt.timedelta(days=5)
-        req = StockBarsRequest(
-            symbol_or_symbols=symbol,
-            timeframe=TimeFrame(15, TimeFrameUnit.Minute),
-            start=start,
-        )
+    def _fetch_intraday_batch(self, symbols: list[str]) -> dict[str, pd.DataFrame]:
+        """Batch-fetch 15-min bars for all symbols via the bar provider."""
         try:
-            bars = self.data.get_stock_bars(req).df
+            return self._bars.get_bars(symbols, timeframe_minutes=15, lookback_days=5)
         except Exception as exc:
-            log.warning("%s: intraday bars fetch failed: %s", symbol, exc)
-            return None
-        if bars.empty:
-            return None
-        bars = bars.droplevel("symbol") if "symbol" in bars.index.names else bars
-        bars.index = bars.index.tz_convert(ET)
-        # Regular session only — overnight bars distort RSI and volume.
-        return bars.between_time("09:30", "16:00")
+            log.warning("Batch intraday bars fetch failed: %s", exc)
+            return {}
 
     def _daily_bars(self, symbol: str) -> pd.DataFrame | None:
-        start = now_et() - dt.timedelta(days=config.VOLUME_LOOKBACK_DAYS * 2)
-        req = StockBarsRequest(
-            symbol_or_symbols=symbol, timeframe=TimeFrame.Day, start=start,
-        )
+        """Fetch daily bars with per-session caching."""
+        today = now_et().date()
+        cached = self._daily_cache.get(symbol)
+        if cached and cached[0] == today:
+            return cached[1]
         try:
-            bars = self.data.get_stock_bars(req).df
+            result = self._bars.get_bars(
+                [symbol], timeframe_minutes=1440,
+                lookback_days=config.VOLUME_LOOKBACK_DAYS * 2)
         except Exception as exc:
             log.warning("%s: daily bars fetch failed: %s", symbol, exc)
             return None
-        if bars.empty:
+        bars = result.get(symbol)
+        if bars is None or bars.empty:
             return None
-        return bars.droplevel("symbol") if "symbol" in bars.index.names else bars
+        self._daily_cache[symbol] = (today, bars)
+        return bars
 
     # ---------------- signal checks ----------------
 
@@ -132,10 +126,19 @@ class Scanner:
             return 0.0
         return today_vol / (avg_daily * elapsed)
 
-    def _check_symbol(self, symbol: str) -> Signal | None:
-        intraday = self._intraday_bars(symbol)
+    def _check_symbol(self, symbol: str,
+                      intraday: pd.DataFrame | None = None) -> Signal | None:
         if intraday is None or len(intraday) < config.RSI_PERIOD + 2:
             return None
+
+        # Drop the still-forming candle: if the last bar's end time is in the
+        # future, it contains partial data and momentum/RSI would be unreliable.
+        now = now_et()
+        last_ts = intraday.index[-1]
+        if last_ts + dt.timedelta(minutes=15) > now:
+            if len(intraday) < config.RSI_PERIOD + 3:
+                return None
+            intraday = intraday.iloc[:-1]
 
         candle = intraday.iloc[-1]
         if candle["open"] <= 0:
@@ -221,10 +224,12 @@ class Scanner:
 
     def scan(self) -> list[Signal]:
         """One pass over the universe. Called every SCAN_INTERVAL_SEC by main."""
+        # Batch-fetch intraday bars for all symbols in one API call
+        intraday_batch = self._fetch_intraday_batch(list(config.UNIVERSE))
         signals = []
         for symbol in config.UNIVERSE:
             try:
-                sig = self._check_symbol(symbol)
+                sig = self._check_symbol(symbol, intraday_batch.get(symbol))
             except Exception:
                 log.exception("%s: scan error", symbol)
                 continue
@@ -243,6 +248,8 @@ class Scanner:
 
 if __name__ == "__main__":
     # Quick manual test: python scanner.py
+    from alpaca.data.historical import StockHistoricalDataClient
+    from data_rest import RestStockBarProvider
     client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
-    for s in Scanner(client).scan():
+    for s in Scanner(RestStockBarProvider(client)).scan():
         print(s)

@@ -12,6 +12,7 @@ from alpaca.data.requests import OptionSnapshotRequest, StockLatestTradeRequest
 from alpaca.trading.client import TradingClient
 
 import config
+from data_rest import RestOptionSnapshotProvider
 from options_chain import ChainFetcher
 from scanner import Signal
 from utils import now_et
@@ -19,7 +20,7 @@ from utils import now_et
 trading = TradingClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY, paper=True)
 opt_data = OptionHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
 stk_data = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
-fetcher = ChainFetcher(trading, opt_data)
+fetcher = ChainFetcher(trading, RestOptionSnapshotProvider(opt_data))
 
 print(f"Filters: spread <= max(${config.MAX_SPREAD:.2f}, {config.MAX_SPREAD_PCT:.0f}% of mid), "
       f"OI > {config.MIN_OPEN_INTEREST}, cost <= ${config.MAX_TRADE_COST:.0f}, "

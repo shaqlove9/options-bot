@@ -3,6 +3,10 @@ __pycache__/
 *.pyc
 trades.csv
 trades_legacy.csv
+trades_migrated.csv
+trades.db
+trades.db-wal
+trades.db-shm
 iv_history.json
 model.pkl
 status.json

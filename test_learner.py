@@ -9,7 +9,6 @@ morning high-volume entries win, then verifies the learner:
 Run:  .venv\\Scripts\\python test_learner.py
 (Uses a temp directory — never touches your real trades.csv/model.pkl.)
 """
-import csv
 import os
 import random
 import sys
@@ -20,9 +19,10 @@ import config
 # Redirect data files to a sandbox BEFORE importing the learner.
 _tmp = tempfile.mkdtemp(prefix="learner_test_")
 config.TRADES_CSV = os.path.join(_tmp, "trades.csv")
+config.TRADES_DB = os.path.join(_tmp, "trades.db")
 config.MODEL_FILE = os.path.join(_tmp, "model.pkl")
 
-from executor import CSV_FIELDS          # noqa: E402
+import trade_store                        # noqa: E402
 from learner import Learner               # noqa: E402
 
 random.seed(7)
@@ -59,11 +59,10 @@ def make_trade(i: int) -> dict:
     }
 
 
-with open(config.TRADES_CSV, "w", newline="") as f:
-    writer = csv.DictWriter(f, fieldnames=CSV_FIELDS)
-    writer.writeheader()
-    for i in range(80):
-        writer.writerow(make_trade(i))
+trade_store.init()
+for i in range(80):
+    trade_store._insert_row(trade_store._get_conn(), make_trade(i))
+trade_store._get_conn().commit()
 
 learner = Learner()
 

@@ -69,6 +69,11 @@ STOP_LOSS_PCT = 30.0            # -30% on option price
 TRAIL_TRIGGER_PCT = 20.0        # once a position is up this much...
 TRAIL_GIVEBACK_PCT = 10.0       # ...exit if it gives back this many points
                                 # from its peak (peaked +30% -> exit at +20%)
+QUOTE_FAIL_FORCE_CLOSE = 20     # force-close at market after this many consecutive
+                                # quote failures (~100s at 5s cadence)
+FAILED_EXIT_MAX_RETRIES = 3     # retry failed exit orders this many times
+FAILED_EXIT_ALERT_SEC = 60      # seconds between repeated "close manually" alerts
+FLATTEN_TIMEOUT_SEC = 60        # hard cap for flatten_all() polling loop
 MANAGE_INTERVAL_SEC = 5         # exit-check cadence while positions are open
 
 # --- Entry quality filters ---
@@ -93,10 +98,13 @@ ML_MIN_AUC = 0.55               # model only gets veto power above this CV AUC;
 MODEL_FILE = os.path.join(os.path.dirname(__file__), "model.pkl")
 
 # --- Cadence / files ---
+STREAM_CACHE_MAX_AGE_SEC = 1800  # refresh bar cache from REST if no stream
+                                 # updates for this long (30 min)
 SCAN_INTERVAL_SEC = 30
 ENTRY_FILL_TIMEOUT_SEC = 20     # cancel unfilled entry limit orders after this
 _DIR = os.path.dirname(__file__)
-TRADES_CSV = os.path.join(_DIR, "trades.csv")
+TRADES_CSV = os.path.join(_DIR, "trades.csv")       # legacy — used for migration only
+TRADES_DB = os.path.join(_DIR, "trades.db")         # SQLite database (primary store)
 IV_HISTORY_FILE = os.path.join(_DIR, "iv_history.json")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -131,10 +139,57 @@ _TUNABLE = {
 }
 if os.path.exists(SETTINGS_FILE):
     import json as _json
+    import logging as _logging
+    _settings_log = _logging.getLogger("config")
     try:
         with open(SETTINGS_FILE) as _f:
             for _k, _v in _json.load(_f).items():
-                if _k in _TUNABLE:
-                    globals()[_k] = _v
+                if _k not in _TUNABLE:
+                    continue
+                _default = globals().get(_k)
+                # Coerce to the type of the hardcoded default so that a
+                # dashboard-saved string "50" becomes float 50.0, etc.
+                if _default is not None and _v is not None:
+                    _expected = type(_default)
+                    if not isinstance(_v, _expected):
+                        try:
+                            _v = _expected(_v)
+                        except (ValueError, TypeError):
+                            _settings_log.warning(
+                                "settings.json: %s=%r cannot be coerced to %s — skipped",
+                                _k, _v, _expected.__name__)
+                            continue
+                globals()[_k] = _v
     except (_json.JSONDecodeError, OSError):
         pass  # bad settings file — fall back to defaults
+
+# Clamp numeric settings to sane ranges. Prevents dashboard-saved garbage
+# (e.g. negative stop loss, zero max positions) from breaking the bot.
+_RANGE_LIMITS = {
+    "MAX_TRADE_COST":       (5.0, 5000.0),
+    "MAX_OPEN_POSITIONS":   (1, 20),
+    "MAX_DAILY_LOSS":       (10.0, 5000.0),
+    "TAKE_PROFIT_PCT":      (5.0, 500.0),
+    "STOP_LOSS_PCT":        (5.0, 95.0),
+    "MOMENTUM_PCT":         (0.05, 10.0),
+    "ML_WIN_PROB_THRESHOLD":(0.1, 0.9),
+    "REL_VOLUME_MIN":       (0.1, 50.0),
+    "MAX_IV_RANK":          (1.0, 100.0),
+    "OTM_MIN_PCT":          (0.1, 20.0),
+    "OTM_MAX_PCT":          (0.5, 30.0),
+    "MAX_SPREAD_PCT":       (0.5, 50.0),
+    "TRAIL_TRIGGER_PCT":    (1.0, 200.0),
+    "TRAIL_GIVEBACK_PCT":   (1.0, 100.0),
+    "RUNNER_DAY_PCT":       (0.5, 20.0),
+    "RUNNER_TAKE_PROFIT_PCT":(5.0, 500.0),
+}
+for _key, (_lo, _hi) in _RANGE_LIMITS.items():
+    _val = globals().get(_key)
+    if _val is not None and isinstance(_val, (int, float)):
+        _clamped = max(_lo, min(_hi, _val))
+        if _clamped != _val:
+            import logging as _logging2
+            _logging2.getLogger("config").warning(
+                "%s=%r out of range [%s, %s] — clamped to %s",
+                _key, _val, _lo, _hi, _clamped)
+            globals()[_key] = type(_val)(_clamped)

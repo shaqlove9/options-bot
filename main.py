@@ -18,6 +18,12 @@ from alpaca.data.historical.option import OptionHistoricalDataClient
 from alpaca.trading.client import TradingClient
 
 import ai_analyst
+from data_rest import (RestStockBarProvider, RestOptionQuoteProvider,
+                       RestOptionSnapshotProvider, RestOrderEventProvider)
+from data_hybrid import HybridStockBarProvider, HybridOptionQuoteProvider
+from data_stream_orders import StreamOrderEventProvider
+from stream_threads import StockBarStreamThread, OptionQuoteStreamThread
+from stream_trading import TradingStreamThread
 import alerts
 import config
 import earnings
@@ -26,7 +32,7 @@ from learner import Learner, extract_features
 from options_chain import ChainFetcher
 from risk_manager import RiskManager
 from scanner import Scanner
-from utils import in_entry_window, is_market_day, now_et, past_force_close
+from utils import in_entry_window, is_market_day, now_et, past_force_close, retry
 
 log = logging.getLogger("main")
 
@@ -41,7 +47,8 @@ def build_clients():
     return trading, stock_data, option_data
 
 
-def write_status(executor, risk, learner, market_open: bool, running: bool = True):
+def write_status(executor, risk, learner, market_open: bool,
+                  running: bool = True, streams: dict | None = None):
     """Heartbeat for the dashboard (app.py). Written atomically each cycle."""
     s = risk.summary()
     status = {
@@ -64,23 +71,21 @@ def write_status(executor, risk, learner, market_open: bool, running: bool = Tru
             "gating": learner.gating,
         },
     }
+    if streams:
+        status["streams"] = {
+            name: obj.is_connected() for name, obj in streams.items()
+        }
     tmp = config.STATUS_FILE + ".tmp"
     with open(tmp, "w") as f:
         json.dump(status, f, indent=1)
     os.replace(tmp, config.STATUS_FILE)
 
 
-def get_clock_with_retry(trading, retries: int = 3, delay: float = 10.0):
+@retry(max_attempts=3, delay=10.0, backoff=1.0,
+       exceptions=(requests.exceptions.ConnectionError, OSError))
+def get_clock_with_retry(trading):
     """Retry get_clock on transient network errors before giving up."""
-    for attempt in range(retries):
-        try:
-            return trading.get_clock()
-        except requests.exceptions.ConnectionError:
-            if attempt == retries - 1:
-                raise
-            log.warning("Network error fetching clock (attempt %d/%d) — retrying in %.0fs",
-                        attempt + 1, retries, delay)
-            time.sleep(delay)
+    return trading.get_clock()
 
 
 def stop_requested() -> bool:
@@ -103,9 +108,30 @@ def main():
 
     trading, stock_data, option_data = build_clients()
     risk = RiskManager()
-    scanner = Scanner(stock_data)
-    chain = ChainFetcher(trading, option_data)
-    executor = Executor(trading, option_data, risk)
+
+    rest_bar_provider = RestStockBarProvider(stock_data)
+    rest_quote_provider = RestOptionQuoteProvider(option_data)
+    snapshot_provider = RestOptionSnapshotProvider(option_data)
+    rest_order_provider = RestOrderEventProvider(trading)
+
+    # Start stream threads (daemon — auto-cleanup on exit)
+    trading_stream = TradingStreamThread()
+    stock_stream = StockBarStreamThread()
+    option_stream = OptionQuoteStreamThread()
+    trading_stream.start()
+    stock_stream.start()
+    option_stream.start()
+    streams = {"trading": trading_stream, "stock_bars": stock_stream,
+               "option_quotes": option_stream}
+
+    # Hybrid providers: stream-first, REST fallback
+    bar_provider = HybridStockBarProvider(stock_stream, rest_bar_provider)
+    quote_provider = HybridOptionQuoteProvider(option_stream, rest_quote_provider)
+    order_provider = StreamOrderEventProvider(trading_stream, rest_order_provider)
+
+    scanner = Scanner(bar_provider)
+    chain = ChainFetcher(trading, snapshot_provider)
+    executor = Executor(trading, quote_provider, order_provider, risk)
     learner = Learner()   # trains from trades.csv once enough history exists
 
     # Crash recovery: adopt any positions left at the broker, clear stray
@@ -124,6 +150,7 @@ def main():
     while True:
         try:
             now = now_et()
+            order_provider.consume_stream_events()
 
             # --- graceful stop from the dashboard ---
             if stop_requested():
@@ -131,6 +158,9 @@ def main():
                 for pnl in executor.flatten_all("dashboard stop"):
                     risk.record_exit(pnl)
                 os.remove(config.STOP_FLAG_FILE)
+                trading_stream.stop()
+                stock_stream.stop()
+                option_stream.stop()
                 write_status(executor, risk, learner, False, running=False)
                 break
 
@@ -140,7 +170,8 @@ def main():
                         and dt.time(9, 0) <= now.time() < dt.time(9, 30)):
                     briefing_sent_for = now.date()
                     ai_analyst.morning_briefing()
-                write_status(executor, risk, learner, market_open=False)
+                write_status(executor, risk, learner, market_open=False,
+                             streams=streams)
                 sleep_responsive(60)
                 continue
 
@@ -154,7 +185,8 @@ def main():
                     summary_sent_for = now.date()
                     learner.maybe_retrain()   # learn from today's trades
                     ai_analyst.daily_report() # plain-English AI recap
-                write_status(executor, risk, learner, market_open=True)
+                write_status(executor, risk, learner, market_open=True,
+                             streams=streams)
                 sleep_responsive(60)
                 continue
 
@@ -215,7 +247,8 @@ def main():
                     executor.open_position(pick, signal.reason(), features,
                                            win_prob, tp_pct=tp)
 
-            write_status(executor, risk, learner, market_open=True)
+            write_status(executor, risk, learner, market_open=True,
+                         streams=streams)
             # Tight loop while holding positions or pending orders (fast
             # TP/SL/trailing checks + fill polling); relaxed cadence when flat.
             has_activity = (executor.open_count() or executor.pending_count())
@@ -226,13 +259,17 @@ def main():
             log.info("Interrupted — flattening open positions before exit")
             for pnl in executor.flatten_all("manual shutdown"):
                 risk.record_exit(pnl)
+            trading_stream.stop()
+            stock_stream.stop()
+            option_stream.stop()
             write_status(executor, risk, learner, False, running=False)
             break
         except Exception as exc:
             log.exception("Main loop error")
             alerts.error(f"Main loop error: {exc}")
             try:
-                write_status(executor, risk, learner, market_open=False)
+                write_status(executor, risk, learner, market_open=False,
+                             streams=streams)
             except Exception:
                 pass  # don't let status write failure mask the original error
             time.sleep(config.SCAN_INTERVAL_SEC)

@@ -168,6 +168,10 @@ def main():
                         for p in executor.flatten_all("daily loss halt"):
                             risk.record_exit(p)
 
+            # --- collect fills from pending entry orders ---
+            for pos in executor.check_pending_entries():
+                cooldowns[pos.underlying] = now_et()
+
             # --- look for new entries (every SCAN_INTERVAL_SEC; exits are
             #     checked more often when positions are open) ---
             if (in_entry_window(now) and not risk.state.halted
@@ -179,6 +183,8 @@ def main():
                         continue
                     if executor.has_position_in(signal.symbol):
                         continue
+                    if executor.has_pending_entry_for(signal.symbol):
+                        continue
                     if earnings.blocks(signal.symbol):   # IV-crush protection
                         continue
 
@@ -186,7 +192,9 @@ def main():
                     if pick is None:
                         continue
 
-                    ok, why = risk.can_enter(executor.open_count(), pick.cost)
+                    ok, why = risk.can_enter(
+                        executor.open_count() + executor.pending_count(),
+                        pick.cost)
                     if not ok:
                         log.info("Entry blocked: %s", why)
                         continue
@@ -204,14 +212,14 @@ def main():
 
                     tp = (config.RUNNER_TAKE_PROFIT_PCT if signal.strategy == "runner"
                           else config.TAKE_PROFIT_PCT)
-                    if executor.open_position(pick, signal.reason(), features,
-                                              win_prob, tp_pct=tp):
-                        cooldowns[signal.symbol] = now
+                    executor.open_position(pick, signal.reason(), features,
+                                           win_prob, tp_pct=tp)
 
             write_status(executor, risk, learner, market_open=True)
-            # Tight loop while holding positions (fast TP/SL/trailing checks);
-            # relaxed cadence when flat.
-            sleep_responsive(config.MANAGE_INTERVAL_SEC if executor.open_count()
+            # Tight loop while holding positions or pending orders (fast
+            # TP/SL/trailing checks + fill polling); relaxed cadence when flat.
+            has_activity = (executor.open_count() or executor.pending_count())
+            sleep_responsive(config.MANAGE_INTERVAL_SEC if has_activity
                              else config.SCAN_INTERVAL_SEC)
 
         except KeyboardInterrupt:
@@ -223,6 +231,10 @@ def main():
         except Exception as exc:
             log.exception("Main loop error")
             alerts.error(f"Main loop error: {exc}")
+            try:
+                write_status(executor, risk, learner, market_open=False)
+            except Exception:
+                pass  # don't let status write failure mask the original error
             time.sleep(config.SCAN_INTERVAL_SEC)
 
 

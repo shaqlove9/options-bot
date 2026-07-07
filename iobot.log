@@ -12340,3 +12340,1233 @@
 2026-07-06 18:59:30,097 INFO    signals | SIGNAL[confluence] INTC PUT — -0.12% 15m, RSI(5)=23.3, relvol 0.5x, VWAP -2.04%
 2026-07-06 18:59:30,640 INFO    features | captured features for INTC-20260706T145930-put (46 fields)
 2026-07-06 18:59:30,646 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 13:30:16,666 INFO    governor | new trading day 2026-07-07 — counters reset (start equity $1275)
+2026-07-07 13:30:17,886 INFO    journal | LOGGED trade #24 XLF call pnl $-56.00 R -0.12 label 1 (profit target (underlying))
+2026-07-07 13:30:17,887 INFO    executor | CLOSED XLF260710C00055500 @ $0.58 vs $0.66 → P&L $-56.00 (profit target (underlying))
+2026-07-07 13:30:19,174 INFO    journal | LOGGED trade #25 T call pnl $+390.00 R 0.87 label 1 (profit target (underlying))
+2026-07-07 13:30:19,174 INFO    executor | CLOSED T260710C00020500 @ $0.56 vs $0.30 → P&L $+390.00 (profit target (underlying))
+2026-07-07 13:45:22,641 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.4x, VWAP +0.10%
+2026-07-07 13:45:22,994 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 2.1x, VWAP +0.09%
+2026-07-07 13:45:23,767 INFO    features | captured features for BAC-20260707T094522-call (46 fields)
+2026-07-07 13:45:24,907 INFO    executor | OPENED BAC LONG 5x CALL 60 exp 2026-07-10 delta +0.64 ask $0.96 maxloss $480 @ $0.94 (mid $0.94) stop u/l 60.31 target u/l 60.90 maxloss $470
+2026-07-07 13:45:24,921 INFO    features | captured features for XLF-20260707T094522-call (46 fields)
+2026-07-07 13:45:24,927 INFO    journal | REJECT XLF call [cooldown] — 15m since last call close < 30m cooldown
+2026-07-07 13:45:55,956 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.3x, VWAP +0.10%
+2026-07-07 13:45:56,298 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 2.0x, VWAP +0.09%
+2026-07-07 13:45:56,767 INFO    features | captured features for BAC-20260707T094555-call (46 fields)
+2026-07-07 13:45:56,773 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:45:56,786 INFO    features | captured features for XLF-20260707T094556-call (46 fields)
+2026-07-07 13:45:56,792 INFO    journal | REJECT XLF call [cooldown] — 16m since last call close < 30m cooldown
+2026-07-07 13:46:27,488 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.2x, VWAP +0.10%
+2026-07-07 13:46:27,767 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.9x, VWAP +0.09%
+2026-07-07 13:46:28,076 INFO    features | captured features for BAC-20260707T094627-call (46 fields)
+2026-07-07 13:46:28,082 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:46:28,095 INFO    features | captured features for XLF-20260707T094627-call (46 fields)
+2026-07-07 13:46:28,101 INFO    journal | REJECT XLF call [cooldown] — 16m since last call close < 30m cooldown
+2026-07-07 13:46:58,897 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.1x, VWAP +0.10%
+2026-07-07 13:46:59,245 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.9x, VWAP +0.09%
+2026-07-07 13:46:59,712 INFO    features | captured features for BAC-20260707T094658-call (46 fields)
+2026-07-07 13:46:59,717 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:46:59,729 INFO    features | captured features for XLF-20260707T094659-call (46 fields)
+2026-07-07 13:46:59,735 INFO    journal | REJECT XLF call [cooldown] — 17m since last call close < 30m cooldown
+2026-07-07 13:47:30,512 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.1x, VWAP +0.10%
+2026-07-07 13:47:30,998 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.8x, VWAP +0.09%
+2026-07-07 13:47:31,496 INFO    features | captured features for BAC-20260707T094730-call (46 fields)
+2026-07-07 13:47:31,501 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:47:31,514 INFO    features | captured features for XLF-20260707T094730-call (46 fields)
+2026-07-07 13:47:31,520 INFO    journal | REJECT XLF call [cooldown] — 17m since last call close < 30m cooldown
+2026-07-07 13:48:02,697 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.0x, VWAP +0.10%
+2026-07-07 13:48:03,089 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.8x, VWAP +0.09%
+2026-07-07 13:48:03,636 INFO    features | captured features for BAC-20260707T094802-call (46 fields)
+2026-07-07 13:48:03,642 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:48:03,658 INFO    features | captured features for XLF-20260707T094803-call (46 fields)
+2026-07-07 13:48:03,664 INFO    journal | REJECT XLF call [cooldown] — 18m since last call close < 30m cooldown
+2026-07-07 13:48:34,384 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 2.0x, VWAP +0.10%
+2026-07-07 13:48:34,640 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.7x, VWAP +0.09%
+2026-07-07 13:48:34,944 INFO    features | captured features for BAC-20260707T094834-call (46 fields)
+2026-07-07 13:48:34,950 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:48:34,964 INFO    features | captured features for XLF-20260707T094834-call (46 fields)
+2026-07-07 13:48:34,971 INFO    journal | REJECT XLF call [cooldown] — 18m since last call close < 30m cooldown
+2026-07-07 13:49:05,959 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.9x, VWAP +0.10%
+2026-07-07 13:49:06,375 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.7x, VWAP +0.09%
+2026-07-07 13:49:07,069 INFO    features | captured features for BAC-20260707T094905-call (46 fields)
+2026-07-07 13:49:07,074 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:49:07,088 INFO    features | captured features for XLF-20260707T094906-call (46 fields)
+2026-07-07 13:49:07,094 INFO    journal | REJECT XLF call [cooldown] — 19m since last call close < 30m cooldown
+2026-07-07 13:49:37,716 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.9x, VWAP +0.10%
+2026-07-07 13:49:37,986 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.6x, VWAP +0.09%
+2026-07-07 13:49:38,387 INFO    features | captured features for BAC-20260707T094937-call (46 fields)
+2026-07-07 13:49:38,393 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:49:38,407 INFO    features | captured features for XLF-20260707T094937-call (46 fields)
+2026-07-07 13:49:38,413 INFO    journal | REJECT XLF call [cooldown] — 19m since last call close < 30m cooldown
+2026-07-07 13:50:09,547 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.8x, VWAP +0.10%
+2026-07-07 13:50:10,124 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.6x, VWAP +0.09%
+2026-07-07 13:50:10,614 INFO    features | captured features for BAC-20260707T095009-call (46 fields)
+2026-07-07 13:50:10,620 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:50:10,633 INFO    features | captured features for XLF-20260707T095010-call (46 fields)
+2026-07-07 13:50:10,639 INFO    journal | REJECT XLF call [cooldown] — 20m since last call close < 30m cooldown
+2026-07-07 13:50:41,430 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.8x, VWAP +0.10%
+2026-07-07 13:50:41,672 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.5x, VWAP +0.09%
+2026-07-07 13:50:42,026 INFO    features | captured features for BAC-20260707T095041-call (46 fields)
+2026-07-07 13:50:42,032 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:50:42,045 INFO    features | captured features for XLF-20260707T095041-call (46 fields)
+2026-07-07 13:50:42,053 INFO    journal | REJECT XLF call [cooldown] — 20m since last call close < 30m cooldown
+2026-07-07 13:51:13,085 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.7x, VWAP +0.10%
+2026-07-07 13:51:13,404 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.5x, VWAP +0.09%
+2026-07-07 13:51:13,833 INFO    features | captured features for BAC-20260707T095113-call (46 fields)
+2026-07-07 13:51:13,840 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:51:13,859 INFO    features | captured features for XLF-20260707T095113-call (46 fields)
+2026-07-07 13:51:13,865 INFO    journal | REJECT XLF call [cooldown] — 21m since last call close < 30m cooldown
+2026-07-07 13:51:44,550 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.7x, VWAP +0.10%
+2026-07-07 13:51:44,847 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.5x, VWAP +0.09%
+2026-07-07 13:51:45,173 INFO    features | captured features for BAC-20260707T095144-call (46 fields)
+2026-07-07 13:51:45,179 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:51:45,191 INFO    features | captured features for XLF-20260707T095144-call (46 fields)
+2026-07-07 13:51:45,197 INFO    journal | REJECT XLF call [cooldown] — 21m since last call close < 30m cooldown
+2026-07-07 13:52:15,932 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.6x, VWAP +0.10%
+2026-07-07 13:52:16,586 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.4x, VWAP +0.09%
+2026-07-07 13:52:16,993 INFO    features | captured features for BAC-20260707T095215-call (46 fields)
+2026-07-07 13:52:16,998 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:52:17,013 INFO    features | captured features for XLF-20260707T095216-call (46 fields)
+2026-07-07 13:52:17,019 INFO    journal | REJECT XLF call [cooldown] — 22m since last call close < 30m cooldown
+2026-07-07 13:52:47,650 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.6x, VWAP +0.10%
+2026-07-07 13:52:47,934 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.4x, VWAP +0.09%
+2026-07-07 13:52:48,212 INFO    features | captured features for BAC-20260707T095247-call (46 fields)
+2026-07-07 13:52:48,218 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:52:48,234 INFO    features | captured features for XLF-20260707T095247-call (46 fields)
+2026-07-07 13:52:48,240 INFO    journal | REJECT XLF call [cooldown] — 23m since last call close < 30m cooldown
+2026-07-07 13:53:18,806 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.6x, VWAP +0.10%
+2026-07-07 13:53:19,059 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.4x, VWAP +0.09%
+2026-07-07 13:53:19,329 INFO    features | captured features for BAC-20260707T095318-call (46 fields)
+2026-07-07 13:53:19,335 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:53:19,348 INFO    features | captured features for XLF-20260707T095319-call (46 fields)
+2026-07-07 13:53:19,354 INFO    journal | REJECT XLF call [cooldown] — 23m since last call close < 30m cooldown
+2026-07-07 13:53:49,928 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.5x, VWAP +0.10%
+2026-07-07 13:53:50,167 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.3x, VWAP +0.09%
+2026-07-07 13:53:50,546 INFO    features | captured features for BAC-20260707T095349-call (46 fields)
+2026-07-07 13:53:50,554 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:53:50,567 INFO    features | captured features for XLF-20260707T095350-call (46 fields)
+2026-07-07 13:53:50,572 INFO    journal | REJECT XLF call [cooldown] — 24m since last call close < 30m cooldown
+2026-07-07 13:54:21,274 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.5x, VWAP +0.10%
+2026-07-07 13:54:21,539 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.3x, VWAP +0.09%
+2026-07-07 13:54:21,877 INFO    features | captured features for BAC-20260707T095421-call (46 fields)
+2026-07-07 13:54:21,883 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:54:21,898 INFO    features | captured features for XLF-20260707T095421-call (46 fields)
+2026-07-07 13:54:21,903 INFO    journal | REJECT XLF call [cooldown] — 24m since last call close < 30m cooldown
+2026-07-07 13:54:52,460 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.5x, VWAP +0.10%
+2026-07-07 13:54:52,828 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.3x, VWAP +0.09%
+2026-07-07 13:54:53,116 INFO    features | captured features for BAC-20260707T095452-call (46 fields)
+2026-07-07 13:54:53,121 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:54:53,133 INFO    features | captured features for XLF-20260707T095452-call (46 fields)
+2026-07-07 13:54:53,139 INFO    journal | REJECT XLF call [cooldown] — 25m since last call close < 30m cooldown
+2026-07-07 13:55:24,004 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.4x, VWAP +0.10%
+2026-07-07 13:55:24,273 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.3x, VWAP +0.09%
+2026-07-07 13:55:24,626 INFO    features | captured features for BAC-20260707T095523-call (46 fields)
+2026-07-07 13:55:24,632 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:55:24,646 INFO    features | captured features for XLF-20260707T095524-call (46 fields)
+2026-07-07 13:55:24,652 INFO    journal | REJECT XLF call [cooldown] — 25m since last call close < 30m cooldown
+2026-07-07 13:55:55,305 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.4x, VWAP +0.10%
+2026-07-07 13:55:55,530 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.2x, VWAP +0.09%
+2026-07-07 13:55:55,825 INFO    features | captured features for BAC-20260707T095555-call (46 fields)
+2026-07-07 13:55:55,831 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:55:55,845 INFO    features | captured features for XLF-20260707T095555-call (46 fields)
+2026-07-07 13:55:55,851 INFO    journal | REJECT XLF call [cooldown] — 26m since last call close < 30m cooldown
+2026-07-07 13:56:26,567 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.4x, VWAP +0.10%
+2026-07-07 13:56:26,865 INFO    signals | SIGNAL[confluence] XLF CALL — +0.32% 15m, RSI(5)=91.3, relvol 1.2x, VWAP +0.09%
+2026-07-07 13:56:27,204 INFO    features | captured features for BAC-20260707T095626-call (46 fields)
+2026-07-07 13:56:27,210 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:56:27,222 INFO    features | captured features for XLF-20260707T095626-call (46 fields)
+2026-07-07 13:56:27,228 INFO    journal | REJECT XLF call [cooldown] — 26m since last call close < 30m cooldown
+2026-07-07 13:56:57,878 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.3x, VWAP +0.10%
+2026-07-07 13:56:58,558 INFO    features | captured features for BAC-20260707T095657-call (46 fields)
+2026-07-07 13:56:58,563 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:57:29,490 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.3x, VWAP +0.10%
+2026-07-07 13:57:30,215 INFO    features | captured features for BAC-20260707T095729-call (46 fields)
+2026-07-07 13:57:30,221 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:58:01,288 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.3x, VWAP +0.10%
+2026-07-07 13:58:02,183 INFO    features | captured features for BAC-20260707T095801-call (46 fields)
+2026-07-07 13:58:02,189 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:58:33,059 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.3x, VWAP +0.10%
+2026-07-07 13:58:33,760 INFO    features | captured features for BAC-20260707T095833-call (46 fields)
+2026-07-07 13:58:33,766 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:59:04,447 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.2x, VWAP +0.10%
+2026-07-07 13:59:05,091 INFO    features | captured features for BAC-20260707T095904-call (46 fields)
+2026-07-07 13:59:05,097 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 13:59:35,737 INFO    signals | SIGNAL[confluence] BAC CALL — +0.39% 15m, RSI(5)=92.3, relvol 1.2x, VWAP +0.10%
+2026-07-07 13:59:36,284 INFO    features | captured features for BAC-20260707T095935-call (46 fields)
+2026-07-07 13:59:36,290 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-07 14:15:19,107 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.1x, VWAP -2.09%
+2026-07-07 14:15:19,212 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:15:20,189 INFO    features | captured features for INTC-20260707T101519-put (46 fields)
+2026-07-07 14:15:20,263 INFO    journal | REJECT INTC put [selection] — no qualifying strike — 7 delta out of band, 5 illiquid (contract $508 > $500 per-position cap; contract $576 > $500 per-position cap; contract $639 > $500 per-position cap; contract $701 > $500 per-position cap; contract $773 > $500 per-position cap)
+2026-07-07 14:15:20,276 INFO    features | captured features for NIO-20260707T101519-put (46 fields)
+2026-07-07 14:15:20,368 INFO    journal | REJECT NIO put [selection] — no qualifying strike — 1 illiquid (wide spread 37%)
+2026-07-07 14:15:51,390 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.1x, VWAP -2.09%
+2026-07-07 14:15:51,491 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:15:52,296 INFO    features | captured features for INTC-20260707T101551-put (46 fields)
+2026-07-07 14:15:52,357 INFO    journal | REJECT INTC put [selection] — no qualifying strike — 7 delta out of band, 5 illiquid (contract $513 > $500 per-position cap; contract $569 > $500 per-position cap; contract $647 > $500 per-position cap; contract $710 > $500 per-position cap; contract $794 > $500 per-position cap)
+2026-07-07 14:15:52,372 INFO    features | captured features for NIO-20260707T101551-put (46 fields)
+2026-07-07 14:15:53,575 INFO    executor | OPENED NIO LONG 31x PUT 5 exp 2026-07-10 delta -0.54 ask $0.16 maxloss $496 @ $0.14 (mid $0.15) stop u/l 5.00 target u/l 4.88 maxloss $434
+2026-07-07 14:16:24,356 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.0x, VWAP -2.09%
+2026-07-07 14:16:24,466 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:16:25,209 INFO    features | captured features for INTC-20260707T101624-put (46 fields)
+2026-07-07 14:16:25,215 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:16:56,058 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.0x, VWAP -2.09%
+2026-07-07 14:16:56,190 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:16:56,852 INFO    features | captured features for INTC-20260707T101656-put (46 fields)
+2026-07-07 14:16:56,858 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:17:27,631 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.0x, VWAP -2.09%
+2026-07-07 14:17:27,789 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:17:28,578 INFO    features | captured features for INTC-20260707T101727-put (46 fields)
+2026-07-07 14:17:28,584 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:17:59,286 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 2.0x, VWAP -2.09%
+2026-07-07 14:17:59,487 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:18:00,193 INFO    features | captured features for INTC-20260707T101759-put (46 fields)
+2026-07-07 14:18:00,198 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:18:31,030 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.9x, VWAP -2.09%
+2026-07-07 14:18:31,176 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.4x, VWAP -1.08%
+2026-07-07 14:18:31,802 INFO    features | captured features for INTC-20260707T101831-put (46 fields)
+2026-07-07 14:18:31,808 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:19:02,809 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.9x, VWAP -2.09%
+2026-07-07 14:19:02,978 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:19:03,678 INFO    features | captured features for INTC-20260707T101902-put (46 fields)
+2026-07-07 14:19:03,684 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:19:34,303 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.9x, VWAP -2.09%
+2026-07-07 14:19:34,445 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:19:35,124 INFO    features | captured features for INTC-20260707T101934-put (46 fields)
+2026-07-07 14:19:35,129 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:20:06,680 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.9x, VWAP -2.09%
+2026-07-07 14:20:06,905 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:20:08,396 INFO    features | captured features for INTC-20260707T102006-put (46 fields)
+2026-07-07 14:20:08,402 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:20:39,226 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.9x, VWAP -2.09%
+2026-07-07 14:20:39,364 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:20:40,048 INFO    features | captured features for INTC-20260707T102039-put (46 fields)
+2026-07-07 14:20:40,054 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:21:10,918 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:21:11,041 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:21:11,824 INFO    features | captured features for INTC-20260707T102110-put (46 fields)
+2026-07-07 14:21:11,829 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:21:42,397 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:21:42,582 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:21:43,210 INFO    features | captured features for INTC-20260707T102142-put (46 fields)
+2026-07-07 14:21:43,215 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:22:13,902 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:22:14,004 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.3x, VWAP -1.08%
+2026-07-07 14:22:14,528 INFO    features | captured features for INTC-20260707T102213-put (46 fields)
+2026-07-07 14:22:14,533 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:22:45,149 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:22:45,258 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.2x, VWAP -1.08%
+2026-07-07 14:22:45,853 INFO    features | captured features for INTC-20260707T102245-put (46 fields)
+2026-07-07 14:22:45,859 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:23:16,517 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:23:16,632 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.2x, VWAP -1.08%
+2026-07-07 14:23:17,107 INFO    features | captured features for INTC-20260707T102316-put (46 fields)
+2026-07-07 14:23:17,112 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:23:47,776 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.8x, VWAP -2.09%
+2026-07-07 14:23:47,865 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.2x, VWAP -1.08%
+2026-07-07 14:23:48,360 INFO    features | captured features for INTC-20260707T102347-put (46 fields)
+2026-07-07 14:23:48,366 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:24:19,123 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:24:19,293 INFO    signals | SIGNAL[confluence] NIO PUT — -0.70% 15m, RSI(5)=31.0, relvol 1.2x, VWAP -1.08%
+2026-07-07 14:24:19,983 INFO    features | captured features for INTC-20260707T102419-put (46 fields)
+2026-07-07 14:24:19,989 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:24:50,778 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:24:51,650 INFO    features | captured features for INTC-20260707T102450-put (46 fields)
+2026-07-07 14:24:51,656 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:25:22,711 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:25:23,721 INFO    features | captured features for INTC-20260707T102522-put (46 fields)
+2026-07-07 14:25:23,727 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:25:54,600 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:25:55,378 INFO    features | captured features for INTC-20260707T102554-put (46 fields)
+2026-07-07 14:25:55,384 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:26:26,025 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:26:26,699 INFO    features | captured features for INTC-20260707T102626-put (46 fields)
+2026-07-07 14:26:26,704 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:26:57,384 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.7x, VWAP -2.09%
+2026-07-07 14:26:58,023 INFO    features | captured features for INTC-20260707T102657-put (46 fields)
+2026-07-07 14:26:58,029 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:27:28,818 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.6x, VWAP -2.09%
+2026-07-07 14:27:29,491 INFO    features | captured features for INTC-20260707T102728-put (46 fields)
+2026-07-07 14:27:29,499 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:28:00,208 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.6x, VWAP -2.09%
+2026-07-07 14:28:01,274 INFO    features | captured features for INTC-20260707T102800-put (46 fields)
+2026-07-07 14:28:01,281 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:28:32,025 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.6x, VWAP -2.09%
+2026-07-07 14:28:32,736 INFO    features | captured features for INTC-20260707T102832-put (46 fields)
+2026-07-07 14:28:32,742 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:29:03,472 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.6x, VWAP -2.09%
+2026-07-07 14:29:04,216 INFO    features | captured features for INTC-20260707T102903-put (46 fields)
+2026-07-07 14:29:04,222 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:29:34,958 INFO    signals | SIGNAL[confluence] INTC PUT — -1.71% 15m, RSI(5)=4.7, relvol 1.6x, VWAP -2.09%
+2026-07-07 14:29:35,718 INFO    features | captured features for INTC-20260707T102934-put (46 fields)
+2026-07-07 14:29:35,723 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:30:08,508 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 2.0x, VWAP -1.85%
+2026-07-07 14:30:09,363 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.5x, VWAP +0.11%
+2026-07-07 14:30:10,736 INFO    features | captured features for INTC-20260707T103008-put (46 fields)
+2026-07-07 14:30:10,741 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:30:42,486 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 2.0x, VWAP -1.85%
+2026-07-07 14:30:43,064 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.5x, VWAP +0.11%
+2026-07-07 14:30:43,945 INFO    features | captured features for INTC-20260707T103042-put (46 fields)
+2026-07-07 14:30:43,951 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:31:15,203 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:31:15,604 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:31:16,178 INFO    features | captured features for INTC-20260707T103115-put (46 fields)
+2026-07-07 14:31:16,184 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:31:46,956 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:31:47,387 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:31:47,924 INFO    features | captured features for INTC-20260707T103146-put (46 fields)
+2026-07-07 14:31:47,930 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:32:18,972 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:32:19,352 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:32:19,844 INFO    features | captured features for INTC-20260707T103218-put (46 fields)
+2026-07-07 14:32:19,850 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:32:50,678 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:32:51,090 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:32:51,522 INFO    features | captured features for INTC-20260707T103250-put (46 fields)
+2026-07-07 14:32:51,528 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:33:22,578 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:33:23,151 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:33:23,938 INFO    features | captured features for INTC-20260707T103322-put (46 fields)
+2026-07-07 14:33:23,944 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:33:54,646 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.9x, VWAP -1.85%
+2026-07-07 14:33:54,976 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:33:55,354 INFO    features | captured features for INTC-20260707T103354-put (46 fields)
+2026-07-07 14:33:55,360 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:34:26,002 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:34:26,321 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:34:26,635 INFO    features | captured features for INTC-20260707T103425-put (46 fields)
+2026-07-07 14:34:26,642 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:34:57,356 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:34:57,739 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.4x, VWAP +0.11%
+2026-07-07 14:34:58,067 INFO    features | captured features for INTC-20260707T103457-put (46 fields)
+2026-07-07 14:34:58,073 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:35:28,767 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:35:29,274 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:35:29,749 INFO    features | captured features for INTC-20260707T103528-put (46 fields)
+2026-07-07 14:35:29,756 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:36:00,423 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:36:00,955 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:36:01,662 INFO    features | captured features for INTC-20260707T103600-put (46 fields)
+2026-07-07 14:36:01,668 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:36:32,594 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:36:32,978 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:36:33,409 INFO    features | captured features for INTC-20260707T103632-put (46 fields)
+2026-07-07 14:36:33,414 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:37:04,601 INFO    journal | LOGGED trade #26 BAC call pnl $-105.00 R -0.22 label 0 (stop (underlying))
+2026-07-07 14:37:04,602 INFO    executor | CLOSED BAC260710C00060000 @ $0.73 vs $0.94 → P&L $-105.00 (stop (underlying))
+2026-07-07 14:37:05,414 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.8x, VWAP -1.85%
+2026-07-07 14:37:05,786 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:37:06,175 INFO    features | captured features for INTC-20260707T103705-put (46 fields)
+2026-07-07 14:37:26,481 INFO    executor | INTC: single not filled in 20s — cancelled
+2026-07-07 14:37:26,494 INFO    features | captured features for XLF-20260707T103705-call (46 fields)
+2026-07-07 14:37:26,541 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 12 delta out of band, 1 illiquid (wide spread 14%)
+2026-07-07 14:37:57,045 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:37:57,347 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:37:57,706 INFO    features | captured features for INTC-20260707T103757-put (46 fields)
+2026-07-07 14:38:18,157 INFO    executor | INTC: single not filled in 20s — cancelled
+2026-07-07 14:38:18,171 INFO    features | captured features for XLF-20260707T103757-call (46 fields)
+2026-07-07 14:38:18,308 ERROR   executor | XLF: single submit failed: {"code":40310000,"message":"account not eligible to trade uncovered option contracts"}
+2026-07-07 14:38:48,823 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:38:49,109 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:38:49,431 INFO    features | captured features for INTC-20260707T103848-put (46 fields)
+2026-07-07 14:38:50,537 INFO    executor | OPENED INTC LONG 1x PUT 110 exp 2026-07-10 delta -0.51 ask $4.93 maxloss $493 @ $4.85 (mid $4.88) stop u/l 112.66 target u/l 106.10 maxloss $485
+2026-07-07 14:39:21,275 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:39:21,555 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:39:21,839 INFO    features | captured features for INTC-20260707T103921-put (46 fields)
+2026-07-07 14:39:21,845 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:39:52,374 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:39:52,727 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:39:53,020 INFO    features | captured features for INTC-20260707T103952-put (46 fields)
+2026-07-07 14:39:53,026 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:40:24,115 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:40:24,541 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.3x, VWAP +0.11%
+2026-07-07 14:40:25,083 INFO    features | captured features for INTC-20260707T104024-put (46 fields)
+2026-07-07 14:40:25,089 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:40:55,883 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:40:56,284 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.2x, VWAP +0.11%
+2026-07-07 14:40:56,607 INFO    features | captured features for INTC-20260707T104055-put (46 fields)
+2026-07-07 14:40:56,613 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:41:27,245 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:41:27,599 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.2x, VWAP +0.11%
+2026-07-07 14:41:27,866 INFO    features | captured features for INTC-20260707T104127-put (46 fields)
+2026-07-07 14:41:27,871 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:41:58,460 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.7x, VWAP -1.85%
+2026-07-07 14:41:58,794 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.2x, VWAP +0.11%
+2026-07-07 14:41:59,102 INFO    features | captured features for INTC-20260707T104158-put (46 fields)
+2026-07-07 14:41:59,108 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:42:29,778 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.6x, VWAP -1.85%
+2026-07-07 14:42:30,131 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.2x, VWAP +0.11%
+2026-07-07 14:42:30,567 INFO    features | captured features for INTC-20260707T104229-put (46 fields)
+2026-07-07 14:42:30,573 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:43:01,587 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.6x, VWAP -1.85%
+2026-07-07 14:43:02,195 INFO    signals | SIGNAL[confluence] XLF CALL — +0.24% 15m, RSI(5)=79.1, relvol 1.2x, VWAP +0.11%
+2026-07-07 14:43:02,809 INFO    features | captured features for INTC-20260707T104301-put (46 fields)
+2026-07-07 14:43:02,816 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:43:33,642 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.6x, VWAP -1.85%
+2026-07-07 14:43:34,295 INFO    features | captured features for INTC-20260707T104333-put (46 fields)
+2026-07-07 14:43:34,300 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:44:05,002 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.6x, VWAP -1.85%
+2026-07-07 14:44:05,773 INFO    features | captured features for INTC-20260707T104404-put (46 fields)
+2026-07-07 14:44:05,778 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:44:36,351 INFO    signals | SIGNAL[confluence] INTC PUT — -0.32% 15m, RSI(5)=4.5, relvol 1.6x, VWAP -1.85%
+2026-07-07 14:44:36,882 INFO    features | captured features for INTC-20260707T104436-put (46 fields)
+2026-07-07 14:44:36,888 INFO    journal | REJECT INTC put [governor] — max concurrent positions (3) open
+2026-07-07 14:45:08,496 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.8x, VWAP +0.48%
+2026-07-07 14:45:08,751 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:45:08,898 INFO    signals | SIGNAL[confluence] NIO PUT — -0.40% 15m, RSI(5)=26.4, relvol 1.2x, VWAP -1.13%
+2026-07-07 14:45:10,396 INFO    features | captured features for PLTR-20260707T104508-call (46 fields)
+2026-07-07 14:45:10,401 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:45:41,539 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:45:41,626 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:45:41,720 INFO    signals | SIGNAL[confluence] NIO PUT — -0.40% 15m, RSI(5)=26.4, relvol 1.2x, VWAP -1.13%
+2026-07-07 14:45:42,355 INFO    features | captured features for PLTR-20260707T104541-call (46 fields)
+2026-07-07 14:45:42,361 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:46:13,119 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:46:13,224 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:46:13,403 INFO    signals | SIGNAL[confluence] NIO PUT — -0.40% 15m, RSI(5)=26.4, relvol 1.2x, VWAP -1.13%
+2026-07-07 14:46:13,997 INFO    features | captured features for PLTR-20260707T104613-call (46 fields)
+2026-07-07 14:46:14,002 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:46:44,586 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:46:44,676 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:46:45,311 INFO    features | captured features for PLTR-20260707T104644-call (46 fields)
+2026-07-07 14:46:45,316 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:47:16,083 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:47:16,176 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:47:16,819 INFO    features | captured features for PLTR-20260707T104716-call (46 fields)
+2026-07-07 14:47:16,825 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:47:47,331 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:47:47,446 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:47:48,206 INFO    features | captured features for PLTR-20260707T104747-call (46 fields)
+2026-07-07 14:47:48,212 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:48:18,798 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:48:18,908 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:48:19,671 INFO    features | captured features for PLTR-20260707T104818-call (46 fields)
+2026-07-07 14:48:19,677 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:48:50,220 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:48:50,306 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.8x, VWAP -3.04%
+2026-07-07 14:48:50,971 INFO    features | captured features for PLTR-20260707T104850-call (46 fields)
+2026-07-07 14:48:50,977 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:49:21,553 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:49:21,683 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:49:22,304 INFO    features | captured features for PLTR-20260707T104921-call (46 fields)
+2026-07-07 14:49:22,310 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:49:52,937 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.7x, VWAP +0.48%
+2026-07-07 14:49:53,046 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:49:53,643 INFO    features | captured features for PLTR-20260707T104952-call (46 fields)
+2026-07-07 14:49:53,650 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:50:24,558 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:50:24,648 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:50:25,419 INFO    features | captured features for PLTR-20260707T105024-call (46 fields)
+2026-07-07 14:50:25,425 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:50:56,076 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:50:56,153 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:50:56,894 INFO    features | captured features for PLTR-20260707T105056-call (46 fields)
+2026-07-07 14:50:56,900 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:51:28,001 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:51:28,071 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:51:29,186 INFO    features | captured features for PLTR-20260707T105127-call (46 fields)
+2026-07-07 14:51:29,192 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:51:59,793 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:52:00,243 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:52:01,399 INFO    features | captured features for PLTR-20260707T105159-call (46 fields)
+2026-07-07 14:52:01,408 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:52:31,991 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:52:32,090 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:52:32,780 INFO    features | captured features for PLTR-20260707T105231-call (46 fields)
+2026-07-07 14:52:32,786 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:53:03,679 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:53:03,733 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:53:04,412 INFO    features | captured features for PLTR-20260707T105303-call (46 fields)
+2026-07-07 14:53:04,418 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:53:34,990 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:53:35,083 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.7x, VWAP -3.04%
+2026-07-07 14:53:35,758 INFO    features | captured features for PLTR-20260707T105334-call (46 fields)
+2026-07-07 14:53:35,763 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:54:06,712 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:54:06,906 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:54:07,771 INFO    features | captured features for PLTR-20260707T105406-call (46 fields)
+2026-07-07 14:54:07,779 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:54:38,191 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:54:38,273 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:54:38,790 INFO    features | captured features for PLTR-20260707T105438-call (46 fields)
+2026-07-07 14:54:38,796 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:55:09,577 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.48%
+2026-07-07 14:55:09,740 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:55:10,528 INFO    features | captured features for PLTR-20260707T105509-call (46 fields)
+2026-07-07 14:55:10,534 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:55:41,123 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:55:41,268 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:55:41,876 INFO    features | captured features for PLTR-20260707T105541-call (46 fields)
+2026-07-07 14:55:41,879 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:56:12,712 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:56:12,840 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:56:13,605 INFO    features | captured features for PLTR-20260707T105612-call (46 fields)
+2026-07-07 14:56:13,611 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:56:44,341 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:56:44,415 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:56:45,145 INFO    features | captured features for PLTR-20260707T105644-call (46 fields)
+2026-07-07 14:56:45,150 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:57:15,790 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:57:15,935 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:57:16,630 INFO    features | captured features for PLTR-20260707T105715-call (46 fields)
+2026-07-07 14:57:16,636 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:57:47,331 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:57:47,394 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:57:47,986 INFO    features | captured features for PLTR-20260707T105747-call (46 fields)
+2026-07-07 14:57:47,992 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:58:18,614 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:58:18,727 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:58:19,458 INFO    features | captured features for PLTR-20260707T105818-call (46 fields)
+2026-07-07 14:58:19,464 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:58:50,286 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:58:50,424 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.6x, VWAP -3.04%
+2026-07-07 14:58:51,205 INFO    features | captured features for PLTR-20260707T105850-call (46 fields)
+2026-07-07 14:58:51,211 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:59:21,801 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:59:21,892 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.5x, VWAP -3.04%
+2026-07-07 14:59:22,798 INFO    features | captured features for PLTR-20260707T105921-call (46 fields)
+2026-07-07 14:59:22,804 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 14:59:53,433 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.88% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.48%
+2026-07-07 14:59:53,532 INFO    signals | SIGNAL[confluence] INTC PUT — -1.61% 15m, RSI(5)=3.5, relvol 1.5x, VWAP -3.04%
+2026-07-07 14:59:54,293 INFO    features | captured features for PLTR-20260707T105953-call (46 fields)
+2026-07-07 14:59:54,299 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:00:26,880 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:00:27,460 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.7x, VWAP -1.39%
+2026-07-07 15:00:27,952 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:00:30,430 INFO    features | captured features for PLTR-20260707T110026-call (46 fields)
+2026-07-07 15:00:30,435 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:01:02,832 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:01:03,484 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.7x, VWAP -1.39%
+2026-07-07 15:01:03,615 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:01:06,217 INFO    features | captured features for PLTR-20260707T110102-call (46 fields)
+2026-07-07 15:01:06,222 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:01:37,676 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:01:38,120 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.7x, VWAP -1.39%
+2026-07-07 15:01:38,214 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:01:40,030 INFO    features | captured features for PLTR-20260707T110137-call (46 fields)
+2026-07-07 15:01:40,035 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:02:11,466 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:02:12,032 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.7x, VWAP -1.39%
+2026-07-07 15:02:12,270 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:02:14,279 INFO    features | captured features for PLTR-20260707T110211-call (46 fields)
+2026-07-07 15:02:14,285 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:02:45,106 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:02:45,348 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.7x, VWAP -1.39%
+2026-07-07 15:02:45,456 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:02:46,726 INFO    features | captured features for PLTR-20260707T110245-call (46 fields)
+2026-07-07 15:02:46,731 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:03:17,749 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:03:18,015 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:03:18,100 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:03:19,271 INFO    features | captured features for PLTR-20260707T110317-call (46 fields)
+2026-07-07 15:03:19,277 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:03:50,157 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.6x, VWAP +0.31%
+2026-07-07 15:03:50,447 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:03:50,527 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:03:51,819 INFO    features | captured features for PLTR-20260707T110350-call (46 fields)
+2026-07-07 15:03:51,825 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:04:22,909 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:04:23,275 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:04:23,362 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.1x, VWAP -1.16%
+2026-07-07 15:04:25,067 INFO    features | captured features for PLTR-20260707T110422-call (46 fields)
+2026-07-07 15:04:25,074 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:04:55,795 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:04:55,954 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:04:56,108 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:04:57,025 INFO    features | captured features for PLTR-20260707T110455-call (46 fields)
+2026-07-07 15:04:57,031 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:05:28,098 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:05:28,299 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:05:28,454 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:05:29,650 INFO    features | captured features for PLTR-20260707T110528-call (46 fields)
+2026-07-07 15:05:29,656 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:06:00,455 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:06:00,658 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:06:01,068 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:06:02,837 INFO    features | captured features for PLTR-20260707T110600-call (46 fields)
+2026-07-07 15:06:02,844 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:06:33,851 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:06:34,164 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:06:34,319 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:06:35,910 INFO    features | captured features for PLTR-20260707T110633-call (46 fields)
+2026-07-07 15:06:35,915 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:07:06,814 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:07:07,022 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:07:07,123 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:07:08,387 INFO    features | captured features for PLTR-20260707T110706-call (46 fields)
+2026-07-07 15:07:08,392 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:07:39,130 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:07:39,277 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:07:39,370 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:07:40,357 INFO    features | captured features for PLTR-20260707T110739-call (46 fields)
+2026-07-07 15:07:40,363 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:08:11,241 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:08:11,491 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:08:11,582 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:08:12,714 INFO    features | captured features for PLTR-20260707T110811-call (46 fields)
+2026-07-07 15:08:12,719 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:08:43,419 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:08:43,578 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.6x, VWAP -1.39%
+2026-07-07 15:08:43,663 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:08:44,648 INFO    features | captured features for PLTR-20260707T110843-call (46 fields)
+2026-07-07 15:08:44,653 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:09:15,377 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:09:15,516 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:09:15,609 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:09:16,542 INFO    features | captured features for PLTR-20260707T110915-call (46 fields)
+2026-07-07 15:09:16,547 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:09:47,228 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:09:47,328 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:09:47,458 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:09:48,084 INFO    features | captured features for PLTR-20260707T110947-call (46 fields)
+2026-07-07 15:09:48,089 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:10:19,196 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.5x, VWAP +0.31%
+2026-07-07 15:10:19,428 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:10:19,602 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:10:20,810 INFO    features | captured features for PLTR-20260707T111019-call (46 fields)
+2026-07-07 15:10:20,816 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:10:51,516 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:10:51,662 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:10:51,783 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:10:52,634 INFO    features | captured features for PLTR-20260707T111051-call (46 fields)
+2026-07-07 15:10:52,639 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:11:25,968 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:11:26,105 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:11:26,212 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:11:27,130 INFO    features | captured features for PLTR-20260707T111125-call (46 fields)
+2026-07-07 15:11:27,136 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:11:57,740 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:11:57,829 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:11:57,936 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:11:58,575 INFO    features | captured features for PLTR-20260707T111157-call (46 fields)
+2026-07-07 15:11:58,581 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:12:29,274 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:12:29,454 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:12:29,549 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:12:30,368 INFO    features | captured features for PLTR-20260707T111229-call (46 fields)
+2026-07-07 15:12:30,376 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:13:01,597 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:13:01,917 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:13:02,099 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:13:03,376 INFO    features | captured features for PLTR-20260707T111301-call (46 fields)
+2026-07-07 15:13:03,382 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:13:33,999 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:13:34,132 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:13:34,229 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:13:34,928 INFO    features | captured features for PLTR-20260707T111333-call (46 fields)
+2026-07-07 15:13:34,933 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:14:05,641 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:14:05,746 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:14:05,860 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:14:06,576 INFO    features | captured features for PLTR-20260707T111405-call (46 fields)
+2026-07-07 15:14:06,582 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:14:37,535 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.15% 15m, RSI(5)=63.4, relvol 1.4x, VWAP +0.31%
+2026-07-07 15:14:37,710 INFO    signals | SIGNAL[confluence] INTC PUT — +1.48% 15m, RSI(5)=22.4, relvol 1.5x, VWAP -1.39%
+2026-07-07 15:14:37,825 INFO    signals | SIGNAL[confluence] NIO PUT — -0.30% 15m, RSI(5)=24.9, relvol 1.0x, VWAP -1.16%
+2026-07-07 15:14:38,657 INFO    features | captured features for PLTR-20260707T111437-call (46 fields)
+2026-07-07 15:14:38,663 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:15:10,215 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:15:10,482 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.6x, VWAP -1.17%
+2026-07-07 15:15:11,969 INFO    features | captured features for PLTR-20260707T111510-call (46 fields)
+2026-07-07 15:15:11,974 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:15:42,973 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:15:43,161 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.6x, VWAP -1.17%
+2026-07-07 15:15:44,404 INFO    features | captured features for PLTR-20260707T111542-call (46 fields)
+2026-07-07 15:15:44,410 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:16:15,659 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:16:15,981 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.6x, VWAP -1.17%
+2026-07-07 15:16:17,694 INFO    features | captured features for PLTR-20260707T111615-call (46 fields)
+2026-07-07 15:16:17,699 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:16:48,428 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:16:48,610 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.6x, VWAP -1.17%
+2026-07-07 15:16:49,642 INFO    features | captured features for PLTR-20260707T111648-call (46 fields)
+2026-07-07 15:16:49,648 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:17:20,417 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:17:20,561 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:17:21,655 INFO    features | captured features for PLTR-20260707T111720-call (46 fields)
+2026-07-07 15:17:21,661 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:17:52,237 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:17:52,344 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:17:53,186 INFO    features | captured features for PLTR-20260707T111752-call (46 fields)
+2026-07-07 15:17:53,192 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:18:23,924 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.6x, VWAP +0.42%
+2026-07-07 15:18:24,122 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:18:25,202 INFO    features | captured features for PLTR-20260707T111823-call (46 fields)
+2026-07-07 15:18:25,208 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:18:55,764 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:18:55,823 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:18:56,451 INFO    features | captured features for PLTR-20260707T111855-call (46 fields)
+2026-07-07 15:18:56,457 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:19:27,100 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:19:27,229 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:19:28,297 INFO    features | captured features for PLTR-20260707T111927-call (46 fields)
+2026-07-07 15:19:28,305 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:19:58,808 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:19:58,890 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:19:59,591 INFO    features | captured features for PLTR-20260707T111958-call (46 fields)
+2026-07-07 15:19:59,598 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:20:30,545 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:20:30,699 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:20:31,704 INFO    features | captured features for PLTR-20260707T112030-call (46 fields)
+2026-07-07 15:20:31,710 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:21:02,858 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:21:03,014 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:21:04,132 INFO    features | captured features for PLTR-20260707T112102-call (46 fields)
+2026-07-07 15:21:04,138 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:21:34,700 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:21:34,795 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:21:35,595 INFO    features | captured features for PLTR-20260707T112134-call (46 fields)
+2026-07-07 15:21:35,601 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:22:06,402 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:22:06,561 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:22:07,757 INFO    features | captured features for PLTR-20260707T112206-call (46 fields)
+2026-07-07 15:22:07,763 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:22:38,359 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:22:38,477 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:22:39,183 INFO    features | captured features for PLTR-20260707T112238-call (46 fields)
+2026-07-07 15:22:39,189 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:23:09,880 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:23:10,001 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:23:10,791 INFO    features | captured features for PLTR-20260707T112309-call (46 fields)
+2026-07-07 15:23:10,797 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:23:41,479 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:23:41,561 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:23:42,344 INFO    features | captured features for PLTR-20260707T112341-call (46 fields)
+2026-07-07 15:23:42,349 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:24:13,006 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:24:13,114 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.5x, VWAP -1.17%
+2026-07-07 15:24:13,983 INFO    features | captured features for PLTR-20260707T112412-call (46 fields)
+2026-07-07 15:24:13,989 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:24:44,606 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:24:44,722 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:24:45,713 INFO    features | captured features for PLTR-20260707T112444-call (46 fields)
+2026-07-07 15:24:45,719 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:25:16,479 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:25:16,711 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:25:17,978 INFO    features | captured features for PLTR-20260707T112516-call (46 fields)
+2026-07-07 15:25:17,983 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:25:48,673 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.5x, VWAP +0.42%
+2026-07-07 15:25:48,783 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:25:49,665 INFO    features | captured features for PLTR-20260707T112548-call (46 fields)
+2026-07-07 15:25:49,671 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:26:20,405 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:26:20,524 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:26:21,339 INFO    features | captured features for PLTR-20260707T112620-call (46 fields)
+2026-07-07 15:26:21,345 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:26:51,981 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:26:52,094 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:26:52,864 INFO    features | captured features for PLTR-20260707T112651-call (46 fields)
+2026-07-07 15:26:52,867 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:27:23,542 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:27:23,687 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:27:24,651 INFO    features | captured features for PLTR-20260707T112723-call (46 fields)
+2026-07-07 15:27:24,655 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:27:55,408 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:27:55,514 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:27:56,374 INFO    features | captured features for PLTR-20260707T112755-call (46 fields)
+2026-07-07 15:27:56,379 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:28:27,059 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:28:27,154 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:28:27,890 INFO    features | captured features for PLTR-20260707T112827-call (46 fields)
+2026-07-07 15:28:27,896 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:28:58,417 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:28:58,516 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:28:59,223 INFO    features | captured features for PLTR-20260707T112858-call (46 fields)
+2026-07-07 15:28:59,228 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:29:29,943 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.25% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.42%
+2026-07-07 15:29:30,021 INFO    signals | SIGNAL[confluence] INTC PUT — +0.13% 15m, RSI(5)=23.9, relvol 1.4x, VWAP -1.17%
+2026-07-07 15:29:30,736 INFO    features | captured features for PLTR-20260707T112929-call (46 fields)
+2026-07-07 15:29:30,741 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:30:02,920 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:30:03,141 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -1.80%
+2026-07-07 15:30:04,579 INFO    features | captured features for PLTR-20260707T113002-call (46 fields)
+2026-07-07 15:30:04,586 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:30:35,644 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:30:35,893 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -1.80%
+2026-07-07 15:30:37,444 INFO    features | captured features for PLTR-20260707T113035-call (46 fields)
+2026-07-07 15:30:37,449 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:31:08,667 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:31:08,848 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -1.80%
+2026-07-07 15:31:09,996 INFO    features | captured features for PLTR-20260707T113108-call (46 fields)
+2026-07-07 15:31:10,002 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:31:40,707 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:31:40,874 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -1.80%
+2026-07-07 15:31:41,905 INFO    features | captured features for PLTR-20260707T113140-call (46 fields)
+2026-07-07 15:31:41,910 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:32:12,794 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:32:12,956 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -1.80%
+2026-07-07 15:32:14,105 INFO    features | captured features for PLTR-20260707T113212-call (46 fields)
+2026-07-07 15:32:14,111 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:32:44,786 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:32:44,883 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:32:45,912 INFO    features | captured features for PLTR-20260707T113244-call (46 fields)
+2026-07-07 15:32:45,918 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:33:16,628 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:33:16,765 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:33:17,835 INFO    features | captured features for PLTR-20260707T113316-call (46 fields)
+2026-07-07 15:33:17,841 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:33:48,476 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:33:48,574 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:33:49,314 INFO    features | captured features for PLTR-20260707T113348-call (46 fields)
+2026-07-07 15:33:49,320 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:34:19,993 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:34:20,114 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:34:20,907 INFO    features | captured features for PLTR-20260707T113419-call (46 fields)
+2026-07-07 15:34:20,913 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:34:51,483 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:34:51,612 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:34:52,552 INFO    features | captured features for PLTR-20260707T113451-call (46 fields)
+2026-07-07 15:34:52,558 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:35:23,472 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:35:23,619 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:35:24,538 INFO    features | captured features for PLTR-20260707T113523-call (46 fields)
+2026-07-07 15:35:24,544 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:35:55,115 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:35:55,267 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:35:56,254 INFO    features | captured features for PLTR-20260707T113555-call (46 fields)
+2026-07-07 15:35:56,260 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:36:27,013 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.5x, VWAP +1.03%
+2026-07-07 15:36:27,212 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:36:28,272 INFO    features | captured features for PLTR-20260707T113627-call (46 fields)
+2026-07-07 15:36:28,278 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:36:58,810 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:36:58,913 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:36:59,730 INFO    features | captured features for PLTR-20260707T113658-call (46 fields)
+2026-07-07 15:36:59,736 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:37:30,366 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:37:30,516 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:37:31,272 INFO    features | captured features for PLTR-20260707T113730-call (46 fields)
+2026-07-07 15:37:31,278 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:38:02,082 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:38:02,187 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:38:03,069 INFO    features | captured features for PLTR-20260707T113802-call (46 fields)
+2026-07-07 15:38:03,075 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:38:33,618 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:38:33,704 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:38:34,423 INFO    features | captured features for PLTR-20260707T113833-call (46 fields)
+2026-07-07 15:38:34,429 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:39:05,062 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:39:05,226 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:39:06,084 INFO    features | captured features for PLTR-20260707T113905-call (46 fields)
+2026-07-07 15:39:06,089 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:39:36,878 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:39:36,988 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:39:37,711 INFO    features | captured features for PLTR-20260707T113936-call (46 fields)
+2026-07-07 15:39:37,716 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:40:09,278 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:40:09,561 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:40:11,647 INFO    features | captured features for PLTR-20260707T114009-call (46 fields)
+2026-07-07 15:40:11,653 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:40:42,540 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:40:42,766 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:40:44,010 INFO    features | captured features for PLTR-20260707T114042-call (46 fields)
+2026-07-07 15:40:44,016 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:41:14,746 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:41:14,915 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -1.80%
+2026-07-07 15:41:16,025 INFO    features | captured features for PLTR-20260707T114114-call (46 fields)
+2026-07-07 15:41:16,030 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:41:46,837 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:41:47,032 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:41:48,065 INFO    features | captured features for PLTR-20260707T114146-call (46 fields)
+2026-07-07 15:41:48,071 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:42:18,982 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:42:19,240 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:42:20,600 INFO    features | captured features for PLTR-20260707T114218-call (46 fields)
+2026-07-07 15:42:20,606 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:42:51,346 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:42:51,456 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:42:52,229 INFO    features | captured features for PLTR-20260707T114251-call (46 fields)
+2026-07-07 15:42:52,235 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:43:22,853 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:43:22,975 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:43:23,850 INFO    features | captured features for PLTR-20260707T114322-call (46 fields)
+2026-07-07 15:43:23,856 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:43:54,412 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:43:54,494 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:43:55,246 INFO    features | captured features for PLTR-20260707T114354-call (46 fields)
+2026-07-07 15:43:55,253 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:44:25,813 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:44:25,906 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:44:26,751 INFO    features | captured features for PLTR-20260707T114425-call (46 fields)
+2026-07-07 15:44:26,760 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:44:57,317 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.70% 15m, RSI(5)=75.9, relvol 1.4x, VWAP +1.03%
+2026-07-07 15:44:57,414 INFO    signals | SIGNAL[confluence] INTC PUT — -0.75% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -1.80%
+2026-07-07 15:44:58,191 INFO    features | captured features for PLTR-20260707T114457-call (46 fields)
+2026-07-07 15:44:58,197 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:45:29,702 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.5x, VWAP +1.40%
+2026-07-07 15:45:31,319 INFO    features | captured features for PLTR-20260707T114529-call (46 fields)
+2026-07-07 15:45:31,325 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:46:02,606 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.5x, VWAP +1.40%
+2026-07-07 15:46:04,127 INFO    features | captured features for PLTR-20260707T114602-call (46 fields)
+2026-07-07 15:46:04,133 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:46:34,860 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:46:36,360 INFO    features | captured features for PLTR-20260707T114634-call (46 fields)
+2026-07-07 15:46:36,366 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:47:07,360 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:47:08,715 INFO    features | captured features for PLTR-20260707T114707-call (46 fields)
+2026-07-07 15:47:08,721 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:47:39,406 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:47:40,514 INFO    features | captured features for PLTR-20260707T114739-call (46 fields)
+2026-07-07 15:47:40,520 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:48:11,390 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:48:12,802 INFO    features | captured features for PLTR-20260707T114811-call (46 fields)
+2026-07-07 15:48:12,808 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:48:43,403 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:48:44,268 INFO    features | captured features for PLTR-20260707T114843-call (46 fields)
+2026-07-07 15:48:44,273 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:49:14,865 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:49:15,808 INFO    features | captured features for PLTR-20260707T114914-call (46 fields)
+2026-07-07 15:49:15,814 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:49:46,584 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:49:47,392 INFO    features | captured features for PLTR-20260707T114946-call (46 fields)
+2026-07-07 15:49:47,398 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:50:18,323 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:50:19,538 INFO    features | captured features for PLTR-20260707T115018-call (46 fields)
+2026-07-07 15:50:19,544 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:50:50,388 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:50:51,671 INFO    features | captured features for PLTR-20260707T115050-call (46 fields)
+2026-07-07 15:50:51,677 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:51:22,317 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:51:23,112 INFO    features | captured features for PLTR-20260707T115122-call (46 fields)
+2026-07-07 15:51:23,118 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:51:53,757 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:51:54,695 INFO    features | captured features for PLTR-20260707T115153-call (46 fields)
+2026-07-07 15:51:54,701 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:52:25,531 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:52:26,732 INFO    features | captured features for PLTR-20260707T115225-call (46 fields)
+2026-07-07 15:52:26,738 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:52:57,488 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:52:58,606 INFO    features | captured features for PLTR-20260707T115257-call (46 fields)
+2026-07-07 15:52:58,612 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:53:29,218 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:53:30,173 INFO    features | captured features for PLTR-20260707T115329-call (46 fields)
+2026-07-07 15:53:30,179 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:54:01,305 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:54:02,896 INFO    features | captured features for PLTR-20260707T115401-call (46 fields)
+2026-07-07 15:54:02,901 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:54:33,392 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:54:34,275 INFO    features | captured features for PLTR-20260707T115433-call (46 fields)
+2026-07-07 15:54:34,281 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:55:05,214 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:55:06,310 INFO    features | captured features for PLTR-20260707T115505-call (46 fields)
+2026-07-07 15:55:06,316 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:55:36,945 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:55:37,674 INFO    features | captured features for PLTR-20260707T115536-call (46 fields)
+2026-07-07 15:55:37,680 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:56:08,617 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:56:09,556 INFO    features | captured features for PLTR-20260707T115608-call (46 fields)
+2026-07-07 15:56:09,562 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:56:40,295 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.4x, VWAP +1.40%
+2026-07-07 15:56:41,285 INFO    features | captured features for PLTR-20260707T115640-call (46 fields)
+2026-07-07 15:56:41,291 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:57:11,922 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:57:13,106 INFO    features | captured features for PLTR-20260707T115711-call (46 fields)
+2026-07-07 15:57:13,112 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:57:43,721 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:57:44,595 INFO    features | captured features for PLTR-20260707T115743-call (46 fields)
+2026-07-07 15:57:44,601 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:58:15,271 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:58:16,299 INFO    features | captured features for PLTR-20260707T115815-call (46 fields)
+2026-07-07 15:58:16,304 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:58:46,929 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:58:48,010 INFO    features | captured features for PLTR-20260707T115846-call (46 fields)
+2026-07-07 15:58:48,016 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:59:18,744 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:59:19,804 INFO    features | captured features for PLTR-20260707T115918-call (46 fields)
+2026-07-07 15:59:19,810 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 15:59:50,347 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.45% 15m, RSI(5)=80.2, relvol 1.3x, VWAP +1.40%
+2026-07-07 15:59:51,256 INFO    features | captured features for PLTR-20260707T115950-call (46 fields)
+2026-07-07 15:59:51,262 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:00:23,259 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:00:23,614 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:00:25,558 INFO    features | captured features for PLTR-20260707T120023-call (46 fields)
+2026-07-07 16:00:25,564 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:00:57,196 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:00:57,541 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:00:59,973 INFO    features | captured features for PLTR-20260707T120057-call (46 fields)
+2026-07-07 16:00:59,979 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:01:31,250 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:01:31,518 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:01:33,270 INFO    features | captured features for PLTR-20260707T120131-call (46 fields)
+2026-07-07 16:01:33,276 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:02:04,365 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:02:04,636 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:02:06,188 INFO    features | captured features for PLTR-20260707T120204-call (46 fields)
+2026-07-07 16:02:06,194 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:02:37,214 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:02:37,508 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:02:38,854 INFO    features | captured features for PLTR-20260707T120237-call (46 fields)
+2026-07-07 16:02:38,860 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:03:09,834 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:03:10,066 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:03:11,258 INFO    features | captured features for PLTR-20260707T120309-call (46 fields)
+2026-07-07 16:03:11,264 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:03:41,907 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.4x, VWAP +0.94%
+2026-07-07 16:03:42,027 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:03:42,942 INFO    features | captured features for PLTR-20260707T120341-call (46 fields)
+2026-07-07 16:03:42,948 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:04:13,669 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:04:13,827 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:04:14,865 INFO    features | captured features for PLTR-20260707T120413-call (46 fields)
+2026-07-07 16:04:14,871 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:04:45,540 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:04:45,614 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:04:46,378 INFO    features | captured features for PLTR-20260707T120445-call (46 fields)
+2026-07-07 16:04:46,384 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:05:17,409 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:05:17,636 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:05:19,179 INFO    features | captured features for PLTR-20260707T120517-call (46 fields)
+2026-07-07 16:05:19,184 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:05:50,276 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:05:50,439 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:05:51,453 INFO    features | captured features for PLTR-20260707T120550-call (46 fields)
+2026-07-07 16:05:51,458 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:06:22,369 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:06:22,605 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:06:24,079 INFO    features | captured features for PLTR-20260707T120622-call (46 fields)
+2026-07-07 16:06:24,085 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:06:54,892 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:06:55,120 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:06:56,222 INFO    features | captured features for PLTR-20260707T120654-call (46 fields)
+2026-07-07 16:06:56,228 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:07:27,031 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:07:27,161 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:07:28,355 INFO    features | captured features for PLTR-20260707T120727-call (46 fields)
+2026-07-07 16:07:28,361 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:07:59,029 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:07:59,168 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:08:00,248 INFO    features | captured features for PLTR-20260707T120759-call (46 fields)
+2026-07-07 16:08:00,254 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:08:30,893 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:08:31,020 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:08:31,814 INFO    features | captured features for PLTR-20260707T120830-call (46 fields)
+2026-07-07 16:08:31,820 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:09:02,535 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:09:02,628 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:09:03,730 INFO    features | captured features for PLTR-20260707T120902-call (46 fields)
+2026-07-07 16:09:03,736 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:09:34,401 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:09:34,509 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.3x, VWAP -1.38%
+2026-07-07 16:09:35,740 INFO    features | captured features for PLTR-20260707T120934-call (46 fields)
+2026-07-07 16:09:35,748 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:10:07,374 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:10:07,702 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:10:09,519 INFO    features | captured features for PLTR-20260707T121007-call (46 fields)
+2026-07-07 16:10:09,525 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:10:40,801 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:10:41,091 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:10:42,983 INFO    features | captured features for PLTR-20260707T121040-call (46 fields)
+2026-07-07 16:10:42,988 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:11:13,995 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:11:14,192 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:11:15,729 INFO    features | captured features for PLTR-20260707T121113-call (46 fields)
+2026-07-07 16:11:15,735 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:11:46,790 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:11:46,921 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:11:48,074 INFO    features | captured features for PLTR-20260707T121146-call (46 fields)
+2026-07-07 16:11:48,080 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:12:19,060 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:12:19,326 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:12:21,008 INFO    features | captured features for PLTR-20260707T121219-call (46 fields)
+2026-07-07 16:12:21,013 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:12:51,684 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:12:51,837 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:12:52,779 INFO    features | captured features for PLTR-20260707T121251-call (46 fields)
+2026-07-07 16:12:52,785 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:13:23,554 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:13:23,728 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:13:24,874 INFO    features | captured features for PLTR-20260707T121323-call (46 fields)
+2026-07-07 16:13:24,880 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:13:55,433 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:13:55,521 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:13:56,231 INFO    features | captured features for PLTR-20260707T121355-call (46 fields)
+2026-07-07 16:13:56,237 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:14:26,802 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:14:26,889 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:14:27,600 INFO    features | captured features for PLTR-20260707T121426-call (46 fields)
+2026-07-07 16:14:27,606 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:14:58,225 INFO    signals | SIGNAL[confluence] PLTR CALL — -0.38% 15m, RSI(5)=67.1, relvol 1.3x, VWAP +0.94%
+2026-07-07 16:14:58,295 INFO    signals | SIGNAL[confluence] INTC PUT — +0.54% 15m, RSI(5)=29.1, relvol 1.2x, VWAP -1.38%
+2026-07-07 16:14:59,059 INFO    features | captured features for PLTR-20260707T121458-call (46 fields)
+2026-07-07 16:14:59,065 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:15:30,232 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:15:30,403 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:15:31,996 INFO    features | captured features for PLTR-20260707T121530-call (46 fields)
+2026-07-07 16:15:32,001 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:16:03,239 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:16:03,411 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:16:04,555 INFO    features | captured features for PLTR-20260707T121603-call (46 fields)
+2026-07-07 16:16:04,561 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:16:35,415 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:16:35,651 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:16:36,956 INFO    features | captured features for PLTR-20260707T121635-call (46 fields)
+2026-07-07 16:16:36,962 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:17:08,196 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:17:08,565 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:17:10,394 INFO    features | captured features for PLTR-20260707T121708-call (46 fields)
+2026-07-07 16:17:10,399 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:17:40,997 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:17:41,080 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:17:41,840 INFO    features | captured features for PLTR-20260707T121740-call (46 fields)
+2026-07-07 16:17:41,843 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:18:12,591 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:18:12,827 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:18:13,916 INFO    features | captured features for PLTR-20260707T121812-call (46 fields)
+2026-07-07 16:18:13,922 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:18:44,637 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:18:44,751 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.3x, VWAP -0.38%
+2026-07-07 16:18:45,591 INFO    features | captured features for PLTR-20260707T121844-call (46 fields)
+2026-07-07 16:18:45,597 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:19:36,393 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:19:36,451 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:19:37,161 INFO    features | captured features for PLTR-20260707T121936-call (46 fields)
+2026-07-07 16:19:37,167 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:20:08,209 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:20:08,398 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:20:09,797 INFO    features | captured features for PLTR-20260707T122008-call (46 fields)
+2026-07-07 16:20:09,804 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:20:40,501 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:20:40,592 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:20:41,450 INFO    features | captured features for PLTR-20260707T122040-call (46 fields)
+2026-07-07 16:20:41,456 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:21:12,316 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:21:12,512 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:21:13,661 INFO    features | captured features for PLTR-20260707T122112-call (46 fields)
+2026-07-07 16:21:13,666 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:21:44,415 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:21:44,579 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:21:45,433 INFO    features | captured features for PLTR-20260707T122144-call (46 fields)
+2026-07-07 16:21:45,438 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:22:16,149 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:22:16,304 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:22:17,319 INFO    features | captured features for PLTR-20260707T122216-call (46 fields)
+2026-07-07 16:22:17,325 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:22:48,040 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:22:48,176 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:22:49,287 INFO    features | captured features for PLTR-20260707T122248-call (46 fields)
+2026-07-07 16:22:49,293 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:23:20,096 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:23:20,336 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:23:21,681 INFO    features | captured features for PLTR-20260707T122320-call (46 fields)
+2026-07-07 16:23:21,687 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:23:52,372 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.3x, VWAP +0.98%
+2026-07-07 16:23:52,544 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:23:53,597 INFO    features | captured features for PLTR-20260707T122352-call (46 fields)
+2026-07-07 16:23:53,603 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:24:24,157 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:24:24,293 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:24:25,271 INFO    features | captured features for PLTR-20260707T122424-call (46 fields)
+2026-07-07 16:24:25,277 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:24:55,967 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:24:56,128 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:24:57,122 INFO    features | captured features for PLTR-20260707T122455-call (46 fields)
+2026-07-07 16:24:57,128 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:25:28,020 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:25:28,186 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:25:29,308 INFO    features | captured features for PLTR-20260707T122528-call (46 fields)
+2026-07-07 16:25:29,314 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-07 16:26:00,473 INFO    journal | LOGGED trade #27 PLTR call pnl $+165.00 R 0.36 label 1 (profit target (underlying))
+2026-07-07 16:26:00,474 INFO    executor | CLOSED PLTR260710C00131000 @ $6.20 vs $4.55 → P&L $+165.00 (profit target (underlying))
+2026-07-07 16:26:01,174 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:26:01,293 INFO    signals | SIGNAL[confluence] INTC PUT — +0.95% 15m, RSI(5)=44.1, relvol 1.2x, VWAP -0.38%
+2026-07-07 16:26:02,674 INFO    features | captured features for PLTR-20260707T122601-call (46 fields)
+2026-07-07 16:26:02,682 INFO    journal | REJECT PLTR call [cooldown] — 0m since last call close < 30m cooldown
+2026-07-07 16:26:02,697 INFO    features | captured features for INTC-20260707T122601-put (46 fields)
+2026-07-07 16:26:02,704 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:26:33,354 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:26:34,076 INFO    features | captured features for PLTR-20260707T122633-call (46 fields)
+2026-07-07 16:26:34,082 INFO    journal | REJECT PLTR call [cooldown] — 1m since last call close < 30m cooldown
+2026-07-07 16:27:04,798 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:27:05,863 INFO    features | captured features for PLTR-20260707T122704-call (46 fields)
+2026-07-07 16:27:05,869 INFO    journal | REJECT PLTR call [cooldown] — 1m since last call close < 30m cooldown
+2026-07-07 16:27:36,439 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:27:37,381 INFO    features | captured features for PLTR-20260707T122736-call (46 fields)
+2026-07-07 16:27:37,386 INFO    journal | REJECT PLTR call [cooldown] — 2m since last call close < 30m cooldown
+2026-07-07 16:28:07,930 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:28:08,816 INFO    features | captured features for PLTR-20260707T122807-call (46 fields)
+2026-07-07 16:28:08,822 INFO    journal | REJECT PLTR call [cooldown] — 2m since last call close < 30m cooldown
+2026-07-07 16:28:39,389 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:28:40,251 INFO    features | captured features for PLTR-20260707T122839-call (46 fields)
+2026-07-07 16:28:40,257 INFO    journal | REJECT PLTR call [cooldown] — 3m since last call close < 30m cooldown
+2026-07-07 16:29:10,884 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:29:11,648 INFO    features | captured features for PLTR-20260707T122910-call (46 fields)
+2026-07-07 16:29:11,653 INFO    journal | REJECT PLTR call [cooldown] — 3m since last call close < 30m cooldown
+2026-07-07 16:29:42,137 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.10% 15m, RSI(5)=68.6, relvol 1.2x, VWAP +0.98%
+2026-07-07 16:29:43,064 INFO    features | captured features for PLTR-20260707T122942-call (46 fields)
+2026-07-07 16:29:43,070 INFO    journal | REJECT PLTR call [cooldown] — 4m since last call close < 30m cooldown
+2026-07-07 16:30:15,105 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.3x, VWAP +1.25%
+2026-07-07 16:30:18,396 INFO    features | captured features for PLTR-20260707T123015-call (46 fields)
+2026-07-07 16:30:18,402 INFO    journal | REJECT PLTR call [cooldown] — 4m since last call close < 30m cooldown
+2026-07-07 16:30:49,877 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:30:52,186 INFO    features | captured features for PLTR-20260707T123049-call (46 fields)
+2026-07-07 16:30:52,191 INFO    journal | REJECT PLTR call [cooldown] — 5m since last call close < 30m cooldown
+2026-07-07 16:31:23,454 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:31:25,847 INFO    features | captured features for PLTR-20260707T123123-call (46 fields)
+2026-07-07 16:31:25,853 INFO    journal | REJECT PLTR call [cooldown] — 5m since last call close < 30m cooldown
+2026-07-07 16:31:56,754 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:31:58,358 INFO    features | captured features for PLTR-20260707T123156-call (46 fields)
+2026-07-07 16:31:58,364 INFO    journal | REJECT PLTR call [cooldown] — 6m since last call close < 30m cooldown
+2026-07-07 16:32:29,306 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:32:40,748 INFO    features | captured features for PLTR-20260707T123229-call (46 fields)
+2026-07-07 16:32:40,756 INFO    journal | REJECT PLTR call [cooldown] — 7m since last call close < 30m cooldown
+2026-07-07 16:33:11,345 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:33:12,270 INFO    features | captured features for PLTR-20260707T123311-call (46 fields)
+2026-07-07 16:33:12,276 INFO    journal | REJECT PLTR call [cooldown] — 7m since last call close < 30m cooldown
+2026-07-07 16:33:42,757 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:33:43,514 INFO    features | captured features for PLTR-20260707T123342-call (46 fields)
+2026-07-07 16:33:43,519 INFO    journal | REJECT PLTR call [cooldown] — 8m since last call close < 30m cooldown
+2026-07-07 16:34:14,045 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:34:15,040 INFO    features | captured features for PLTR-20260707T123414-call (46 fields)
+2026-07-07 16:34:15,049 INFO    journal | REJECT PLTR call [cooldown] — 8m since last call close < 30m cooldown
+2026-07-07 16:34:45,562 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:34:46,370 INFO    features | captured features for PLTR-20260707T123445-call (46 fields)
+2026-07-07 16:34:46,375 INFO    journal | REJECT PLTR call [cooldown] — 9m since last call close < 30m cooldown
+2026-07-07 16:35:17,273 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:35:18,745 INFO    features | captured features for PLTR-20260707T123517-call (46 fields)
+2026-07-07 16:35:18,751 INFO    journal | REJECT PLTR call [cooldown] — 9m since last call close < 30m cooldown
+2026-07-07 16:35:49,383 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:35:50,205 INFO    features | captured features for PLTR-20260707T123549-call (46 fields)
+2026-07-07 16:35:50,212 INFO    journal | REJECT PLTR call [cooldown] — 10m since last call close < 30m cooldown
+2026-07-07 16:36:20,870 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:36:21,893 INFO    features | captured features for PLTR-20260707T123620-call (46 fields)
+2026-07-07 16:36:21,900 INFO    journal | REJECT PLTR call [cooldown] — 10m since last call close < 30m cooldown
+2026-07-07 16:36:52,719 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:36:53,788 INFO    features | captured features for PLTR-20260707T123652-call (46 fields)
+2026-07-07 16:36:53,794 INFO    journal | REJECT PLTR call [cooldown] — 11m since last call close < 30m cooldown
+2026-07-07 16:37:24,440 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.30% 15m, RSI(5)=73.5, relvol 1.2x, VWAP +1.25%
+2026-07-07 16:37:25,362 INFO    features | captured features for PLTR-20260707T123724-call (46 fields)
+2026-07-07 16:37:25,367 INFO    journal | REJECT PLTR call [cooldown] — 11m since last call close < 30m cooldown
+2026-07-07 16:45:11,860 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.90% 15m, RSI(5)=83.2, relvol 1.2x, VWAP +2.07%
+2026-07-07 16:45:12,112 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:45:13,640 INFO    features | captured features for PLTR-20260707T124511-call (46 fields)
+2026-07-07 16:45:13,646 INFO    journal | REJECT PLTR call [cooldown] — 19m since last call close < 30m cooldown
+2026-07-07 16:45:13,658 INFO    features | captured features for INTC-20260707T124512-put (46 fields)
+2026-07-07 16:45:13,664 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:45:44,586 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.90% 15m, RSI(5)=83.2, relvol 1.2x, VWAP +2.07%
+2026-07-07 16:45:44,760 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:45:46,008 INFO    features | captured features for PLTR-20260707T124544-call (46 fields)
+2026-07-07 16:45:46,014 INFO    journal | REJECT PLTR call [cooldown] — 20m since last call close < 30m cooldown
+2026-07-07 16:45:46,030 INFO    features | captured features for INTC-20260707T124544-put (46 fields)
+2026-07-07 16:45:46,036 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:46:16,922 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.90% 15m, RSI(5)=83.2, relvol 1.2x, VWAP +2.07%
+2026-07-07 16:46:17,088 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:46:18,174 INFO    features | captured features for PLTR-20260707T124616-call (46 fields)
+2026-07-07 16:46:18,180 INFO    journal | REJECT PLTR call [cooldown] — 20m since last call close < 30m cooldown
+2026-07-07 16:46:18,193 INFO    features | captured features for INTC-20260707T124617-put (46 fields)
+2026-07-07 16:46:18,198 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:46:48,762 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.90% 15m, RSI(5)=83.2, relvol 1.2x, VWAP +2.07%
+2026-07-07 16:46:48,815 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:46:49,484 INFO    features | captured features for PLTR-20260707T124648-call (46 fields)
+2026-07-07 16:46:49,490 INFO    journal | REJECT PLTR call [cooldown] — 21m since last call close < 30m cooldown
+2026-07-07 16:46:49,503 INFO    features | captured features for INTC-20260707T124648-put (46 fields)
+2026-07-07 16:46:49,509 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:47:20,068 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:47:20,748 INFO    features | captured features for INTC-20260707T124720-put (46 fields)
+2026-07-07 16:47:20,754 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:47:51,416 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:47:52,163 INFO    features | captured features for INTC-20260707T124751-put (46 fields)
+2026-07-07 16:47:52,169 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-07 16:48:22,957 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
+2026-07-07 16:48:23,704 INFO    features | captured features for INTC-20260707T124822-put (46 fields)
+2026-07-07 16:48:23,710 INFO    journal | REJECT INTC put [governor] — already holding this underlying

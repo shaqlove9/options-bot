@@ -5,7 +5,6 @@ loop can consume them without polling get_order_by_id().
 """
 from __future__ import annotations
 
-import asyncio
 import logging
 import queue
 import threading
@@ -74,7 +73,6 @@ class TradingStreamThread:
             config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY,
             paper=config.PAPER)
 
-        @stream.on("trade_updates")
         async def on_trade_update(data):
             try:
                 event_data = data if isinstance(data, dict) else data.__dict__
@@ -114,13 +112,11 @@ class TradingStreamThread:
             except Exception:
                 log.exception("Error processing trade_update event")
 
+        stream.subscribe_trade_updates(on_trade_update)
         self._connected.set()
         log.info("TradingStream connected")
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
         try:
-            loop.run_until_complete(stream._run_forever())
+            stream.run()
         finally:
             self._connected.clear()
-            loop.close()

@@ -5,7 +5,6 @@ OptionQuoteStreamThread — receives real-time option quotes via OptionDataStrea
 """
 from __future__ import annotations
 
-import asyncio
 import logging
 import queue
 import threading
@@ -80,7 +79,6 @@ class StockBarStreamThread:
         stream = StockDataStream(
             config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
 
-        @stream.on("bars")
         async def on_bar(bar):
             try:
                 sb = StreamBar(
@@ -102,13 +100,10 @@ class StockBarStreamThread:
         log.info("StockDataStream connected (universe: %s)",
                  " ".join(config.UNIVERSE))
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
         try:
-            loop.run_until_complete(stream._run_forever())
+            stream.run()
         finally:
             self._connected.clear()
-            loop.close()
 
 
 class OptionQuoteStreamThread:
@@ -188,7 +183,6 @@ class OptionQuoteStreamThread:
             config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
         self._stream = stream
 
-        @stream.on("quotes")
         async def on_quote(quote):
             try:
                 bid = float(quote.bid_price or 0)
@@ -213,11 +207,8 @@ class OptionQuoteStreamThread:
         self._connected.set()
         log.info("OptionDataStream connected")
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
         try:
-            loop.run_until_complete(stream._run_forever())
+            stream.run()
         finally:
             self._connected.clear()
             self._stream = None
-            loop.close()

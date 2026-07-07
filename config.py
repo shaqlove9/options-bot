@@ -13,8 +13,11 @@ PAPER = not LIVE_MODE
 ALPACA_API_KEY = os.getenv("ALPACA_API_KEY", "")
 ALPACA_SECRET_KEY = os.getenv("ALPACA_SECRET_KEY", "")
 
-# --- Discord ---
+# --- Alerts (Discord or Slack) ---
+# ALERT_BACKEND: "discord", "slack", or "auto" (auto-detect from which URL is set)
+ALERT_BACKEND = os.getenv("ALERT_BACKEND", "auto").lower()
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")
+SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL", "")
 
 # --- Account / risk ---
 CAPITAL = 500.00

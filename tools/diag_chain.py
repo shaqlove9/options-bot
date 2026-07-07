@@ -13,8 +13,8 @@ from alpaca.trading.client import TradingClient
 
 import config
 from data.rest import RestOptionSnapshotProvider
-from trading.options_chain import ChainFetcher
-from trading.scanner import Signal
+from trading.contract_selector import ChainFetcher
+from trading.signal_scanner import Signal
 from utils import now_et
 
 trading = TradingClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY, paper=True)

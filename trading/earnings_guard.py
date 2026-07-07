@@ -15,7 +15,7 @@ import logging
 import config
 from utils import now_et
 
-log = logging.getLogger("earnings")
+log = logging.getLogger("trading.earnings_guard")
 
 # symbol -> (date the lookup was made, next earnings date or None)
 _cache: dict[str, tuple[dt.date, dt.date | None]] = {}

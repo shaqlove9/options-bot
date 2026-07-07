@@ -24,10 +24,10 @@ from alpaca.trading.requests import GetOptionContractsRequest
 
 import config
 from data.protocols import OptionSnapshotProvider
-from trading.scanner import Signal
+from trading.signal_scanner import Signal
 from utils import now_et, retry
 
-log = logging.getLogger("options_chain")
+log = logging.getLogger("trading.contract_selector")
 
 
 @dataclass

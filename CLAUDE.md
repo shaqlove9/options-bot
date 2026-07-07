@@ -45,7 +45,7 @@ No linter, type checker, or test framework is configured. The single test file r
 
 ```
 main.py / app.py / config.py / utils.py / ai_analyst.py   (root entry points + shared)
-trading/     scanner, executor, options_chain, risk_manager, learner, earnings
+trading/     signal_scanner, order_manager, contract_selector, risk_manager, ml_filter, earnings_guard
 data/        protocols, rest, hybrid, stream_orders, trade_store
 streaming/   market (stock bars + option quotes), trading (order fills)
 alerts/      discord, slack (webhook backends, fail-open)
@@ -53,7 +53,7 @@ tools/       backtest, diag_probe, diag_chain, test_learner
 ```
 
 **Entry pipeline (sequential):**
-`Scanner` (signal) -> `ChainFetcher` (contract) -> `RiskManager` (gate) -> `Learner` (ML gate) -> `Executor` (order)
+`Scanner` (signal) -> `ChainFetcher` (contract) -> `RiskManager` (gate) -> `Learner` (ML filter) -> `Executor` (order)
 
 **Key modules:**
 
@@ -61,11 +61,11 @@ tools/       backtest, diag_probe, diag_chain, test_learner
 |---|---|
 | `main.py` | Orchestrator loop — 30s scan cadence, 5s exit management |
 | `config.py` | Single source of truth for all tunables; loads `.env` then `settings.json` overrides |
-| `trading/scanner.py` | Generates `Signal` objects (momentum + RSI + VWAP + relative volume) |
-| `trading/options_chain.py` | Fetches chains, filters by OTM band/IV rank/spread/OI -> `ContractPick` |
-| `trading/executor.py` | Places/manages orders, trailing stops, crash recovery (adopts existing positions on startup) |
+| `trading/signal_scanner.py` | Generates `Signal` objects (momentum + RSI + VWAP + relative volume) |
+| `trading/contract_selector.py` | Fetches chains, filters by OTM band/IV rank/spread/OI -> `ContractPick` |
+| `trading/order_manager.py` | Places/manages orders, trailing stops, crash recovery (adopts existing positions on startup) |
 | `trading/risk_manager.py` | Daily loss halt ($75), position caps (3), consecutive-loss pause, P&L restoration across restarts |
-| `trading/learner.py` | Gradient-boosting classifier on trade history; earns veto power only when CV AUC >= 0.55 |
+| `trading/ml_filter.py` | Gradient-boosting classifier on trade history; earns veto power only when CV AUC >= 0.55 |
 | `data/trade_store.py` | SQLite persistence layer for all trade data (WAL mode); auto-migrates legacy CSV on first run |
 | `data/protocols.py` | Protocol interfaces (StockBarProvider, OptionQuoteProvider, etc.) |
 | `data/rest.py` | REST implementations of data protocols with retry |
@@ -90,10 +90,10 @@ tools/       backtest, diag_probe, diag_chain, test_learner
 - **Protocol-based DI:** Consumers depend on `typing.Protocol` interfaces in `data/protocols.py`, not Alpaca SDK classes. REST, stream, and hybrid backends all satisfy the same contracts.
 - **Hybrid streaming:** Three daemon threads (stock bars, option quotes, order fills) run WebSocket connections. On disconnect, providers fall back to REST seamlessly.
 - **Fail-open optional dependencies:** Discord/Slack alerts, earnings lookup, Anthropic AI, and TA-Lib all degrade gracefully — the trading loop never crashes from optional features.
-- **Crash recovery:** Executor reconciles positions at startup (adopts existing holdings); RiskManager restores today's P&L via `trade_store`.
+- **Crash recovery:** OrderManager reconciles positions at startup (adopts existing holdings); RiskManager restores today's P&L via `trade_store`.
 - **Storage abstraction:** All trade persistence goes through `data/trade_store.py` (SQLite). Swapping to Postgres or another backend requires changing only this one file.
 - **Config override chain:** hardcoded defaults in `config.py` -> `.env` overrides -> `settings.json` overrides (dashboard-saved). Range validation clamps values to sane bounds. The `_TUNABLE` set controls which keys can be overridden via the dashboard.
-- **ML earned gating:** The learner only vetoes entries after proving predictive power (AUC >= 0.55). Below that threshold it's advisory-only (scores are logged but trades aren't blocked).
+- **ML earned gating:** The ML filter only vetoes entries after proving predictive power (AUC >= 0.55). Below that threshold it's advisory-only (scores are logged but trades aren't blocked).
 - **Atomic file writes:** All shared files (status.json, settings.json, AI reports) use `.tmp` + `os.replace()` to prevent corruption.
 
 ## Environment Variables

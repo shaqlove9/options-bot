@@ -23,7 +23,7 @@ config.TRADES_DB = os.path.join(_tmp, "trades.db")
 config.MODEL_FILE = os.path.join(_tmp, "model.pkl")
 
 import data.trade_store as trade_store     # noqa: E402
-from trading.learner import Learner       # noqa: E402
+from trading.ml_filter import Learner       # noqa: E402
 
 random.seed(7)
 

@@ -29,7 +29,7 @@ import config
 import data.trade_store as trade_store
 from utils import now_et
 
-log = logging.getLogger("learner")
+log = logging.getLogger("trading.ml_filter")
 
 NUMERIC = trade_store.FEATURE_NUMERIC
 CATEGORICAL = ["ticker", "type", "strategy"]

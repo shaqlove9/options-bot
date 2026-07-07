@@ -25,7 +25,7 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 
 import config
-from trading.scanner import rsi_last
+from trading.signal_scanner import rsi_last
 from utils import ET
 
 log = logging.getLogger("backtest")

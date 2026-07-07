@@ -17,7 +17,7 @@ import pandas as pd
 import config
 from utils import now_et
 
-log = logging.getLogger("trade_store")
+log = logging.getLogger("data.trade_store")
 
 # Feature columns used by the ML learner (single source of truth).
 FEATURE_NUMERIC = ["momentum_pct", "day_change_pct", "rsi", "rel_volume",

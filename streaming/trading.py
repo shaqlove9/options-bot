@@ -16,7 +16,7 @@ from alpaca.trading.stream import TradingStream
 
 import config
 
-log = logging.getLogger("stream_trading")
+log = logging.getLogger("streaming.trading")
 
 
 @dataclass

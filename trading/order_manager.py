@@ -18,10 +18,10 @@ import alerts as _default_alerts
 import config
 import data.trade_store as trade_store
 from data.protocols import OptionQuoteProvider, OrderEventProvider
-from trading.options_chain import ContractPick
+from trading.contract_selector import ContractPick
 from utils import now_et
 
-log = logging.getLogger("executor")
+log = logging.getLogger("trading.order_manager")
 
 
 @dataclass

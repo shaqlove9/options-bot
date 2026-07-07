@@ -18,7 +18,7 @@ from data.rest import RestStockBarProvider, RestOptionQuoteProvider
 from streaming.market import StockBarStreamThread, OptionQuoteStreamThread
 from utils import ET, now_et
 
-log = logging.getLogger("data_hybrid")
+log = logging.getLogger("data.hybrid")
 
 
 class HybridStockBarProvider:

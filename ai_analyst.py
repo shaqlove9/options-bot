@@ -10,7 +10,6 @@ modify, or block a trade:
 
 Both post to Discord and save a markdown file the dashboard displays.
 Needs ANTHROPIC_API_KEY in .env; silently skips if missing (like alerts.py).
-Cost: roughly $0.05-0.15 per run on claude-fable-5.
 
 Manual run:  python ai_analyst.py briefing
              python ai_analyst.py report
@@ -27,14 +26,25 @@ from utils import now_et
 
 log = logging.getLogger("ai_analyst")
 
-_SYSTEM = (
-    "You are the friendly analyst for a small automated options-scalping bot. "
-    "The user is a beginner trader — explain everything in plain English, and "
-    "define any jargon in a few words the first time you use it. Be honest "
-    "about losses and risk; never hype. You are informational only: do NOT "
-    "give buy/sell recommendations or predictions presented as certainty. "
-    "Keep it under 400 words, with short markdown sections and bullet points."
-)
+# System prompt — static, so it benefits from prompt caching.
+# Uses XML tags per Anthropic best practices for structured prompting.
+_SYSTEM = """\
+<role>
+You are the friendly analyst for a small automated options-scalping bot.
+</role>
+
+<audience>
+The user is a beginner trader. Explain everything in plain English and
+define any jargon in a few words the first time you use it.
+</audience>
+
+<rules>
+- Be honest about losses and risk; never hype.
+- You are informational only: do NOT give buy/sell recommendations or
+  predictions presented as certainty.
+- Keep it under 400 words.
+- Use short markdown sections and bullet points.
+</rules>"""
 
 
 def _enabled() -> bool:
@@ -47,15 +57,22 @@ def _enabled() -> bool:
 
 
 def _ask(prompt: str, tools: list | None = None) -> str:
-    """One Claude call; follows pause_turn continuations during web search."""
+    """One Claude call with prompt caching on the system prompt.
+
+    Follows pause_turn continuations during web search.
+    """
     import anthropic  # lazy import — the bot still runs without the package
 
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
     kwargs = dict(
         model=config.AI_MODEL,
-        max_tokens=16000,
+        max_tokens=2048,
         thinking={"type": "adaptive"},
-        system=_SYSTEM,
+        system=[{
+            "type": "text",
+            "text": _SYSTEM,
+            "cache_control": {"type": "ephemeral"},
+        }],
         messages=[{"role": "user", "content": prompt}],
     )
     if tools:
@@ -91,8 +108,11 @@ def morning_briefing() -> str | None:
     tickers = ", ".join(config.UNIVERSE)
     today = now_et().strftime("%A, %B %d %Y")
     prompt = (
-        f"Today is {today}, before the US market open. The bot trades "
-        f"short-dated options on: {tickers}.\n\n"
+        f"<context>\n"
+        f"Today is {today}, before the US market open.\n"
+        f"The bot trades short-dated options on: {tickers}.\n"
+        f"</context>\n\n"
+        "<instructions>\n"
         "Search the web for overnight and pre-market news, then write a briefing:\n"
         "1. **Market mood** — futures, and any big economic data or Fed events "
         "scheduled today (include the release times in ET).\n"
@@ -100,8 +120,9 @@ def morning_briefing() -> str | None:
         "news (earnings, analyst moves, product news, unusual pre-market moves). "
         "Say 'quiet' if nothing notable.\n"
         "3. **Heads up** — anything that could cause sharp moves or whipsaws "
-        "today.\n"
-        "Information only — no trade recommendations."
+        "today.\n\n"
+        "Information only — no trade recommendations.\n"
+        "</instructions>"
     )
     try:
         text = _ask(prompt, tools=[{
@@ -129,10 +150,16 @@ def daily_report() -> str | None:
                         "pnl_pct", "entry_reason", "exit_reason", "strategy",
                         "win_prob") if c in df.columns]
     mode = "LIVE (real money)" if config.LIVE_MODE else "PAPER (practice money)"
+    csv_data = df[cols].to_csv(index=False)
     prompt = (
-        f"The bot just finished the trading day in {mode} mode. "
-        f"Total P&L today: ${pnl:+.2f} on a ${config.CAPITAL:.0f} account.\n\n"
-        f"Today's closed trades (CSV):\n{df[cols].to_csv(index=False)}\n\n"
+        f"<context>\n"
+        f"The bot just finished the trading day in {mode} mode.\n"
+        f"Total P&L today: ${pnl:+.2f} on a ${config.CAPITAL:.0f} account.\n"
+        f"</context>\n\n"
+        f"<data>\n"
+        f"{csv_data}"
+        f"</data>\n\n"
+        "<instructions>\n"
         "Write the end-of-day report:\n"
         "1. **What happened** — quick recap of the day.\n"
         "2. **What worked / what didn't** — look at the entry and exit reasons.\n"
@@ -140,7 +167,8 @@ def daily_report() -> str | None:
         "supports; with just a handful of trades, say clearly that it's too "
         "early to conclude much.\n"
         "4. **One question to think about** — something the user could check or "
-        "tweak in settings (a thought to explore, not advice)."
+        "tweak in settings (a thought to explore, not advice).\n"
+        "</instructions>"
     )
     try:
         text = _ask(prompt)

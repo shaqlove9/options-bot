@@ -18,7 +18,7 @@ from alpaca.trading.client import TradingClient
 
 from utils import ET, now_et, retry
 
-log = logging.getLogger("data_rest")
+log = logging.getLogger("data.rest")
 
 
 class RestStockBarProvider:

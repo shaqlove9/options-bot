@@ -2,7 +2,7 @@
 import config
 from alpaca.data.historical import StockHistoricalDataClient
 from data.rest import RestStockBarProvider
-from trading.scanner import Scanner, rsi_last
+from trading.signal_scanner import Scanner, rsi_last
 from utils import now_et, session_elapsed_fraction
 
 client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)

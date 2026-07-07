@@ -26,12 +26,12 @@ from streaming.market import StockBarStreamThread, OptionQuoteStreamThread
 from streaming.trading import TradingStreamThread
 import alerts
 import config
-from trading.earnings import blocks as earnings_blocks
-from trading.executor import Executor
-from trading.learner import Learner, extract_features
-from trading.options_chain import ChainFetcher
+from trading.earnings_guard import blocks as earnings_blocks
+from trading.order_manager import Executor
+from trading.ml_filter import Learner, extract_features
+from trading.contract_selector import ChainFetcher
 from trading.risk_manager import RiskManager
-from trading.scanner import Scanner
+from trading.signal_scanner import Scanner
 from utils import in_entry_window, is_market_day, now_et, past_force_close, retry
 
 log = logging.getLogger("main")

@@ -14,7 +14,7 @@ import config
 import data.trade_store as trade_store
 from utils import now_et
 
-log = logging.getLogger("risk")
+log = logging.getLogger("trading.risk_manager")
 
 
 @dataclass

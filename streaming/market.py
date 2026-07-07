@@ -17,7 +17,7 @@ from alpaca.data.live.option import OptionDataStream
 
 import config
 
-log = logging.getLogger("stream_threads")
+log = logging.getLogger("streaming.market")
 
 
 @dataclass

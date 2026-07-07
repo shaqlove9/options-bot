@@ -16,7 +16,7 @@ import config
 from data.protocols import StockBarProvider
 from utils import ET, now_et, session_elapsed_fraction
 
-log = logging.getLogger("scanner")
+log = logging.getLogger("trading.signal_scanner")
 
 # RSI: TA-Lib if available, otherwise a pure-pandas Wilder RSI (identical math).
 try:

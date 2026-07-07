@@ -55,7 +55,7 @@ if not exist ".env" (
 
 :: Initialize trade database
 echo [4/4] Initializing trade database...
-".venv\Scripts\python.exe" -c "import trade_store; trade_store.init(); print('trades.db ready')"
+".venv\Scripts\python.exe" -c "import data.trade_store as ts; ts.init(); print('trades.db ready')"
 
 echo.
 echo ========================================

@@ -26,7 +26,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 import config
-import trade_store
+import data.trade_store as trade_store
 from utils import now_et
 
 log = logging.getLogger("learner")

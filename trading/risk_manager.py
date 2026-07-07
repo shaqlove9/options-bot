@@ -11,7 +11,7 @@ import logging
 from dataclasses import dataclass, field
 
 import config
-import trade_store
+import data.trade_store as trade_store
 from utils import now_et
 
 log = logging.getLogger("risk")

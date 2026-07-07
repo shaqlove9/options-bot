@@ -22,7 +22,7 @@ import pandas as pd
 
 import alerts
 import config
-import trade_store
+import data.trade_store as trade_store
 from utils import now_et
 
 log = logging.getLogger("ai_analyst")

@@ -18,7 +18,7 @@ import streamlit as st
 
 import ai_analyst
 import config
-import trade_store
+import data.trade_store as trade_store
 
 BOT_DIR = os.path.dirname(os.path.abspath(__file__))
 # venv layout differs by OS: Scripts/python.exe on Windows, bin/python on POSIX.

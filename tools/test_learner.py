@@ -22,8 +22,8 @@ config.TRADES_CSV = os.path.join(_tmp, "trades.csv")
 config.TRADES_DB = os.path.join(_tmp, "trades.db")
 config.MODEL_FILE = os.path.join(_tmp, "model.pkl")
 
-import trade_store                        # noqa: E402
-from learner import Learner               # noqa: E402
+import data.trade_store as trade_store     # noqa: E402
+from trading.learner import Learner       # noqa: E402
 
 random.seed(7)
 

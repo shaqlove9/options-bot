@@ -13,9 +13,9 @@ import time
 import pandas as pd
 
 import config
-from data_protocols import StockBarProvider, OptionQuoteProvider
-from data_rest import RestStockBarProvider, RestOptionQuoteProvider
-from stream_threads import StockBarStreamThread, OptionQuoteStreamThread
+from data.protocols import StockBarProvider, OptionQuoteProvider
+from data.rest import RestStockBarProvider, RestOptionQuoteProvider
+from streaming.market import StockBarStreamThread, OptionQuoteStreamThread
 from utils import ET, now_et
 
 log = logging.getLogger("data_hybrid")

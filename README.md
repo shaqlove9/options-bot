@@ -58,14 +58,14 @@ The dashboard provides: Start/Stop/Restart controls, live P&L + open positions, 
 ### Command line
 
 ```bash
-python main.py                   # run the bot (paper mode default)
-python scanner.py                # one-off scan to check signals
-python backtest.py --days 60     # backtest on 60 days of data
-python diag_probe.py             # live scanner state per symbol
-python diag_chain.py             # contract filter verdicts
-python ai_analyst.py briefing    # manual AI morning briefing
-python ai_analyst.py report      # manual AI end-of-day report
-python test_learner.py           # ML learner smoke test
+python main.py                          # run the bot (paper mode default)
+python -m trading.scanner               # one-off scan to check signals
+python -m tools.backtest --days 60      # backtest on 60 days of data
+python -m tools.diag_probe              # live scanner state per symbol
+python -m tools.diag_chain              # contract filter verdicts
+python ai_analyst.py briefing           # manual AI morning briefing
+python ai_analyst.py report             # manual AI end-of-day report
+python -m tools.test_learner            # ML learner smoke test
 ```
 
 ## Environment Variables
@@ -151,26 +151,40 @@ On startup the bot: cancels stray open orders, adopts any option positions still
 ## Architecture
 
 ```
-app.py                  Streamlit dashboard (start/stop, P&L, settings)
-main.py                 Orchestrator loop
-├── config.py               All tunables in one place (.env + settings.json overrides)
-├── scanner.py              Momentum + runner signal detection
-├── options_chain.py        Chain fetch, OTM/spread/OI/IV-rank filters
-├── executor.py             Order placement, TP/SL/trailing, crash recovery
-├── risk_manager.py         Daily halt, position caps, loss pause
-├── learner.py              Gradient-boosting ML filter
-├── trade_store.py          SQLite persistence (WAL mode, CSV auto-migration)
-├── alerts.py               Discord webhooks (fail-open)
-├── ai_analyst.py           Claude-powered briefings/reports (advisory only)
-├── data_protocols.py       Protocol interfaces (structural typing)
-├── data_rest.py            REST data providers (with retry)
-├── data_hybrid.py          Hybrid providers (stream-first, REST fallback)
-├── data_stream_orders.py   Stream-backed order event provider
-├── stream_threads.py       Stock bar + option quote WebSocket threads
-├── stream_trading.py       Trading WebSocket thread (instant fill events)
-├── earnings.py             Earnings calendar (IV-crush avoidance)
-├── backtest.py             Black-Scholes backtest harness
-└── utils.py                ET time helpers, retry decorator
+main.py                     Orchestrator loop (entry point)
+app.py                      Streamlit dashboard (start/stop, P&L, settings)
+config.py                   All tunables (.env + settings.json overrides)
+utils.py                    ET time helpers, retry decorator
+ai_analyst.py               Claude-powered briefings/reports (advisory only)
+
+trading/                    Core trading logic
+├── scanner.py                  Momentum + runner signal detection
+├── options_chain.py            Chain fetch, OTM/spread/OI/IV-rank filters
+├── executor.py                 Order placement, TP/SL/trailing, crash recovery
+├── risk_manager.py             Daily halt, position caps, loss pause
+├── learner.py                  Gradient-boosting ML filter
+└── earnings.py                 Earnings calendar (IV-crush avoidance)
+
+data/                       Persistence + data providers
+├── protocols.py                Protocol interfaces (structural typing)
+├── rest.py                     REST data providers (with retry)
+├── hybrid.py                   Hybrid providers (stream-first, REST fallback)
+├── stream_orders.py            Stream-backed order event provider
+└── trade_store.py              SQLite persistence (WAL mode, CSV auto-migration)
+
+streaming/                  WebSocket daemon threads
+├── market.py                   Stock bar + option quote streams
+└── trading.py                  Trading stream (instant fill events)
+
+alerts/                     Webhook notifications (fail-open)
+├── discord.py                  Discord embed backend
+└── slack.py                    Slack attachment backend
+
+tools/                      Standalone scripts (not imported by core)
+├── backtest.py                 Black-Scholes backtest harness
+├── diag_probe.py               Live scanner state diagnostic
+├── diag_chain.py               Contract filter diagnostic
+└── test_learner.py             ML learner smoke test
 ```
 
 ### Design Patterns

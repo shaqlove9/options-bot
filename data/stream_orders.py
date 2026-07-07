@@ -11,9 +11,9 @@ from types import SimpleNamespace
 
 from alpaca.trading.enums import OrderStatus
 
-from data_protocols import OrderEventProvider
-from data_rest import RestOrderEventProvider
-from stream_trading import TradingStreamThread
+from data.protocols import OrderEventProvider
+from data.rest import RestOrderEventProvider
+from streaming.trading import TradingStreamThread
 
 log = logging.getLogger("data_stream_orders")
 

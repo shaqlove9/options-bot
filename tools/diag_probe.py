@@ -1,8 +1,8 @@
 """Ad-hoc diagnostic: show live scanner state per symbol. Safe/read-only."""
 import config
 from alpaca.data.historical import StockHistoricalDataClient
-from data_rest import RestStockBarProvider
-from scanner import Scanner, rsi_last
+from data.rest import RestStockBarProvider
+from trading.scanner import Scanner, rsi_last
 from utils import now_et, session_elapsed_fraction
 
 client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)

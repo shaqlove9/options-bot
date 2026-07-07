@@ -18,20 +18,20 @@ from alpaca.data.historical.option import OptionHistoricalDataClient
 from alpaca.trading.client import TradingClient
 
 import ai_analyst
-from data_rest import (RestStockBarProvider, RestOptionQuoteProvider,
+from data.rest import (RestStockBarProvider, RestOptionQuoteProvider,
                        RestOptionSnapshotProvider, RestOrderEventProvider)
-from data_hybrid import HybridStockBarProvider, HybridOptionQuoteProvider
-from data_stream_orders import StreamOrderEventProvider
-from stream_threads import StockBarStreamThread, OptionQuoteStreamThread
-from stream_trading import TradingStreamThread
+from data.hybrid import HybridStockBarProvider, HybridOptionQuoteProvider
+from data.stream_orders import StreamOrderEventProvider
+from streaming.market import StockBarStreamThread, OptionQuoteStreamThread
+from streaming.trading import TradingStreamThread
 import alerts
 import config
-import earnings
-from executor import Executor
-from learner import Learner, extract_features
-from options_chain import ChainFetcher
-from risk_manager import RiskManager
-from scanner import Scanner
+from trading.earnings import blocks as earnings_blocks
+from trading.executor import Executor
+from trading.learner import Learner, extract_features
+from trading.options_chain import ChainFetcher
+from trading.risk_manager import RiskManager
+from trading.scanner import Scanner
 from utils import in_entry_window, is_market_day, now_et, past_force_close, retry
 
 log = logging.getLogger("main")
@@ -217,7 +217,7 @@ def main():
                         continue
                     if executor.has_pending_entry_for(signal.symbol):
                         continue
-                    if earnings.blocks(signal.symbol):   # IV-crush protection
+                    if earnings_blocks(signal.symbol):   # IV-crush protection
                         continue
 
                     pick = chain.find_contract(signal)

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 import pandas as pd
 
 import config
-from data_protocols import StockBarProvider
+from data.protocols import StockBarProvider
 from utils import ET, now_et, session_elapsed_fraction
 
 log = logging.getLogger("scanner")
@@ -249,7 +249,7 @@ class Scanner:
 if __name__ == "__main__":
     # Quick manual test: python scanner.py
     from alpaca.data.historical import StockHistoricalDataClient
-    from data_rest import RestStockBarProvider
+    from data.rest import RestStockBarProvider
     client = StockHistoricalDataClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
     for s in Scanner(RestStockBarProvider(client)).scan():
         print(s)

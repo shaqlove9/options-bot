@@ -23,8 +23,8 @@ from alpaca.trading.enums import AssetStatus, ContractType
 from alpaca.trading.requests import GetOptionContractsRequest
 
 import config
-from data_protocols import OptionSnapshotProvider
-from scanner import Signal
+from data.protocols import OptionSnapshotProvider
+from trading.scanner import Signal
 from utils import now_et, retry
 
 log = logging.getLogger("options_chain")

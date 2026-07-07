@@ -1,6 +1,6 @@
 """diag_chain.py — read-only: shows why contracts pass/fail the bot's filters.
 
-Run:  .venv\\Scripts\\python diag_chain.py
+Run:  python -m tools.diag_chain
 """
 import logging
 
@@ -12,9 +12,9 @@ from alpaca.data.requests import OptionSnapshotRequest, StockLatestTradeRequest
 from alpaca.trading.client import TradingClient
 
 import config
-from data_rest import RestOptionSnapshotProvider
-from options_chain import ChainFetcher
-from scanner import Signal
+from data.rest import RestOptionSnapshotProvider
+from trading.options_chain import ChainFetcher
+from trading.scanner import Signal
 from utils import now_et
 
 trading = TradingClient(config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY, paper=True)

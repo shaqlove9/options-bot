@@ -16,9 +16,9 @@ from alpaca.trading.requests import LimitOrderRequest, MarketOrderRequest
 
 import alerts as _default_alerts
 import config
-import trade_store
-from data_protocols import OptionQuoteProvider, OrderEventProvider
-from options_chain import ContractPick
+import data.trade_store as trade_store
+from data.protocols import OptionQuoteProvider, OrderEventProvider
+from trading.options_chain import ContractPick
 from utils import now_et
 
 log = logging.getLogger("executor")

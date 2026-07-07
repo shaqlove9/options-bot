@@ -1,200 +1,233 @@
-# Options Scalping Bot — $500 Account
+# Options Scalping Bot
 
-Momentum + IV-based options scalper for Alpaca. **Options only, never holds
-overnight, paper mode by default.**
+Automated options scalper for Alpaca. Trades short-dated (1-7 DTE) OTM calls and puts on momentum signals. Two strategies: **momentum scalp** and **trend runner**. Includes real-time WebSocket streaming, ML-powered entry filtering, a Streamlit dashboard, Discord alerts, and Claude AI analyst.
 
-## ⚠️ Read this first
+Paper mode by default. Never holds overnight.
 
-- **Options scalping on a $500 account is extremely high risk.** Short-dated
-  OTM options can lose most of their value in minutes. Expect to lose money
-  while validating; the $75 daily loss cap is 15% of the account.
-- **Run paper mode for weeks before considering live.** The backtest uses
-  synthetic Black-Scholes prices — it's an upper bound, not a forecast.
-- **SPX is not on Alpaca.** CBOE index options aren't tradable there, so the
-  universe uses SPY/QQQ for index exposure (plus NVDA, TSLA, AAPL, AMZN).
-- **IV rank warm-up:** Alpaca doesn't provide historical IV, so the bot builds
-  its own IV history in `iv_history.json` (one reading per symbol per session).
-  The IV-rank > 60 filter activates after 20 sessions; until then it's skipped
-  with a warning. More reason to paper trade for a few weeks first.
+## Risk Warning
 
-## Setup
+Options scalping on a small account is extremely high risk. Short-dated OTM options can lose most of their value in minutes. The $75 daily loss cap is 15% of the $500 account. Run paper mode for weeks before considering live. The backtest uses synthetic Black-Scholes prices — real fills will be worse.
 
-```powershell
-cd options-bot
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env       # then fill in your keys
-```
+## Tech Stack
 
-Your Alpaca account needs **options trading enabled** (Level 1 — long
-calls/puts — is sufficient). Use your **paper** API keys first.
-
-## Run — Dashboard (recommended)
-
-Double-click **`Launch Options Bot.bat`** — it opens the dashboard in your
-browser at `http://localhost:8501`:
-
-- ▶ **Start / ⏹ Stop** the bot (stop is graceful — flattens positions first)
-- Live daily P&L, open positions with unrealized P&L, win rate, ML model status
-- Equity curve + full trade history with CSV download
-- ⚙️ Settings panel — universe, $/trade, TP/SL, daily halt, ML threshold
-  (saved to `settings.json`; restart the bot to apply)
-- Live log viewer
-
-The bot runs as its own process — closing the dashboard tab does **not** stop
-trading. Use the ⏹ Stop button for that.
-
-## Run — command line
-
-```powershell
-python main.py               # paper mode (default)
-python scanner.py            # one-off scan to sanity-check signals
-python backtest.py --days 60 # backtest on 60 days of 15-min bars
-```
-
-To go live: set `LIVE_MODE=true` in `.env` **and** swap in your live API keys.
-Both are required on purpose.
-
-## Deployment — AWS VPS (24/7 paper)
-
-As of **2026-06-15** the bot runs **24/7 in paper mode** on an AWS EC2 instance,
-so it no longer depends on the laptop being on.
-
-**Infrastructure**
-
-| | |
+| Layer | Technology |
 |---|---|
-| Instance | EC2 **t3.medium** (2 vCPU, 4 GiB), **us-east-1** (closest to Alpaca) |
-| OS | Ubuntu Server 26.04 LTS (x86), 30 GiB gp3 root |
-| Cost | ~$36/mo (instance ~$30 + EBS ~$2.40 + public IPv4 ~$3.60) |
-| App path | `/home/ubuntu/options-bot` |
-| Login | `ssh -i Options-bot.pem ubuntu@<public-ip>` (SSH from My IP only) |
+| Language | Python 3.11+ |
+| Broker API | Alpaca (`alpaca-py`) — trading, market data, WebSocket streams |
+| Data | REST + WebSocket hybrid (stream-first, REST fallback on disconnect) |
+| ML | scikit-learn gradient-boosting classifier |
+| Database | SQLite (WAL mode) via `trade_store.py` |
+| Dashboard | Streamlit |
+| AI Analyst | Claude API (Anthropic) — optional, advisory only |
+| Alerts | Discord webhooks — optional, fail-open |
+| Deployment | Windows local or Ubuntu EC2 with systemd |
 
-The Windows `.venv` does **not** port — it's rebuilt on Linux
-(`python3 -m venv .venv && pip install -r requirements.txt`). TA-Lib stays
-optional; the pandas RSI fallback is used.
+## Quick Start
 
-**Runs as a systemd service** (`/etc/systemd/system/optionsbot.service`) that
-launches `main.py` directly with `Restart=always` and is `enabled` (auto-starts
-on reboot, auto-restarts on crash):
+### Windows
+
+```powershell
+git clone https://github.com/shaqlove9/options-bot.git
+cd options-bot
+setup.bat                        # creates venv, installs deps, copies .env
+# Edit .env — fill in ALPACA_API_KEY and ALPACA_SECRET_KEY
+"Launch Options Bot.bat"         # opens dashboard at http://localhost:8501
+```
+
+### Linux / macOS
 
 ```bash
-sudo systemctl status optionsbot          # is it running?
-sudo systemctl restart optionsbot         # restart
-sudo systemctl stop optionsbot            # stop trading
-journalctl -u optionsbot -f               # live logs
+git clone https://github.com/shaqlove9/options-bot.git
+cd options-bot
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env             # then edit with your Alpaca keys
+python main.py                   # or run the dashboard below
 ```
 
-> **Important:** on the VM, systemd owns the bot. Control it with `systemctl`,
-> **not** the dashboard's Start/Stop buttons — those launch/kill `main.py`
-> independently and would fight systemd (risking two bot instances = double
-> orders).
+### Dashboard (recommended way to operate)
 
-**Security:** the security group allows **inbound SSH (22) only**. The Streamlit
-dashboard (8501) is never exposed to the internet — reach it through an SSH
-tunnel: `ssh -L 8501:localhost:8501 -i Options-bot.pem ubuntu@<public-ip>`, then
-open `http://localhost:8501` on your laptop.
+```bash
+.venv/bin/python -m streamlit run app.py     # Linux
+.venv\Scripts\python -m streamlit run app.py  # Windows
+```
 
-## Status & next steps
+The dashboard provides: Start/Stop/Restart controls, live P&L + open positions, equity curve + trade history, settings editor, AI analyst reports, and live log viewer. The bot runs as a separate process — closing the browser tab does not stop trading.
 
-**Done**
-- ✅ Migrated from old PC → laptop; `.venv` rebuilt, paper keys verified (Jun 2026).
-- ✅ Deployed to AWS EC2, running 24/7 via systemd in paper mode.
-- ✅ Smoke-tested on Linux — clean boot, same package versions as laptop.
+### Command line
 
-**Next steps**
-- [ ] **Set a billing budget** in AWS (Budgets → ~$45/mo alert) to avoid surprise charges.
-- [ ] **Dashboard on the VM (monitoring only).** `app.py`'s `start_bot()` uses the
-      Windows-only `subprocess.CREATE_NO_WINDOW` flag, which breaks on Linux — patch
-      that, then run the dashboard as a second systemd service and view it over the
-      SSH tunnel above.
-- [ ] **(Optional) Elastic IP** to pin the public IP so it survives a stop/start.
-- [ ] **Let paper mode run for weeks.** Accumulate **50 closed trades** so the ML
-      learner can train, and build up IV-rank history (20 sessions) before judging
-      signal quality.
-- [ ] **Only consider live** after sustained paper validation — and even then, start
-      with the smallest possible size. See the risk warnings at the top.
+```bash
+python main.py                   # run the bot (paper mode default)
+python scanner.py                # one-off scan to check signals
+python backtest.py --days 60     # backtest on 60 days of data
+python diag_probe.py             # live scanner state per symbol
+python diag_chain.py             # contract filter verdicts
+python ai_analyst.py briefing    # manual AI morning briefing
+python ai_analyst.py report      # manual AI end-of-day report
+python test_learner.py           # ML learner smoke test
+```
 
-## Strategy
+## Environment Variables
 
-Two entry strategies share all filters and risk rules:
+| Variable | Required | Description |
+|---|---|---|
+| `ALPACA_API_KEY` | Yes | Alpaca API key (use paper keys first) |
+| `ALPACA_SECRET_KEY` | Yes | Alpaca secret key |
+| `LIVE_MODE` | No | `true` for real money (default: `false`) |
+| `DISCORD_WEBHOOK_URL` | No | Discord webhook for alerts |
+| `ANTHROPIC_API_KEY` | No | Claude API key for AI analyst |
+| `AI_ENABLED` | No | Enable AI briefings/reports (default: `true`) |
+| `LOG_LEVEL` | No | `DEBUG`, `INFO`, `WARNING`, `ERROR` (default: `INFO`) |
+| `DASHBOARD_MONITOR_ONLY` | No | `true` on VMs to hide Start/Stop (default: `false`) |
+
+Your Alpaca account needs **options trading enabled** (Level 1 — long calls/puts — is sufficient).
+
+## How It Works
+
+### Data Flow
+
+```
+Market Data (Alpaca WebSocket + REST)
+  │
+  ├── StockBarStreamThread ──── 15-min completed bars ──── queue.Queue
+  ├── OptionQuoteStreamThread ── real-time bid/ask ──────── Lock-protected dict
+  └── TradingStreamThread ────── order fill events ──────── queue.Queue
+  │
+  ▼
+HybridProviders (stream-first, REST fallback on disconnect)
+  │
+  ▼
+Main Loop (30s scan cadence, 5s exit checks when holding)
+  │
+  ├── Scanner ──── generates momentum/runner signals
+  ├── ChainFetcher ──── finds matching option contracts
+  ├── RiskManager ──── position caps, daily loss halt, pause logic
+  ├── Learner ──── ML win-probability gate
+  └── Executor ──── places orders, manages TP/SL/trailing stop
+  │
+  ▼
+Outputs
+  ├── trade_store (SQLite) ──── all closed trade data
+  ├── status.json ──── dashboard heartbeat (atomic writes)
+  ├── Discord alerts ──── entry/exit/halt/summary
+  └── AI reports ──── morning briefing + end-of-day recap
+```
+
+### Entry Pipeline
+
+1. **Scanner** detects momentum signal (>0.5% on 15-min candle + RSI + volume + VWAP) or runner signal (>2% day move + new session highs/lows)
+2. **ChainFetcher** finds OTM option contract matching filters (DTE, OTM band, spread, OI, IV rank)
+3. **RiskManager** checks position limits, daily loss cap, consecutive-loss pause
+4. **Learner** scores P(win) — blocks entry if model is gating and score is below threshold
+5. **Executor** submits limit buy at ask, cancels if unfilled after 20s
+
+### Exit Management
 
 | Rule | Value |
 |---|---|
-| **Scalp** signal | >0.5% move on a single 15-min candle |
-| Scalp confirm | RSI(5) > 65 (calls) / < 35 (puts) |
-| **Runner** signal | ±2% from today's open AND still making new session highs/lows |
-| Runner confirm | RSI(5) > 60 / < 40; runner take profit is +60% (scalp +40%) |
-| Both | volume ≥ 1.5× 20-day avg |
-| VWAP filter | calls only above session VWAP, puts only below |
-| Earnings | single names skipped when earnings fall inside the DTE window |
-| Contract | 1–3.5% OTM, 1–7 DTE, OI > 500, spread ≤ max($0.10, 5% of mid), IV rank ≤ 60 |
-| Entry window | 9:45 AM – 3:30 PM ET only |
-| Take profit | +40% on premium |
-| Stop loss | −30% on premium |
-| Trailing stop | after +20%, exit if 10 points are given back from the peak |
-| Exit cadence | positions checked every 5s; scans every 30s |
-| Time stop | flatten everything at 3:45 PM ET |
-| Per trade | $50 max premium, 1 contract |
-| Positions | 3 max concurrent |
-| Daily halt | −$75 P&L → flatten + halt + Discord alert |
-| Loss pause | 2 consecutive losses → 30-min pause |
+| Take profit | +40% on premium (+60% for runners) |
+| Stop loss | -30% on premium |
+| Trailing stop | After +20%, exit if 10 points given back from peak |
+| Time stop | Flatten everything at 3:45 PM ET |
+| Quote failure | Force-close at market after 20 consecutive failures |
+| Exit cadence | Every 5s while holding positions |
 
-**Crash recovery:** on startup the bot cancels stray orders, adopts any option
-positions still held at Alpaca (so nothing is ever orphaned overnight), and
-rebuilds today's P&L from `trades.csv` so the daily loss limit and pause logic
-survive restarts.
+### Risk Controls
+
+| Rule | Value |
+|---|---|
+| Max per trade | $50 premium, 1 contract |
+| Max positions | 3 concurrent |
+| Daily loss halt | -$75 P&L halts all trading, flattens, alerts Discord |
+| Consecutive loss pause | 2 losses in a row triggers 30-min pause |
+| Entry window | 9:45 AM - 3:30 PM ET only |
+| Earnings block | Skip single names with earnings inside DTE window |
+
+### Crash Recovery
+
+On startup the bot: cancels stray open orders, adopts any option positions still held at Alpaca (so nothing is orphaned overnight), and rebuilds today's P&L from SQLite so the daily loss limit survives restarts.
 
 ## Architecture
 
 ```
-app.py            Streamlit dashboard (start/stop, P&L, positions, settings)
-main.py           orchestrator loop (30s cadence)
-├── scanner.py        momentum signals (15-min candle + RSI + rel volume)
-├── options_chain.py  chain fetch, OI/spread/IV-rank/budget filters
-├── executor.py       order placement, TP/SL/time-stop exits, trades.csv log
-├── risk_manager.py   daily loss halt, position caps, consecutive-loss pause
-├── learner.py        ML win-probability filter trained on trades.csv
-├── alerts.py         Discord webhooks (entry/exit/halt/pause/summary)
-├── backtest.py       Black-Scholes backtest harness
-├── config.py         every tunable in one place
-└── utils.py          ET session-time helpers
+app.py                  Streamlit dashboard (start/stop, P&L, settings)
+main.py                 Orchestrator loop
+├── config.py               All tunables in one place (.env + settings.json overrides)
+├── scanner.py              Momentum + runner signal detection
+├── options_chain.py        Chain fetch, OTM/spread/OI/IV-rank filters
+├── executor.py             Order placement, TP/SL/trailing, crash recovery
+├── risk_manager.py         Daily halt, position caps, loss pause
+├── learner.py              Gradient-boosting ML filter
+├── trade_store.py          SQLite persistence (WAL mode, CSV auto-migration)
+├── alerts.py               Discord webhooks (fail-open)
+├── ai_analyst.py           Claude-powered briefings/reports (advisory only)
+├── data_protocols.py       Protocol interfaces (structural typing)
+├── data_rest.py            REST data providers (with retry)
+├── data_hybrid.py          Hybrid providers (stream-first, REST fallback)
+├── data_stream_orders.py   Stream-backed order event provider
+├── stream_threads.py       Stock bar + option quote WebSocket threads
+├── stream_trading.py       Trading WebSocket thread (instant fill events)
+├── earnings.py             Earnings calendar (IV-crush avoidance)
+├── backtest.py             Black-Scholes backtest harness
+└── utils.py                ET time helpers, retry decorator
 ```
 
-Every closed trade is appended to `trades.csv`: ticker, option symbol, strike,
-expiry, entry/exit price, P&L, entry/exit reason — plus the signal features at
-entry (momentum, RSI, rel volume, IV, spread, DTE, time of day), which become
-the learner's training data.
+### Design Patterns
 
-## ML learner — how the bot learns from its mistakes
+- **Protocol-based DI:** Consumers depend on `typing.Protocol` interfaces, not Alpaca SDK classes. New data backends (WebSocket, mock) added without modifying Scanner/Executor.
+- **Hybrid streaming:** Three daemon threads run WebSocket connections. On disconnect, providers fall back to REST seamlessly. On reconnect, streams resume automatically.
+- **Fail-open optionals:** Discord, earnings, AI analyst, TA-Lib all degrade gracefully. Trading loop never crashes from optional features.
+- **Config override chain:** Hardcoded defaults in `config.py` are overridden by `.env`, then by `settings.json` (dashboard-saved). Range validation clamps values to sane bounds.
+- **ML earned gating:** Learner only vetoes entries after proving AUC >= 0.55. Below that it logs scores but doesn't block.
+- **Atomic file writes:** All shared files (status.json, settings.json, AI reports) use `.tmp` + `os.replace()` to prevent corruption.
 
-`learner.py` trains a gradient-boosting classifier on your own closed trades:
-*features at entry → did the trade win?* New signals are scored before entry.
+### Multi-Process Communication (Dashboard ↔ Bot)
 
-- **Warm-up:** needs 50 closed trades before its first training run. Until
-  then it just collects data (another reason to paper trade for a while).
-- **Earned veto:** the model only gets to *block* entries once its
-  cross-validated AUC clears 0.55 — i.e., it has demonstrated real predictive
-  power on held-out trades. Below that it runs in advisory mode: P(win) is
-  logged on every entry so you can judge it, but it can't veto. This stops a
-  noise-fit model on small data from blocking good trades.
-- **Gate:** when gating, entries scoring below `ML_WIN_PROB_THRESHOLD` (0.45)
-  are skipped and logged.
-- **Retraining:** automatic after every 10 new closed trades (end of day).
-  Run `python learner.py` anytime to force a retrain and see AUC + top factors.
-- Tune everything in `config.py` (`ML_*`); set `ML_ENABLED = False` to turn
-  it off.
+| File | Purpose |
+|---|---|
+| `status.json` | Bot heartbeat — written atomically each cycle |
+| `settings.json` | Dashboard-saved config overrides |
+| `stop.flag` | Dashboard creates to request graceful shutdown |
+| `bot.pid` | Bot PID for process management |
 
-## Backtest output
+## ML Learner
 
-`python backtest.py --days 60` prints: total trades, win rate, avg profit,
-avg loss, total P&L, max drawdown, annualized Sharpe, and exit-reason
-breakdown. Option prices are synthesized via Black-Scholes at fixed per-symbol
-IVs with a $0.06 synthetic spread — real fills will be worse (IV crush, wider
-spreads, slippage).
+`learner.py` trains a gradient-boosting classifier on your closed trades: signal features at entry mapped to win/loss outcome.
 
-## Not financial advice
+- **Warm-up:** Needs 50 closed trades before first training
+- **Earned veto:** Model blocks entries only after cross-validated AUC >= 0.55. Below that it's advisory-only (scores logged, no blocks)
+- **Gate threshold:** Entries scoring below `ML_WIN_PROB_THRESHOLD` (0.45) are skipped
+- **Retraining:** Automatic after every 10 new closed trades (end of day)
+- **Manual:** `python learner.py` to force retrain and see AUC + top features
 
-This is software, not investment advice. You are responsible for every order
-it places. Test in paper mode.
+## AWS Deployment (24/7)
+
+The bot runs 24/7 on AWS EC2 via systemd.
+
+| | |
+|---|---|
+| Instance | EC2 t3.medium (2 vCPU, 4 GiB), us-east-1 |
+| OS | Ubuntu Server 26.04 LTS |
+| Cost | ~$36/mo |
+| Bot service | `optionsbot.service` (Restart=always) |
+| Dashboard | `optionsbot-dashboard.service` (monitoring only, localhost:8501) |
+
+```bash
+sudo systemctl status optionsbot          # check status
+sudo systemctl restart optionsbot         # restart
+sudo systemctl stop optionsbot            # stop
+journalctl -u optionsbot -f               # live logs
+```
+
+Access the dashboard via SSH tunnel:
+```bash
+ssh -L 8501:localhost:8501 -i Options-bot.pem ubuntu@<ip>
+# then open http://localhost:8501 on your laptop
+```
+
+On the VM, `DASHBOARD_MONITOR_ONLY=true` hides Start/Stop buttons so the dashboard can't fight systemd.
+
+## Not Financial Advice
+
+This is software, not investment advice. You are responsible for every order it places. Test extensively in paper mode.

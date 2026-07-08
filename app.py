@@ -142,7 +142,8 @@ def tail(path: str, lines: int = 50) -> str:
         return "(no log yet)"
 
 
-def save_settings(universe, max_cost, max_pos, max_loss, tp, sl, mom, ml_on, ml_thr):
+def save_settings(universe, max_cost, max_pos, max_loss, tp, sl, mom,
+                   ml_on, ml_thr, dyn_uni):
     tmp = config.SETTINGS_FILE + ".tmp"
     with open(tmp, "w") as f:
         json.dump({
@@ -155,6 +156,7 @@ def save_settings(universe, max_cost, max_pos, max_loss, tp, sl, mom, ml_on, ml_
             "MOMENTUM_PCT": mom,
             "ML_ENABLED": ml_on,
             "ML_WIN_PROB_THRESHOLD": ml_thr,
+            "DYNAMIC_UNIVERSE": dyn_uni,
         }, f, indent=1)
     os.replace(tmp, config.SETTINGS_FILE)
 
@@ -241,6 +243,8 @@ with st.sidebar:
         ml_on = st.toggle("ML win-probability filter", value=bool(config.ML_ENABLED))
         ml_thr = st.slider("ML block threshold P(win)", 0.20, 0.80,
                            float(config.ML_WIN_PROB_THRESHOLD), 0.05)
+        dyn_uni = st.toggle("Dynamic universe (screener)",
+                            value=bool(config.DYNAMIC_UNIVERSE))
 
         saved = st.form_submit_button("💾 Save settings", width="stretch")
 
@@ -249,7 +253,7 @@ with st.sidebar:
             st.error("Universe can't be empty.")
         else:
             save_settings(universe, max_cost, max_pos, max_loss,
-                          tp, sl, mom, ml_on, ml_thr)
+                          tp, sl, mom, ml_on, ml_thr, dyn_uni)
             if config.MONITOR_ONLY:
                 st.success("Saved to settings.json — apply on the host with "
                            "`sudo systemctl restart optionsbot`.")
@@ -327,6 +331,16 @@ def dashboard():
     else:
         model_txt, model_sub = "advisory", f"AUC {learner.get('auc')}"
     c5.metric("ML model", model_txt, delta=model_sub, delta_color="off")
+
+    # Dynamic universe status
+    dyn = s.get("dynamic_universe")
+    if dyn and dyn.get("enabled"):
+        with st.expander(f"🔍 Dynamic universe ({len(dyn.get('symbols', []))} symbols, "
+                         f"via {dyn.get('source', '?')})"):
+            st.caption(f"Last refresh: {dyn.get('last_refresh', 'never')}")
+            if dyn.get("discovered"):
+                st.write("**Discovered:** " + ", ".join(dyn["discovered"]))
+            st.write("**Active universe:** " + ", ".join(dyn.get("symbols", [])))
 
     tab_pos, tab_hist, tab_ai, tab_logs = st.tabs(
         ["📌 Open positions", "📜 Trade history", "🤖 AI Analyst", "🧾 Logs"])

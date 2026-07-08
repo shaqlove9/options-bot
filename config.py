@@ -34,6 +34,12 @@ PAUSE_MINUTES = 30
 # the index exposure instead.
 UNIVERSE = ["SPY", "QQQ", "NVDA", "TSLA", "AAPL", "AMZN"]
 
+# --- Dynamic universe (screener-discovered symbols) ---
+DYNAMIC_UNIVERSE = False                        # default OFF; enable via dashboard
+DYNAMIC_UNIVERSE_MAX_SYMBOLS = 15               # cap total universe size
+DYNAMIC_UNIVERSE_REFRESH_MIN = 30               # refresh every N minutes
+DYNAMIC_UNIVERSE_CORE = ["SPY", "QQQ"]          # always included regardless of screener
+
 # --- Strategy 2: momentum runner (trend continuation) ---
 # Catches a stock that's been running all day (not just one big candle) and
 # is still pushing to new session highs/lows. Wider profit target; the
@@ -167,6 +173,8 @@ _TUNABLE = {
     "MULTI_TF_CONFIRM", "DIVERGENCE_FILTER",
     "VIX_FILTER", "VIX_MAX_DAY_RANGE_PCT",
     "ML_N_ESTIMATORS", "ML_MAX_DEPTH", "ML_LEARNING_RATE", "ML_SUBSAMPLE",
+    "DYNAMIC_UNIVERSE", "DYNAMIC_UNIVERSE_MAX_SYMBOLS",
+    "DYNAMIC_UNIVERSE_REFRESH_MIN",
 }
 if os.path.exists(SETTINGS_FILE):
     import json as _json
@@ -220,6 +228,8 @@ _RANGE_LIMITS = {
     "ML_MAX_DEPTH":         (1, 10),
     "ML_LEARNING_RATE":     (0.001, 1.0),
     "ML_SUBSAMPLE":         (0.1, 1.0),
+    "DYNAMIC_UNIVERSE_MAX_SYMBOLS": (3, 30),
+    "DYNAMIC_UNIVERSE_REFRESH_MIN": (5, 120),
 }
 for _key, (_lo, _hi) in _RANGE_LIMITS.items():
     _val = globals().get(_key)

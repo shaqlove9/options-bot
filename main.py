@@ -32,6 +32,7 @@ from trading.ml_filter import Learner, extract_features
 from trading.contract_selector import ChainFetcher
 from trading.risk_manager import RiskManager
 from trading.signal_scanner import Scanner
+from trading.universe_builder import UniverseBuilder
 from utils import in_entry_window, is_market_day, now_et, past_force_close, retry
 
 log = logging.getLogger("main")
@@ -48,7 +49,8 @@ def build_clients():
 
 
 def write_status(executor, risk, learner, market_open: bool,
-                  running: bool = True, streams: dict | None = None):
+                  running: bool = True, streams: dict | None = None,
+                  universe_builder=None):
     """Heartbeat for the dashboard (app.py). Written atomically each cycle."""
     s = risk.summary()
     status = {
@@ -75,6 +77,8 @@ def write_status(executor, risk, learner, market_open: bool,
         status["streams"] = {
             name: obj.is_connected() for name, obj in streams.items()
         }
+    if universe_builder:
+        status["dynamic_universe"] = universe_builder.status_dict()
     tmp = config.STATUS_FILE + ".tmp"
     with open(tmp, "w") as f:
         json.dump(status, f, indent=1)
@@ -170,6 +174,7 @@ def main():
     chain = ChainFetcher(trading, snapshot_provider)
     executor = Executor(trading, quote_provider, order_provider, risk)
     learner = Learner()   # trains from trades.csv once enough history exists
+    universe_builder = UniverseBuilder()
 
     # Crash recovery: adopt any positions left at the broker, clear stray
     # orders, and rebuild today's P&L so the daily loss limit holds.
@@ -198,7 +203,8 @@ def main():
                 trading_stream.stop()
                 stock_stream.stop()
                 option_stream.stop()
-                write_status(executor, risk, learner, False, running=False)
+                write_status(executor, risk, learner, False, running=False,
+                             universe_builder=universe_builder)
                 break
 
             if not is_market_day(now) or not get_clock_with_retry(trading).is_open:
@@ -208,7 +214,8 @@ def main():
                     briefing_sent_for = now.date()
                     ai_analyst.morning_briefing()
                 write_status(executor, risk, learner, market_open=False,
-                             streams=streams)
+                             streams=streams,
+                             universe_builder=universe_builder)
                 sleep_responsive(60)
                 continue
 
@@ -223,7 +230,8 @@ def main():
                     learner.maybe_retrain()   # learn from today's trades
                     ai_analyst.daily_report() # plain-English AI recap
                 write_status(executor, risk, learner, market_open=True,
-                             streams=streams)
+                             streams=streams,
+                             universe_builder=universe_builder)
                 sleep_responsive(60)
                 continue
 
@@ -241,6 +249,9 @@ def main():
             for pos in executor.check_pending_entries():
                 cooldowns[pos.underlying] = now_et()
 
+            # --- dynamic universe refresh ---
+            universe_builder.maybe_refresh()
+
             # --- look for new entries (every SCAN_INTERVAL_SEC; exits are
             #     checked more often when positions are open) ---
             if (in_entry_window(now) and not risk.state.halted
@@ -255,7 +266,8 @@ def main():
             cooldowns = {sym: t for sym, t in cooldowns.items() if t > cutoff}
 
             write_status(executor, risk, learner, market_open=True,
-                         streams=streams)
+                         streams=streams,
+                         universe_builder=universe_builder)
             # Tight loop while holding positions or pending orders (fast
             # TP/SL/trailing checks + fill polling); relaxed cadence when flat.
             has_activity = (executor.open_count() or executor.pending_count())
@@ -269,14 +281,16 @@ def main():
             trading_stream.stop()
             stock_stream.stop()
             option_stream.stop()
-            write_status(executor, risk, learner, False, running=False)
+            write_status(executor, risk, learner, False, running=False,
+                         universe_builder=universe_builder)
             break
         except Exception as exc:
             log.exception("Main loop error")
             alerts.error(f"Main loop error: {exc}")
             try:
                 write_status(executor, risk, learner, market_open=False,
-                             streams=streams)
+                             streams=streams,
+                             universe_builder=universe_builder)
             except Exception:
                 pass  # don't let status write failure mask the original error
             time.sleep(config.SCAN_INTERVAL_SEC)

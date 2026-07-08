@@ -63,6 +63,9 @@ class PendingOrder:
 # OCC option symbol, e.g. SPY260612C00600000
 _OCC_RE = re.compile(r"^([A-Z]+)(\d{6})([CP])(\d{8})$")
 
+_TERMINAL_STATUSES = (OrderStatus.CANCELED, OrderStatus.REJECTED,
+                      OrderStatus.EXPIRED, OrderStatus.SUSPENDED)
+
 
 def parse_occ(symbol: str) -> tuple[str, dt.date, str, float] | None:
     """-> (underlying, expiry, 'call'|'put', strike) or None."""
@@ -213,24 +216,20 @@ class Executor:
                 filled.append(pos)
                 continue
 
-            terminal = order.status in (OrderStatus.CANCELED,
-                                        OrderStatus.REJECTED,
-                                        OrderStatus.EXPIRED,
-                                        OrderStatus.SUSPENDED)
             elapsed = time.monotonic() - pending.submit_time
             timed_out = elapsed >= pending.timeout_sec and not pending.cancel_sent
 
-            if timed_out and not terminal:
+            if timed_out and order.status not in _TERMINAL_STATUSES:
                 pending.cancel_sent = True
                 log.info("%s: entry not filled in %ds — cancelling",
                          pending.pick.option_symbol, pending.timeout_sec)
                 try:
                     self.trading.cancel_order_by_id(oid)
-                except Exception:
-                    pass
+                except Exception as exc:
+                    log.debug("%s: entry cancel failed: %s", pending.pick.option_symbol, exc)
                 continue
 
-            if terminal:
+            if order.status in _TERMINAL_STATUSES:
                 del self._pending_entries[oid]
                 log.info("%s: entry order %s (status: %s)",
                          pending.pick.option_symbol,
@@ -423,7 +422,8 @@ class Executor:
                 order_id=order.id, pick=None, side="sell",
                 entry_reason=pos.entry_reason, features=pos.features,
                 win_prob=pos.win_prob, tp_pct=pos.tp_pct,
-                submit_time=time.monotonic(), timeout_sec=30,
+                submit_time=time.monotonic(),
+                timeout_sec=config.EXIT_FILL_TIMEOUT_SEC,
                 position=pos, exit_reason=reason, is_market=is_market,
             )
             log.info("%s: exit order submitted (%s) — %s",
@@ -454,23 +454,19 @@ class Executor:
                 realized.append(pnl)
                 continue
 
-            terminal = order.status in (OrderStatus.CANCELED,
-                                        OrderStatus.REJECTED,
-                                        OrderStatus.EXPIRED,
-                                        OrderStatus.SUSPENDED)
             elapsed = time.monotonic() - pending.submit_time
             timed_out = elapsed >= pending.timeout_sec and not pending.cancel_sent
 
-            if timed_out and not terminal:
+            if timed_out and order.status not in _TERMINAL_STATUSES:
                 # Cancel timed-out limit order; next poll will see terminal status
                 pending.cancel_sent = True
                 try:
                     self.trading.cancel_order_by_id(pending.order_id)
-                except Exception:
-                    pass
+                except Exception as exc:
+                    log.debug("%s: exit cancel failed: %s", sym, exc)
                 continue
 
-            if terminal:
+            if order.status in _TERMINAL_STATUSES:
                 del self._pending_exits[sym]
                 pnl = self._handle_terminal_exit(sym, pending, order)
                 if pnl is not None:
@@ -494,8 +490,18 @@ class Executor:
         # between our cancel and their processing.
         try:
             broker_pos = self.trading.get_open_position(sym)
-        except Exception:
-            broker_pos = None
+        except Exception as exc:
+            # 404/42210000 = position genuinely gone at broker.
+            # Any other error = network issue — don't assume position is closed.
+            exc_str = str(exc)
+            if "404" in exc_str or "42210000" in exc_str:
+                broker_pos = None
+            else:
+                log.warning("%s: network error checking position — will retry: %s",
+                            sym, exc)
+                self._initiate_close(pending.position,
+                                     pending.exit_reason, market=True)
+                return None
         if broker_pos is None or int(float(broker_pos.qty)) <= 0:
             log.info("%s: position gone at broker after exit cancel", sym)
             if order.status == OrderStatus.FILLED:

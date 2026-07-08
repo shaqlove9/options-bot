@@ -11,6 +11,7 @@ import datetime as dt
 import logging
 import os
 import sqlite3
+import threading
 
 import pandas as pd
 
@@ -21,8 +22,11 @@ log = logging.getLogger("data.trade_store")
 
 # Feature columns used by the ML learner (single source of truth).
 FEATURE_NUMERIC = ["momentum_pct", "day_change_pct", "rsi", "rel_volume",
-                   "vwap_dist_pct", "iv", "spread", "dte", "minutes_since_open"]
-FEATURE_COLS = FEATURE_NUMERIC + ["ticker", "type", "strategy"]
+                   "vwap_dist_pct", "iv", "spread", "dte", "minutes_since_open",
+                   "atr", "momentum_threshold"]
+FEATURE_CATEGORICAL = ["ticker", "type", "strategy", "time_bucket",
+                       "hourly_trend_aligned", "divergence", "day_of_week"]
+FEATURE_COLS = FEATURE_NUMERIC + FEATURE_CATEGORICAL
 
 _CREATE_TABLE = """
 CREATE TABLE IF NOT EXISTS trades (
@@ -51,7 +55,13 @@ CREATE TABLE IF NOT EXISTS trades (
     spread        REAL,
     dte           INTEGER,
     minutes_since_open INTEGER,
-    win_prob      REAL
+    win_prob      REAL,
+    atr               REAL,
+    momentum_threshold REAL,
+    hourly_trend_aligned TEXT,
+    divergence        TEXT,
+    day_of_week       INTEGER,
+    time_bucket       TEXT
 )
 """
 
@@ -61,10 +71,12 @@ _CSV_COLUMNS = [
     "expiry", "qty", "entry_price", "exit_price", "pnl", "pnl_pct",
     "entry_reason", "exit_reason", "strategy", "momentum_pct", "day_change_pct",
     "rsi", "rel_volume", "vwap_dist_pct", "iv", "spread", "dte",
-    "minutes_since_open", "win_prob",
+    "minutes_since_open", "win_prob", "atr", "momentum_threshold",
+    "hourly_trend_aligned", "divergence", "day_of_week", "time_bucket",
 ]
 
 _conn: sqlite3.Connection | None = None
+_write_lock = threading.Lock()
 
 
 def _get_conn() -> sqlite3.Connection:
@@ -78,11 +90,30 @@ def _get_conn() -> sqlite3.Connection:
     return _conn
 
 
+def _migrate_columns(conn: sqlite3.Connection):
+    """Add new columns to existing tables (idempotent)."""
+    new_cols = [
+        ("atr", "REAL"),
+        ("momentum_threshold", "REAL"),
+        ("hourly_trend_aligned", "TEXT"),
+        ("divergence", "TEXT"),
+        ("day_of_week", "INTEGER"),
+        ("time_bucket", "TEXT"),
+    ]
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(trades)").fetchall()}
+    for col, dtype in new_cols:
+        if col not in existing:
+            conn.execute(f"ALTER TABLE trades ADD COLUMN {col} {dtype}")
+            log.info("Added column %s to trades table", col)
+    conn.commit()
+
+
 def init():
     """Create the trades table if needed and migrate CSV data if present."""
     conn = _get_conn()
     conn.execute(_CREATE_TABLE)
     conn.commit()
+    _migrate_columns(conn)
     _migrate_csv(conn)
 
 
@@ -140,8 +171,10 @@ def _insert_row(conn: sqlite3.Connection, row: dict):
             entry_time, exit_time, ticker, option_symbol, type, strike, expiry,
             qty, entry_price, exit_price, pnl, pnl_pct, entry_reason, exit_reason,
             strategy, momentum_pct, day_change_pct, rsi, rel_volume,
-            vwap_dist_pct, iv, spread, dte, minutes_since_open, win_prob
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            vwap_dist_pct, iv, spread, dte, minutes_since_open, win_prob,
+            atr, momentum_threshold, hourly_trend_aligned, divergence,
+            day_of_week, time_bucket
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             row.get("entry_time", ""),
             row.get("exit_time", ""),
@@ -168,6 +201,12 @@ def _insert_row(conn: sqlite3.Connection, row: dict):
             _int(row.get("dte")),
             _int(row.get("minutes_since_open")),
             _float(row.get("win_prob")),
+            _float(row.get("atr")),
+            _float(row.get("momentum_threshold")),
+            row.get("hourly_trend_aligned"),
+            row.get("divergence"),
+            _int(row.get("day_of_week")),
+            row.get("time_bucket"),
         ),
     )
 
@@ -182,43 +221,43 @@ def append_trade(*, entry_time: dt.datetime, underlying: str,
                  entry_reason: str, exit_reason: str,
                  features: dict, win_prob: float | None):
     """Append one closed trade to the database."""
+    row = {
+        "entry_time": entry_time.isoformat(timespec="seconds"),
+        "exit_time": now_et().isoformat(timespec="seconds"),
+        "ticker": underlying,
+        "option_symbol": option_symbol,
+        "type": otype,
+        "strike": strike,
+        "expiry": expiry.isoformat(),
+        "qty": qty,
+        "entry_price": round(entry_price, 2),
+        "exit_price": round(exit_price, 2),
+        "pnl": round(pnl, 2),
+        "pnl_pct": round(pnl_pct, 1),
+        "entry_reason": entry_reason,
+        "exit_reason": exit_reason,
+        "strategy": features.get("strategy"),
+        "momentum_pct": features.get("momentum_pct"),
+        "day_change_pct": features.get("day_change_pct"),
+        "rsi": features.get("rsi"),
+        "rel_volume": features.get("rel_volume"),
+        "vwap_dist_pct": features.get("vwap_dist_pct"),
+        "iv": features.get("iv"),
+        "spread": features.get("spread"),
+        "dte": features.get("dte"),
+        "minutes_since_open": features.get("minutes_since_open"),
+        "win_prob": win_prob,
+        "atr": features.get("atr"),
+        "momentum_threshold": features.get("momentum_threshold"),
+        "hourly_trend_aligned": features.get("hourly_trend_aligned"),
+        "divergence": features.get("divergence"),
+        "day_of_week": features.get("day_of_week"),
+        "time_bucket": features.get("time_bucket"),
+    }
     conn = _get_conn()
-    conn.execute(
-        """INSERT INTO trades (
-            entry_time, exit_time, ticker, option_symbol, type, strike, expiry,
-            qty, entry_price, exit_price, pnl, pnl_pct, entry_reason, exit_reason,
-            strategy, momentum_pct, day_change_pct, rsi, rel_volume,
-            vwap_dist_pct, iv, spread, dte, minutes_since_open, win_prob
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (
-            entry_time.isoformat(timespec="seconds"),
-            now_et().isoformat(timespec="seconds"),
-            underlying,
-            option_symbol,
-            otype,
-            strike,
-            expiry.isoformat(),
-            qty,
-            round(entry_price, 2),
-            round(exit_price, 2),
-            round(pnl, 2),
-            round(pnl_pct, 1),
-            entry_reason,
-            exit_reason,
-            features.get("strategy"),
-            features.get("momentum_pct"),
-            features.get("day_change_pct"),
-            features.get("rsi"),
-            features.get("rel_volume"),
-            features.get("vwap_dist_pct"),
-            features.get("iv"),
-            features.get("spread"),
-            features.get("dte"),
-            features.get("minutes_since_open"),
-            win_prob,
-        ),
-    )
-    conn.commit()
+    with _write_lock:
+        _insert_row(conn, row)
+        conn.commit()
 
 
 def today_pnls() -> list[float]:

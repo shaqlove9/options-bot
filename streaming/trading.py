@@ -7,13 +7,12 @@ from __future__ import annotations
 
 import logging
 import queue
-import threading
-import time
 from dataclasses import dataclass
 
 from alpaca.trading.stream import TradingStream
 
 import config
+from streaming.base import BaseStreamThread
 
 log = logging.getLogger("streaming.trading")
 
@@ -26,27 +25,13 @@ class StreamOrderEvent:
     raw: dict
 
 
-class TradingStreamThread:
+class TradingStreamThread(BaseStreamThread):
+
+    _thread_name = "TradingStream"
+
     def __init__(self):
+        super().__init__()
         self._queue: queue.Queue[StreamOrderEvent] = queue.Queue()
-        self._connected = threading.Event()
-        self._stop_event = threading.Event()
-        self._thread: threading.Thread | None = None
-
-    def start(self):
-        self._thread = threading.Thread(
-            target=self._run, name="TradingStream", daemon=True)
-        self._thread.start()
-        log.info("TradingStreamThread started")
-
-    def stop(self):
-        self._stop_event.set()
-        if self._thread and self._thread.is_alive():
-            self._thread.join(timeout=5)
-        log.info("TradingStreamThread stopped")
-
-    def is_connected(self) -> bool:
-        return self._connected.is_set()
 
     def drain_events(self) -> list[StreamOrderEvent]:
         events = []
@@ -56,17 +41,6 @@ class TradingStreamThread:
             except queue.Empty:
                 break
         return events
-
-    def _run(self):
-        while not self._stop_event.is_set():
-            try:
-                self._run_stream()
-            except Exception:
-                self._connected.clear()
-                if self._stop_event.is_set():
-                    break
-                log.exception("TradingStream error — reconnecting in 5s")
-                time.sleep(5)
 
     def _run_stream(self):
         stream = TradingStream(

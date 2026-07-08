@@ -71,7 +71,7 @@ class RestOptionQuoteProvider:
         for sym, q in quotes.items():
             bid = float(q.bid_price or 0)
             ask = float(q.ask_price or 0)
-            if bid > 0 or ask > 0:
+            if bid > 0 and ask > 0:
                 result[sym] = (bid, ask)
         return result
 

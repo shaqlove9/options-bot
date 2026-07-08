@@ -100,6 +100,43 @@ def sleep_responsive(seconds: float):
         time.sleep(min(2, deadline - time.monotonic()))
 
 
+def _try_enter(signal, now, cooldowns, executor, chain, risk, learner):
+    """Evaluate a single signal for entry. Returns True if order submitted."""
+    last = cooldowns.get(signal.symbol)
+    if last and (now - last).total_seconds() < config.SYMBOL_COOLDOWN_MIN * 60:
+        return False
+    if executor.has_position_in(signal.symbol):
+        return False
+    if executor.has_pending_entry_for(signal.symbol):
+        return False
+    if earnings_blocks(signal.symbol):
+        return False
+
+    pick = chain.find_contract(signal)
+    if pick is None:
+        return False
+
+    ok, why = risk.can_enter(
+        executor.open_count() + executor.pending_count(), pick.cost)
+    if not ok:
+        log.info("Entry blocked: %s", why)
+        return False
+
+    features = extract_features(signal, pick)
+    allowed, win_prob = learner.allows(features)
+    if not allowed:
+        log.info("ENTRY BLOCKED by model: %s P(win)=%.2f < %.2f",
+                 pick.option_symbol, win_prob, config.ML_WIN_PROB_THRESHOLD)
+        return False
+    if win_prob is not None:
+        log.info("Model P(win)=%.2f for %s", win_prob, pick.option_symbol)
+
+    tp = (config.RUNNER_TAKE_PROFIT_PCT if signal.strategy == "runner"
+          else config.TAKE_PROFIT_PCT)
+    executor.open_position(pick, signal.reason(), features, win_prob, tp_pct=tp)
+    return True
+
+
 def main():
     mode = "LIVE" if config.LIVE_MODE else "PAPER"
     log.info("Starting options bot — %s MODE — universe %s", mode, config.UNIVERSE)
@@ -210,42 +247,12 @@ def main():
                     and time.monotonic() >= next_scan):
                 next_scan = time.monotonic() + config.SCAN_INTERVAL_SEC
                 for signal in scanner.scan():
-                    last = cooldowns.get(signal.symbol)
-                    if last and (now - last).total_seconds() < config.SYMBOL_COOLDOWN_MIN * 60:
-                        continue
-                    if executor.has_position_in(signal.symbol):
-                        continue
-                    if executor.has_pending_entry_for(signal.symbol):
-                        continue
-                    if earnings_blocks(signal.symbol):   # IV-crush protection
-                        continue
+                    _try_enter(signal, now, cooldowns, executor, chain,
+                               risk, learner)
 
-                    pick = chain.find_contract(signal)
-                    if pick is None:
-                        continue
-
-                    ok, why = risk.can_enter(
-                        executor.open_count() + executor.pending_count(),
-                        pick.cost)
-                    if not ok:
-                        log.info("Entry blocked: %s", why)
-                        continue
-
-                    # ML filter: block setups that resemble past losers
-                    features = extract_features(signal, pick)
-                    allowed, win_prob = learner.allows(features)
-                    if not allowed:
-                        log.info("ENTRY BLOCKED by model: %s P(win)=%.2f < %.2f",
-                                 pick.option_symbol, win_prob,
-                                 config.ML_WIN_PROB_THRESHOLD)
-                        continue
-                    if win_prob is not None:
-                        log.info("Model P(win)=%.2f for %s", win_prob, pick.option_symbol)
-
-                    tp = (config.RUNNER_TAKE_PROFIT_PCT if signal.strategy == "runner"
-                          else config.TAKE_PROFIT_PCT)
-                    executor.open_position(pick, signal.reason(), features,
-                                           win_prob, tp_pct=tp)
+            # Prune stale cooldowns to prevent unbounded growth
+            cutoff = now - dt.timedelta(minutes=config.SYMBOL_COOLDOWN_MIN)
+            cooldowns = {sym: t for sym, t in cooldowns.items() if t > cutoff}
 
             write_status(executor, risk, learner, market_open=True,
                          streams=streams)

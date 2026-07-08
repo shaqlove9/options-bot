@@ -10,6 +10,7 @@ import logging
 import time
 from dataclasses import dataclass
 
+import numpy as np
 import pandas as pd
 
 import config
@@ -17,6 +18,15 @@ from data.protocols import StockBarProvider
 from utils import ET, now_et, session_elapsed_fraction
 
 log = logging.getLogger("trading.signal_scanner")
+
+# Pure-pandas Wilder RSI series (used by both rsi_last fallback and divergence check).
+def _rsi_series(closes: pd.Series, period: int) -> pd.Series:
+    delta = closes.diff()
+    gain = delta.clip(lower=0.0).ewm(alpha=1 / period, adjust=False).mean()
+    loss = (-delta.clip(upper=0.0)).ewm(alpha=1 / period, adjust=False).mean()
+    rs = gain / loss.replace(0.0, float("nan"))
+    return 100 - 100 / (1 + rs)
+
 
 # RSI: TA-Lib if available, otherwise a pure-pandas Wilder RSI (identical math).
 try:
@@ -27,11 +37,7 @@ try:
         return float(values[-1])
 except ImportError:
     def rsi_last(closes: pd.Series, period: int) -> float:
-        delta = closes.diff()
-        gain = delta.clip(lower=0.0).ewm(alpha=1 / period, adjust=False).mean()
-        loss = (-delta.clip(upper=0.0)).ewm(alpha=1 / period, adjust=False).mean()
-        rs = gain / loss.replace(0.0, float("nan"))
-        return float((100 - 100 / (1 + rs)).iloc[-1])
+        return float(_rsi_series(closes, period).iloc[-1])
 
 
 @dataclass
@@ -46,6 +52,10 @@ class Signal:
     spot: float             # latest close of the underlying
     vwap_dist_pct: float    # % distance of spot from session VWAP
     time: dt.datetime
+    atr: float | None = None                    # 14-period ATR (3A)
+    momentum_threshold: float | None = None     # ATR-derived threshold used (3A)
+    hourly_trend_aligned: bool | None = None    # hourly trend matches direction (3B)
+    divergence: bool | None = None              # price/RSI divergence detected (3C)
 
     def reason(self) -> str:
         if self.strategy == "runner":
@@ -85,7 +95,7 @@ class Scanner:
         try:
             result = self._bars.get_bars(
                 [symbol], timeframe_minutes=1440,
-                lookback_days=config.VOLUME_LOOKBACK_DAYS * 2)
+                lookback_days=config.VOLUME_LOOKBACK_DAYS * config.LOOKBACK_MULTIPLIER)
         except Exception as exc:
             log.warning("%s: daily bars fetch failed: %s", symbol, exc)
             return None
@@ -152,10 +162,31 @@ class Scanner:
             return None
         day_change = (spot - today_bars["open"].iloc[0]) / today_bars["open"].iloc[0] * 100
 
-        direction, strategy = self._scalp_check(momentum, rsi)
+        # 3A: ATR-normalized momentum threshold
+        atr_val = self._atr(intraday, config.ATR_PERIOD)
+        momentum_threshold = config.MOMENTUM_PCT
+        if config.USE_ATR_MOMENTUM and atr_val is not None and candle["open"] > 0:
+            momentum_threshold = (atr_val / candle["open"] * 100) * config.ATR_MOMENTUM_MULTIPLE
+            momentum_threshold = max(momentum_threshold, 0.1)  # floor
+
+        direction, strategy = self._scalp_check(momentum, rsi, momentum_threshold)
         if direction is None:
             direction, strategy = self._runner_check(today_bars, spot, rsi, day_change)
         if direction is None:
+            return None
+
+        # 3B: Multi-timeframe trend confirmation
+        hourly_aligned = self._hourly_trend_ok(intraday, direction)
+        if config.MULTI_TF_CONFIRM and not hourly_aligned:
+            log.debug("%s: %s signal conflicts with hourly trend — skipped",
+                      symbol, direction)
+            return None
+
+        # 3C: RSI divergence detection
+        has_div = self._has_divergence(intraday, direction)
+        if config.DIVERGENCE_FILTER and has_div:
+            log.debug("%s: %s signal has RSI divergence — skipped",
+                      symbol, direction)
             return None
 
         rel_vol = self._relative_volume(symbol, intraday)
@@ -189,12 +220,17 @@ class Scanner:
             spot=spot,
             vwap_dist_pct=vwap_dist,
             time=now_et(),
+            atr=round(atr_val, 4) if atr_val is not None else None,
+            momentum_threshold=round(momentum_threshold, 4),
+            hourly_trend_aligned=hourly_aligned,
+            divergence=has_div,
         )
 
     @staticmethod
-    def _scalp_check(momentum: float, rsi: float) -> tuple[str | None, str]:
+    def _scalp_check(momentum: float, rsi: float,
+                     threshold: float | None = None) -> tuple[str | None, str]:
         """Strategy 1: one strong 15-min candle with RSI confirmation."""
-        if abs(momentum) >= config.MOMENTUM_PCT:
+        if abs(momentum) >= (threshold if threshold is not None else config.MOMENTUM_PCT):
             if momentum > 0 and rsi > config.RSI_CALL_MIN:
                 return "call", "scalp"
             if momentum < 0 and rsi < config.RSI_PUT_MAX:
@@ -222,10 +258,100 @@ class Scanner:
                 return "put", "runner"
         return None, ""
 
+    # ---------------- Phase 3 signal filters ----------------
+
+    @staticmethod
+    def _atr(intraday: pd.DataFrame, period: int = 14) -> float | None:
+        """Average True Range over the last `period` 15-min bars."""
+        if len(intraday) < period + 1:
+            return None
+        high = intraday["high"].values
+        low = intraday["low"].values
+        close = intraday["close"].values
+        tr = np.maximum(
+            high[1:] - low[1:],
+            np.maximum(
+                np.abs(high[1:] - close[:-1]),
+                np.abs(low[1:] - close[:-1]),
+            ),
+        )
+        if len(tr) < period:
+            return None
+        return float(np.mean(tr[-period:]))
+
+    @staticmethod
+    def _hourly_trend_ok(intraday: pd.DataFrame, direction: str) -> bool:
+        """Check that the hourly trend (last 3 bars) matches signal direction."""
+        try:
+            hourly = intraday.resample("1h").agg({
+                "open": "first", "high": "max", "low": "min",
+                "close": "last", "volume": "sum",
+            }).dropna(subset=["open"])
+        except Exception:
+            return True  # fail-open
+        if len(hourly) < 3:
+            return True  # not enough data, allow signal
+        last3 = hourly.iloc[-3:]
+        closes = last3["close"].values
+        if direction == "call":
+            return closes[-1] > closes[0]
+        else:
+            return closes[-1] < closes[0]
+
+    @staticmethod
+    def _has_divergence(intraday: pd.DataFrame, direction: str,
+                        rsi_period: int = 5, lookback: int = 5) -> bool:
+        """Detect price/RSI divergence over the last `lookback` bars.
+        Bearish divergence: price making higher highs but RSI making lower highs.
+        Bullish divergence: price making lower lows but RSI making higher lows."""
+        if len(intraday) < lookback + rsi_period:
+            return False
+        closes = intraday["close"]
+        rsi_series = _rsi_series(closes, rsi_period)
+        recent_close = closes.iloc[-lookback:]
+        recent_rsi = rsi_series.iloc[-lookback:]
+        if recent_close.isna().any() or recent_rsi.isna().any():
+            return False
+        if direction == "call":
+            # Bearish divergence: price higher high, RSI lower high
+            price_rising = recent_close.iloc[-1] > recent_close.iloc[0]
+            rsi_falling = recent_rsi.iloc[-1] < recent_rsi.iloc[0]
+            return price_rising and rsi_falling
+        else:
+            # Bullish divergence: price lower low, RSI higher low
+            price_falling = recent_close.iloc[-1] < recent_close.iloc[0]
+            rsi_rising = recent_rsi.iloc[-1] > recent_rsi.iloc[0]
+            return price_falling and rsi_rising
+
+    def _check_regime(self, intraday_batch: dict[str, pd.DataFrame]) -> bool:
+        """Return True if the market regime is acceptable for trading.
+        Uses SPY intraday range as a VIX proxy."""
+        if not config.VIX_FILTER:
+            return True
+        spy_bars = intraday_batch.get("SPY")
+        if spy_bars is None or spy_bars.empty:
+            return True  # fail-open: no data shouldn't block trading
+        today = now_et().date()
+        today_bars = spy_bars[spy_bars.index.date == today]
+        if today_bars.empty or today_bars["open"].iloc[0] <= 0:
+            return True
+        day_open = float(today_bars["open"].iloc[0])
+        day_high = float(today_bars["high"].max())
+        day_low = float(today_bars["low"].min())
+        day_range_pct = (day_high - day_low) / day_open * 100
+        if day_range_pct > config.VIX_MAX_DAY_RANGE_PCT:
+            log.info("Regime filter: SPY day range %.1f%% > %.1f%% — skipping scan",
+                     day_range_pct, config.VIX_MAX_DAY_RANGE_PCT)
+            return False
+        return True
+
     def scan(self) -> list[Signal]:
         """One pass over the universe. Called every SCAN_INTERVAL_SEC by main."""
         # Batch-fetch intraday bars for all symbols in one API call
         intraday_batch = self._fetch_intraday_batch(list(config.UNIVERSE))
+        # 3D: Market regime filter — skip entire scan in high-volatility regimes
+        if not self._check_regime(intraday_batch):
+            return []
         signals = []
         for symbol in config.UNIVERSE:
             try:

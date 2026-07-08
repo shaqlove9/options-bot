@@ -9,6 +9,7 @@ trades.db-wal
 trades.db-shm
 iv_history.json
 model.pkl
+model.pkl.sha256
 status.json
 status.json.tmp
 stop.flag

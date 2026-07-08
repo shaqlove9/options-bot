@@ -51,8 +51,24 @@ RSI_PERIOD = 5
 RSI_CALL_MIN = 65               # RSI(5) must exceed this for calls
 RSI_PUT_MAX = 35                # RSI(5) must be under this for puts
 REL_VOLUME_MIN = 1.5            # today's volume vs time-adjusted 20-day avg
+LOOKBACK_MULTIPLIER = 2             # multiplier on VOLUME_LOOKBACK_DAYS for bar fetch
 VOLUME_LOOKBACK_DAYS = 20
 SYMBOL_COOLDOWN_MIN = 15        # don't re-enter the same underlying for N min
+
+# --- ATR-normalized momentum (3A) ---
+USE_ATR_MOMENTUM = True         # use ATR-scaled threshold instead of fixed %
+ATR_PERIOD = 14                 # bars for Average True Range computation
+ATR_MOMENTUM_MULTIPLE = 0.6    # threshold = (ATR/open * 100) * multiple
+
+# --- Multi-timeframe trend confirmation (3B) ---
+MULTI_TF_CONFIRM = True         # require hourly trend to match signal direction
+
+# --- RSI divergence detection (3C) ---
+DIVERGENCE_FILTER = True        # skip signals with price/RSI divergence
+
+# --- Market regime filter (3D) ---
+VIX_FILTER = True               # skip all signals when market is too volatile
+VIX_MAX_DAY_RANGE_PCT = 2.0    # SPY day range % threshold for regime filter
 
 # --- Options contract filters ---
 MIN_DTE = 1
@@ -65,6 +81,8 @@ MIN_IV_HISTORY = 20             # IV-rank check needs this many stored sessions
 MAX_SPREAD = 0.10               # absolute spread allowance in dollars; a quote
 MAX_SPREAD_PCT = 5.0            # passes if spread <= max(MAX_SPREAD, mid * pct)
 MIN_OPEN_INTEREST = 500
+IV_HISTORY_SESSIONS = 252           # max IV history length (~1 year of sessions)
+CHAIN_FETCH_LIMIT = 300             # max contracts per chain fetch request
 
 # --- Exits ---
 TAKE_PROFIT_PCT = 40.0          # +40% on option price
@@ -98,6 +116,10 @@ ML_RETRAIN_EVERY = 10           # retrain after this many new closed trades
 ML_WIN_PROB_THRESHOLD = 0.45    # block entries the model scores below this
 ML_MIN_AUC = 0.55               # model only gets veto power above this CV AUC;
                                 # below it stays advisory (scores logged, no blocks)
+ML_N_ESTIMATORS = 100           # GBM number of boosting rounds
+ML_MAX_DEPTH = 2                # GBM tree depth (shallow = overfitting protection)
+ML_LEARNING_RATE = 0.05         # GBM learning rate
+ML_SUBSAMPLE = 0.8              # GBM row subsampling per tree
 MODEL_FILE = os.path.join(os.path.dirname(__file__), "model.pkl")
 
 # --- Cadence / files ---
@@ -105,6 +127,7 @@ STREAM_CACHE_MAX_AGE_SEC = 1800  # refresh bar cache from REST if no stream
                                  # updates for this long (30 min)
 SCAN_INTERVAL_SEC = 30
 ENTRY_FILL_TIMEOUT_SEC = 20     # cancel unfilled entry limit orders after this
+EXIT_FILL_TIMEOUT_SEC = 30      # cancel unfilled exit limit orders after this
 _DIR = os.path.dirname(__file__)
 TRADES_CSV = os.path.join(_DIR, "trades.csv")       # legacy — used for migration only
 TRADES_DB = os.path.join(_DIR, "trades.db")         # SQLite database (primary store)
@@ -114,7 +137,7 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 # --- AI analyst (Claude) — advisory only, never touches trade decisions ---
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 AI_ENABLED = os.getenv("AI_ENABLED", "true").lower() == "true"
-AI_MODEL = "claude-fable-5"          # ~$0.05-0.15 per report at this usage
+AI_MODEL = "claude-sonnet-4-20250514"  # ~$0.05-0.15 per report at this usage
 AI_BRIEFING_FILE = os.path.join(_DIR, "morning_briefing.md")
 AI_REPORT_FILE = os.path.join(_DIR, "daily_report.md")
 
@@ -139,6 +162,11 @@ _TUNABLE = {
     "OTM_MIN_PCT", "OTM_MAX_PCT", "MAX_SPREAD_PCT",
     "TRAIL_TRIGGER_PCT", "TRAIL_GIVEBACK_PCT", "VWAP_FILTER", "EARNINGS_BLOCK",
     "RUNNER_ENABLED", "RUNNER_DAY_PCT", "RUNNER_TAKE_PROFIT_PCT",
+    "EXIT_FILL_TIMEOUT_SEC",
+    "USE_ATR_MOMENTUM", "ATR_MOMENTUM_MULTIPLE",
+    "MULTI_TF_CONFIRM", "DIVERGENCE_FILTER",
+    "VIX_FILTER", "VIX_MAX_DAY_RANGE_PCT",
+    "ML_N_ESTIMATORS", "ML_MAX_DEPTH", "ML_LEARNING_RATE", "ML_SUBSAMPLE",
 }
 if os.path.exists(SETTINGS_FILE):
     import json as _json
@@ -185,6 +213,13 @@ _RANGE_LIMITS = {
     "TRAIL_GIVEBACK_PCT":   (1.0, 100.0),
     "RUNNER_DAY_PCT":       (0.5, 20.0),
     "RUNNER_TAKE_PROFIT_PCT":(5.0, 500.0),
+    "EXIT_FILL_TIMEOUT_SEC": (5, 120),
+    "ATR_MOMENTUM_MULTIPLE": (0.1, 5.0),
+    "VIX_MAX_DAY_RANGE_PCT": (0.5, 10.0),
+    "ML_N_ESTIMATORS":      (10, 500),
+    "ML_MAX_DEPTH":         (1, 10),
+    "ML_LEARNING_RATE":     (0.001, 1.0),
+    "ML_SUBSAMPLE":         (0.1, 1.0),
 }
 for _key, (_lo, _hi) in _RANGE_LIMITS.items():
     _val = globals().get(_key)

@@ -85,7 +85,7 @@ class ChainFetcher:
         if today not in series:  # first reading of the day wins
             series[today] = round(iv, 4)
             # Keep ~1 year of sessions
-            for stale in sorted(series)[:-252]:
+            for stale in sorted(series)[:-config.IV_HISTORY_SESSIONS]:
                 del series[stale]
             self._save_iv_history()
 
@@ -116,7 +116,7 @@ class ChainFetcher:
             expiration_date_lte=today + dt.timedelta(days=config.MAX_DTE),
             strike_price_gte=str(round(signal.spot * 0.95, 2)),
             strike_price_lte=str(round(signal.spot * 1.05, 2)),
-            limit=300,
+            limit=config.CHAIN_FETCH_LIMIT,
         )
         resp = self.trading.get_option_contracts(req)
         return list(resp.option_contracts or [])
@@ -217,11 +217,7 @@ class ChainFetcher:
                 iv=iv,
                 iv_rank=None,
             )
-            # IV rank — recorded BEFORE the budget check so the warm-up history
-            # accumulates even on days when nothing fits the budget.
             if iv is not None:
-                if targets[(c.expiration_date, pick.strike)] == 1:
-                    self._record_iv(signal.symbol, iv)
                 rank = self.iv_rank(signal.symbol, iv)
                 pick.iv_rank = rank
                 if rank is None:
@@ -250,6 +246,10 @@ class ChainFetcher:
         # Tightest spread first; prefer the closer strike on ties.
         picks.sort(key=lambda p: (p.spread, targets[(p.expiry, p.strike)]))
         best = picks[0]
+        # Record IV only for the selected contract to avoid biasing history
+        # with contracts that were rejected for spread/budget reasons.
+        if best.iv is not None:
+            self._record_iv(signal.symbol, best.iv)
         log.info("PICK %s — strike %.1f exp %s bid/ask %.2f/%.2f OI %d IV rank %s",
                  best.option_symbol, best.strike, best.expiry, best.bid, best.ask,
                  best.open_interest,

@@ -8,7 +8,7 @@ Rules:
 """
 import datetime as dt
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import config
 import data.trade_store as trade_store
@@ -27,12 +27,16 @@ class RiskState:
     trades_closed: int = 0
     wins: int = 0
     losses: int = 0
-    events: list[str] = field(default_factory=list)
 
 
 class RiskManager:
     def __init__(self):
         self.state = RiskState(day=now_et().date())
+
+    @staticmethod
+    def _should_halt(daily_pnl: float) -> bool:
+        """True if daily loss limit is breached (live mode only)."""
+        return config.LIVE_MODE and daily_pnl <= -config.MAX_DAILY_LOSS
 
     def _roll_day(self):
         today = now_et().date()
@@ -66,7 +70,7 @@ class RiskManager:
             s.consecutive_losses = 0
         else:
             s.consecutive_losses = trailing_losses
-        if config.LIVE_MODE and s.daily_pnl <= -config.MAX_DAILY_LOSS:
+        if self._should_halt(s.daily_pnl):
             s.halted = True
         log.info("Restored today's state from trades.csv: $%+.2f over %d trades "
                  "(%dW/%dL)%s", s.daily_pnl, s.trades_closed, s.wins, s.losses,
@@ -86,7 +90,7 @@ class RiskManager:
             if s.paused_until and now_et() < s.paused_until:
                 remaining = (s.paused_until - now_et()).total_seconds() / 60
                 return False, f"paused after consecutive losses ({remaining:.0f} min left)"
-            if s.daily_pnl - trade_cost * config.STOP_LOSS_PCT / 100 <= -config.MAX_DAILY_LOSS:
+            if self._should_halt(s.daily_pnl - trade_cost * config.STOP_LOSS_PCT / 100):
                 return False, "trade's worst-case loss would breach the daily limit"
         if open_positions >= config.MAX_OPEN_POSITIONS:
             return False, f"max open positions ({config.MAX_OPEN_POSITIONS}) reached"
@@ -121,7 +125,7 @@ class RiskManager:
             s.wins += 1
             s.consecutive_losses = 0
 
-        if config.LIVE_MODE and s.daily_pnl <= -config.MAX_DAILY_LOSS and not s.halted:
+        if self._should_halt(s.daily_pnl) and not s.halted:
             s.halted = True
             events.append("halted")
             log.error("DAILY LOSS LIMIT HIT (%.2f) — trading halted for the day", s.daily_pnl)

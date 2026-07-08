@@ -8,13 +8,13 @@ from __future__ import annotations
 import logging
 import queue
 import threading
-import time
 from dataclasses import dataclass
 
 from alpaca.data.live.stock import StockDataStream
 from alpaca.data.live.option import OptionDataStream
 
 import config
+from streaming.base import BaseStreamThread
 
 log = logging.getLogger("streaming.market")
 
@@ -31,29 +31,14 @@ class StreamBar:
     timestamp: object  # pd.Timestamp or datetime
 
 
-class StockBarStreamThread:
+class StockBarStreamThread(BaseStreamThread):
     """Daemon thread that subscribes to completed bars for config.UNIVERSE."""
 
+    _thread_name = "StockDataStream"
+
     def __init__(self):
-        self._queue: queue.Queue[StreamBar] = queue.Queue()
-        self._connected = threading.Event()
-        self._stop_event = threading.Event()
-        self._thread: threading.Thread | None = None
-
-    def start(self):
-        self._thread = threading.Thread(
-            target=self._run, name="StockDataStream", daemon=True)
-        self._thread.start()
-        log.info("StockBarStreamThread started")
-
-    def stop(self):
-        self._stop_event.set()
-        if self._thread and self._thread.is_alive():
-            self._thread.join(timeout=5)
-        log.info("StockBarStreamThread stopped")
-
-    def is_connected(self) -> bool:
-        return self._connected.is_set()
+        super().__init__()
+        self._queue: queue.Queue[StreamBar] = queue.Queue(maxsize=10_000)
 
     def drain_bars(self) -> list[StreamBar]:
         bars = []
@@ -63,17 +48,6 @@ class StockBarStreamThread:
             except queue.Empty:
                 break
         return bars
-
-    def _run(self):
-        while not self._stop_event.is_set():
-            try:
-                self._run_stream()
-            except Exception:
-                self._connected.clear()
-                if self._stop_event.is_set():
-                    break
-                log.exception("StockDataStream error — reconnecting in 5s")
-                time.sleep(5)
 
     def _run_stream(self):
         stream = StockDataStream(
@@ -91,7 +65,15 @@ class StockBarStreamThread:
                     vwap=float(bar.vwap) if hasattr(bar, "vwap") and bar.vwap else None,
                     timestamp=bar.timestamp,
                 )
-                self._queue.put(sb)
+                try:
+                    self._queue.put_nowait(sb)
+                except queue.Full:
+                    log.warning("Stock bar queue full (10k) — dropping oldest bar")
+                    try:
+                        self._queue.get_nowait()
+                    except queue.Empty:
+                        pass
+                    self._queue.put_nowait(sb)
             except Exception:
                 log.exception("Error processing stock bar event")
 
@@ -106,39 +88,24 @@ class StockBarStreamThread:
             self._connected.clear()
 
 
-class OptionQuoteStreamThread:
+class OptionQuoteStreamThread(BaseStreamThread):
     """Daemon thread that subscribes to real-time option quotes.
 
     Latest bid/ask stored in a dict protected by a Lock (consumers want the
     *latest* value, not every historical tick).
     """
 
+    _thread_name = "OptionDataStream"
+
     def __init__(self):
+        super().__init__()
         self._lock = threading.Lock()
         self._quotes: dict[str, tuple[float, float]] = {}
-        self._connected = threading.Event()
-        self._stop_event = threading.Event()
-        self._thread: threading.Thread | None = None
         self._stream: OptionDataStream | None = None
         self._subscribed: set[str] = set()
         self._pending_subs: list[str] = []
         self._pending_unsubs: list[str] = []
         self._sub_lock = threading.Lock()
-
-    def start(self):
-        self._thread = threading.Thread(
-            target=self._run, name="OptionDataStream", daemon=True)
-        self._thread.start()
-        log.info("OptionQuoteStreamThread started")
-
-    def stop(self):
-        self._stop_event.set()
-        if self._thread and self._thread.is_alive():
-            self._thread.join(timeout=5)
-        log.info("OptionQuoteStreamThread stopped")
-
-    def is_connected(self) -> bool:
-        return self._connected.is_set()
 
     def get_quote(self, symbol: str) -> tuple[float, float] | None:
         with self._lock:
@@ -167,17 +134,6 @@ class OptionQuoteStreamThread:
                         self._quotes.pop(s, None)
                 log.info("Option quote unsubscribe queued: %s", removing)
 
-    def _run(self):
-        while not self._stop_event.is_set():
-            try:
-                self._run_stream()
-            except Exception:
-                self._connected.clear()
-                if self._stop_event.is_set():
-                    break
-                log.exception("OptionDataStream error — reconnecting in 5s")
-                time.sleep(5)
-
     def _run_stream(self):
         stream = OptionDataStream(
             config.ALPACA_API_KEY, config.ALPACA_SECRET_KEY)
@@ -187,7 +143,7 @@ class OptionQuoteStreamThread:
             try:
                 bid = float(quote.bid_price or 0)
                 ask = float(quote.ask_price or 0)
-                if bid > 0 or ask > 0:
+                if bid > 0 and ask > 0:
                     with self._lock:
                         self._quotes[quote.symbol] = (bid, ask)
             except Exception:

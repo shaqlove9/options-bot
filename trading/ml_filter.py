@@ -12,6 +12,7 @@ How it works:
   4. Retrains automatically every ML_RETRAIN_EVERY new closed trades.
 """
 import datetime as dt
+import hashlib
 import logging
 import os
 
@@ -32,8 +33,20 @@ from utils import now_et
 log = logging.getLogger("trading.ml_filter")
 
 NUMERIC = trade_store.FEATURE_NUMERIC
-CATEGORICAL = ["ticker", "type", "strategy"]
+CATEGORICAL = trade_store.FEATURE_CATEGORICAL
 FEATURES = trade_store.FEATURE_COLS
+
+
+def _time_bucket(hour: int) -> str:
+    """Classify hour into a trading session bucket."""
+    if hour < 10:
+        return "open"
+    elif hour < 12:
+        return "morning"
+    elif hour < 14:
+        return "midday"
+    else:
+        return "afternoon"
 
 
 def extract_features(signal, pick) -> dict:
@@ -51,9 +64,15 @@ def extract_features(signal, pick) -> dict:
         "spread": round(pick.spread, 3),
         "dte": (pick.expiry - t.date()).days,
         "minutes_since_open": round((t - market_open).total_seconds() / 60),
+        "atr": round(signal.atr, 4) if getattr(signal, "atr", None) is not None else None,
+        "momentum_threshold": round(signal.momentum_threshold, 4) if getattr(signal, "momentum_threshold", None) is not None else None,
         "ticker": signal.symbol,
         "type": pick.otype,
         "strategy": signal.strategy,
+        "time_bucket": _time_bucket(t.hour),
+        "hourly_trend_aligned": str(getattr(signal, "hourly_trend_aligned", None)),
+        "divergence": str(getattr(signal, "divergence", None)),
+        "day_of_week": str(t.weekday()),
     }
 
 
@@ -65,8 +84,11 @@ def _build_pipeline() -> Pipeline:
             ("cat", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL),
         ])),
         ("clf", GradientBoostingClassifier(
-            n_estimators=100, max_depth=2, learning_rate=0.05,
-            subsample=0.8, random_state=42,
+            n_estimators=config.ML_N_ESTIMATORS,
+            max_depth=config.ML_MAX_DEPTH,
+            learning_rate=config.ML_LEARNING_RATE,
+            subsample=config.ML_SUBSAMPLE,
+            random_state=42,
         )),
     ])
 
@@ -83,10 +105,32 @@ class Learner:
 
     # ---------------- persistence ----------------
 
+    @staticmethod
+    def _file_hash(path: str) -> str:
+        """SHA-256 hex digest of a file's contents."""
+        h = hashlib.sha256()
+        with open(path, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 16), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
     def _load(self):
         if not os.path.exists(config.MODEL_FILE):
             return
         try:
+            hash_file = config.MODEL_FILE + ".sha256"
+            if os.path.exists(hash_file):
+                with open(hash_file) as f:
+                    expected = f.read().strip()
+                actual = self._file_hash(config.MODEL_FILE)
+                if actual != expected:
+                    log.warning("model.pkl hash mismatch (expected %s, got %s) "
+                                "— rejecting, will retrain", expected[:12], actual[:12])
+                    return
+            else:
+                log.info("No model hash file found — loading without verification "
+                         "(will create hash on next save)")
+
             saved = joblib.load(config.MODEL_FILE)
             self.pipeline = saved["pipeline"]
             self.auc = saved["auc"]
@@ -102,6 +146,10 @@ class Learner:
         joblib.dump({"pipeline": self.pipeline, "auc": self.auc,
                      "gating": self.gating, "trained_on": self.trained_on},
                     config.MODEL_FILE)
+        digest = self._file_hash(config.MODEL_FILE)
+        hash_file = config.MODEL_FILE + ".sha256"
+        with open(hash_file, "w") as f:
+            f.write(digest)
 
     # ---------------- training ----------------
 
@@ -162,8 +210,8 @@ class Learner:
                          key=lambda x: -x[1])[:5]
             pretty = ", ".join(f"{n.split('__')[-1]} ({v:.2f})" for n, v in imp)
             log.info("[learner] top factors: %s", pretty)
-        except Exception:
-            pass  # diagnostics only
+        except Exception as exc:
+            log.debug("Could not extract feature importances: %s", exc, exc_info=True)
 
     # ---------------- scoring ----------------
 

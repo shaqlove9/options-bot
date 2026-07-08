@@ -13570,3 +13570,50 @@
 2026-07-07 16:48:22,957 INFO    signals | SIGNAL[confluence] INTC PUT — -0.85% 15m, RSI(5)=44.5, relvol 1.2x, VWAP -0.35%
 2026-07-07 16:48:23,704 INFO    features | captured features for INTC-20260707T124822-put (46 fields)
 2026-07-07 16:48:23,710 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-08 06:03:54,390 WARNING executor | rehydrated 2 open position(s) from store on restart
+2026-07-08 06:03:54,391 INFO    webhook | Webhook receiver listening on 127.0.0.1:8080  (POST /tv-webhook)  IP allowlist: ALL (open)
+2026-07-08 06:03:54,391 INFO    engine | engine ready — universe ['SPY', 'QQQ', 'AMD', 'AAPL', 'F', 'SOFI', 'PLTR', 'INTC', 'BAC', 'NIO', 'CCL', 'T', 'GOLD', 'XLF'], signal=confluence, structure=single, meta_active=False
+2026-07-08 06:03:54,391 INFO    engine | iobot starting — PAPER ONLY (go_live=False, live_exec=False)
+2026-07-08 13:30:08,023 INFO    governor | new trading day 2026-07-08 — counters reset (start equity $1669)
+2026-07-08 13:43:13,106 INFO    journal | LOGGED trade #28 NIO put pnl $-31.00 R -0.07 label 1 (profit target (underlying))
+2026-07-08 13:43:13,106 INFO    executor | CLOSED NIO260710P00005000 @ $0.13 vs $0.14 → P&L $-31.00 (profit target (underlying))
+2026-07-08 13:45:15,853 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.5x, VWAP -0.04%
+2026-07-08 13:45:17,197 INFO    features | captured features for T-20260708T094515-put (46 fields)
+2026-07-08 13:45:17,403 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 33%; wide spread 81%)
+2026-07-08 13:45:50,288 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.5x, VWAP -0.04%
+2026-07-08 13:45:51,688 INFO    features | captured features for T-20260708T094550-put (46 fields)
+2026-07-08 13:45:51,783 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 52%; wide spread 81%)
+2026-07-08 13:46:23,580 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.4x, VWAP -0.04%
+2026-07-08 13:46:24,610 INFO    features | captured features for T-20260708T094623-put (46 fields)
+2026-07-08 13:46:24,637 INFO    journal | REJECT T put [selection] — no qualifying strike — 3 delta out of band, 2 illiquid (wide spread 33%; wide spread 81%)
+2026-07-08 13:46:56,495 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.4x, VWAP -0.04%
+2026-07-08 13:46:57,554 INFO    features | captured features for T-20260708T094656-put (46 fields)
+2026-07-08 13:46:57,643 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 39%; wide spread 88%)
+2026-07-08 13:47:28,891 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.3x, VWAP -0.04%
+2026-07-08 13:47:29,579 INFO    features | captured features for T-20260708T094728-put (46 fields)
+2026-07-08 13:47:29,714 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 44%; wide spread 88%)
+2026-07-08 13:48:00,894 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.3x, VWAP -0.04%
+2026-07-08 13:48:01,620 INFO    features | captured features for T-20260708T094800-put (46 fields)
+2026-07-08 13:48:01,780 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 43%; wide spread 84%)
+2026-07-08 13:48:32,815 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.2x, VWAP -0.04%
+2026-07-08 13:48:33,566 INFO    features | captured features for T-20260708T094832-put (46 fields)
+2026-07-08 13:48:33,620 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 3 delta out of band, 1 illiquid (wide spread 34%)
+2026-07-08 13:49:04,657 INFO    signals | SIGNAL[confluence] T PUT — -0.21% 15m, RSI(5)=29.5, relvol 1.2x, VWAP -0.04%
+2026-07-08 13:49:05,262 INFO    features | captured features for T-20260708T094904-put (46 fields)
+2026-07-08 13:49:05,305 INFO    journal | REJECT T put [selection] — no qualifying strike — 1 no delta, 2 delta out of band, 2 illiquid (wide spread 34%; wide spread 84%)
+2026-07-08 14:47:56,512 INFO    journal | LOGGED trade #29 INTC put pnl $+100.00 R 0.21 label 1 (profit target (underlying))
+2026-07-08 14:47:56,513 INFO    executor | CLOSED INTC260710P00110000 @ $5.85 vs $4.85 → P&L $+100.00 (profit target (underlying))
+2026-07-08 15:30:09,639 INFO    signals | SIGNAL[confluence] CCL PUT — -0.51% 15m, RSI(5)=4.3, relvol 1.2x, VWAP -1.32%
+2026-07-08 15:30:11,360 INFO    features | captured features for CCL-20260708T113009-put (46 fields)
+2026-07-08 15:30:12,583 INFO    executor | OPENED CCL LONG 8x PUT 25.5 exp 2026-07-10 delta -0.55 ask $0.56 maxloss $448 @ $0.58 (mid $0.53) stop u/l 25.59 target u/l 24.81 maxloss $464
+2026-07-08 15:30:45,009 INFO    signals | SIGNAL[confluence] CCL PUT — -0.51% 15m, RSI(5)=4.3, relvol 1.2x, VWAP -1.32%
+2026-07-08 15:30:46,850 INFO    features | captured features for CCL-20260708T113045-put (46 fields)
+2026-07-08 15:30:46,856 INFO    journal | REJECT CCL put [governor] — already holding this underlying
+2026-07-08 15:31:18,959 INFO    signals | SIGNAL[confluence] CCL PUT — -0.51% 15m, RSI(5)=4.3, relvol 1.2x, VWAP -1.32%
+2026-07-08 15:31:20,544 INFO    features | captured features for CCL-20260708T113118-put (46 fields)
+2026-07-08 15:31:20,551 INFO    journal | REJECT CCL put [governor] — already holding this underlying
+2026-07-08 15:31:52,477 INFO    signals | SIGNAL[confluence] CCL PUT — -0.51% 15m, RSI(5)=4.3, relvol 1.2x, VWAP -1.32%
+2026-07-08 15:31:53,396 INFO    features | captured features for CCL-20260708T113152-put (46 fields)
+2026-07-08 15:31:53,402 INFO    journal | REJECT CCL put [governor] — already holding this underlying
+2026-07-08 16:47:03,551 INFO    journal | LOGGED trade #30 CCL put pnl $-176.00 R -0.38 label 0 (stop (underlying))
+2026-07-08 16:47:03,552 INFO    executor | CLOSED CCL260710P00025500 @ $0.36 vs $0.58 → P&L $-176.00 (stop (underlying))

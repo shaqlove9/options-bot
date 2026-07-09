@@ -13617,3 +13617,456 @@
 2026-07-08 15:31:53,402 INFO    journal | REJECT CCL put [governor] — already holding this underlying
 2026-07-08 16:47:03,551 INFO    journal | LOGGED trade #30 CCL put pnl $-176.00 R -0.38 label 0 (stop (underlying))
 2026-07-08 16:47:03,552 INFO    executor | CLOSED CCL260710P00025500 @ $0.36 vs $0.58 → P&L $-176.00 (stop (underlying))
+2026-07-09 13:30:18,257 INFO    governor | new trading day 2026-07-09 — counters reset (start equity $1562)
+2026-07-09 13:45:22,039 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.8x, VWAP -0.55%
+2026-07-09 13:45:23,218 INFO    features | captured features for GOLD-20260709T094522-put (46 fields)
+2026-07-09 13:45:23,235 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:45:56,122 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.7x, VWAP -0.55%
+2026-07-09 13:45:57,234 INFO    features | captured features for GOLD-20260709T094556-put (46 fields)
+2026-07-09 13:45:57,247 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:46:29,446 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.6x, VWAP -0.55%
+2026-07-09 13:46:30,382 INFO    features | captured features for GOLD-20260709T094629-put (46 fields)
+2026-07-09 13:46:30,399 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:47:02,759 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.6x, VWAP -0.55%
+2026-07-09 13:47:03,600 INFO    features | captured features for GOLD-20260709T094702-put (46 fields)
+2026-07-09 13:47:03,718 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:47:35,562 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -0.55%
+2026-07-09 13:47:36,309 INFO    features | captured features for GOLD-20260709T094735-put (46 fields)
+2026-07-09 13:47:36,322 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:48:08,048 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.5x, VWAP -0.55%
+2026-07-09 13:48:08,845 INFO    features | captured features for GOLD-20260709T094808-put (46 fields)
+2026-07-09 13:48:08,872 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:48:40,344 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -0.55%
+2026-07-09 13:48:41,208 INFO    features | captured features for GOLD-20260709T094840-put (46 fields)
+2026-07-09 13:48:41,221 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:49:13,192 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -0.55%
+2026-07-09 13:49:14,003 INFO    features | captured features for GOLD-20260709T094913-put (46 fields)
+2026-07-09 13:49:14,023 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:49:45,288 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.4x, VWAP -0.55%
+2026-07-09 13:49:46,076 INFO    features | captured features for GOLD-20260709T094945-put (46 fields)
+2026-07-09 13:49:46,095 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:50:18,637 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -0.55%
+2026-07-09 13:50:19,799 INFO    features | captured features for GOLD-20260709T095018-put (46 fields)
+2026-07-09 13:50:19,815 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:50:52,381 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -0.55%
+2026-07-09 13:50:53,572 INFO    features | captured features for GOLD-20260709T095052-put (46 fields)
+2026-07-09 13:50:53,585 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:51:26,168 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.3x, VWAP -0.55%
+2026-07-09 13:51:27,356 INFO    features | captured features for GOLD-20260709T095126-put (46 fields)
+2026-07-09 13:51:27,375 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 13:51:59,412 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.40% 15m, RSI(5)=20.7, relvol 1.2x, VWAP -0.55%
+2026-07-09 13:52:00,432 INFO    features | captured features for GOLD-20260709T095159-put (46 fields)
+2026-07-09 13:52:00,708 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 14:00:15,686 INFO    signals | SIGNAL[confluence] GOLD PUT — +0.00% 15m, RSI(5)=17.5, relvol 1.2x, VWAP -0.47%
+2026-07-09 14:00:18,565 INFO    features | captured features for GOLD-20260709T100015-put (46 fields)
+2026-07-09 14:00:18,623 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 14:00:54,693 INFO    signals | SIGNAL[confluence] GOLD PUT — +0.00% 15m, RSI(5)=17.5, relvol 1.2x, VWAP -0.47%
+2026-07-09 14:00:57,090 INFO    features | captured features for GOLD-20260709T100054-put (46 fields)
+2026-07-09 14:00:57,109 INFO    journal | REJECT GOLD put [selection] — no contracts in DTE/strike window
+2026-07-09 16:15:31,554 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:15:32,921 INFO    features | captured features for XLF-20260709T121531-call (46 fields)
+2026-07-09 16:15:34,097 INFO    executor | OPENED XLF LONG 14x CALL 55.5 exp 2026-07-10 delta +0.60 ask $0.34 maxloss $476 @ $0.32 (mid $0.33) stop u/l 55.49 target u/l 55.94 maxloss $448
+2026-07-09 16:16:08,234 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:16:10,003 INFO    features | captured features for XLF-20260709T121608-call (46 fields)
+2026-07-09 16:16:10,009 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:16:43,610 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:16:44,931 INFO    features | captured features for XLF-20260709T121643-call (46 fields)
+2026-07-09 16:16:44,937 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:17:18,241 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:17:19,709 INFO    features | captured features for XLF-20260709T121718-call (46 fields)
+2026-07-09 16:17:19,715 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:17:52,539 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:17:53,679 INFO    features | captured features for XLF-20260709T121752-call (46 fields)
+2026-07-09 16:17:53,683 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:18:26,659 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:18:27,881 INFO    features | captured features for XLF-20260709T121826-call (46 fields)
+2026-07-09 16:18:27,886 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:19:00,467 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:19:01,663 INFO    features | captured features for XLF-20260709T121900-call (46 fields)
+2026-07-09 16:19:01,672 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:19:34,331 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:19:35,677 INFO    features | captured features for XLF-20260709T121934-call (46 fields)
+2026-07-09 16:19:35,682 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:20:09,678 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:20:11,113 INFO    features | captured features for XLF-20260709T122009-call (46 fields)
+2026-07-09 16:20:11,119 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:20:43,827 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:20:44,895 INFO    features | captured features for XLF-20260709T122043-call (46 fields)
+2026-07-09 16:20:44,900 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:21:17,680 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:21:18,684 INFO    features | captured features for XLF-20260709T122117-call (46 fields)
+2026-07-09 16:21:18,689 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:21:50,400 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:21:51,096 INFO    features | captured features for XLF-20260709T122150-call (46 fields)
+2026-07-09 16:21:51,102 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:22:22,923 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:22:23,749 INFO    features | captured features for XLF-20260709T122222-call (46 fields)
+2026-07-09 16:22:23,755 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:22:55,483 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:22:56,049 INFO    features | captured features for XLF-20260709T122255-call (46 fields)
+2026-07-09 16:22:56,055 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:23:27,640 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:23:28,201 INFO    features | captured features for XLF-20260709T122327-call (46 fields)
+2026-07-09 16:23:28,206 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:23:59,761 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:24:00,419 INFO    features | captured features for XLF-20260709T122359-call (46 fields)
+2026-07-09 16:24:00,425 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:24:32,301 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:24:33,008 INFO    features | captured features for XLF-20260709T122432-call (46 fields)
+2026-07-09 16:24:33,014 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:25:05,916 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:25:07,027 INFO    features | captured features for XLF-20260709T122505-call (46 fields)
+2026-07-09 16:25:07,033 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:25:39,536 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:25:40,391 INFO    features | captured features for XLF-20260709T122539-call (46 fields)
+2026-07-09 16:25:40,397 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:26:13,072 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:26:14,128 INFO    features | captured features for XLF-20260709T122613-call (46 fields)
+2026-07-09 16:26:14,134 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:26:45,978 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:26:46,565 INFO    features | captured features for XLF-20260709T122645-call (46 fields)
+2026-07-09 16:26:46,571 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:27:18,429 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:27:18,945 INFO    features | captured features for XLF-20260709T122718-call (46 fields)
+2026-07-09 16:27:18,951 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:27:50,465 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:27:50,987 INFO    features | captured features for XLF-20260709T122750-call (46 fields)
+2026-07-09 16:27:50,992 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:28:22,837 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:28:23,397 INFO    features | captured features for XLF-20260709T122822-call (46 fields)
+2026-07-09 16:28:23,402 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:28:54,904 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:28:55,457 INFO    features | captured features for XLF-20260709T122854-call (46 fields)
+2026-07-09 16:28:55,463 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:29:27,024 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:29:27,625 INFO    features | captured features for XLF-20260709T122927-call (46 fields)
+2026-07-09 16:29:27,630 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:29:58,883 INFO    signals | SIGNAL[confluence] XLF CALL — +0.17% 15m, RSI(5)=74.8, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:29:59,342 INFO    features | captured features for XLF-20260709T122958-call (46 fields)
+2026-07-09 16:29:59,348 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:30:32,713 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:30:33,838 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.6x, VWAP +0.47%
+2026-07-09 16:30:35,556 INFO    features | captured features for BAC-20260709T123032-call (46 fields)
+2026-07-09 16:30:36,749 INFO    executor | OPENED BAC LONG 8x CALL 59 exp 2026-07-10 delta +0.65 ask $0.61 maxloss $488 @ $0.59 (mid $0.59) stop u/l 59.11 target u/l 59.81 maxloss $472
+2026-07-09 16:30:36,779 INFO    features | captured features for XLF-20260709T123033-call (46 fields)
+2026-07-09 16:30:36,789 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:31:10,222 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:31:11,284 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:31:12,695 INFO    features | captured features for BAC-20260709T123110-call (46 fields)
+2026-07-09 16:31:12,701 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:31:12,714 INFO    features | captured features for XLF-20260709T123111-call (46 fields)
+2026-07-09 16:31:12,719 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:31:45,299 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:31:45,998 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:31:47,030 INFO    features | captured features for BAC-20260709T123145-call (46 fields)
+2026-07-09 16:31:47,036 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:31:47,049 INFO    features | captured features for XLF-20260709T123145-call (46 fields)
+2026-07-09 16:31:47,054 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:32:19,147 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:32:19,697 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:32:20,466 INFO    features | captured features for BAC-20260709T123219-call (46 fields)
+2026-07-09 16:32:20,471 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:32:20,487 INFO    features | captured features for XLF-20260709T123219-call (46 fields)
+2026-07-09 16:32:20,492 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:32:52,052 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:32:52,362 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:32:52,815 INFO    features | captured features for BAC-20260709T123252-call (46 fields)
+2026-07-09 16:32:52,822 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:32:52,834 INFO    features | captured features for XLF-20260709T123252-call (46 fields)
+2026-07-09 16:32:52,840 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:33:23,989 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:33:24,353 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:33:24,689 INFO    features | captured features for BAC-20260709T123323-call (46 fields)
+2026-07-09 16:33:24,695 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:33:24,708 INFO    features | captured features for XLF-20260709T123324-call (46 fields)
+2026-07-09 16:33:24,714 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:33:55,964 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:33:56,372 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:33:56,840 INFO    features | captured features for BAC-20260709T123355-call (46 fields)
+2026-07-09 16:33:56,845 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:33:56,860 INFO    features | captured features for XLF-20260709T123356-call (46 fields)
+2026-07-09 16:33:56,866 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:34:28,391 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:34:28,752 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:34:29,270 INFO    features | captured features for BAC-20260709T123428-call (46 fields)
+2026-07-09 16:34:29,276 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:34:29,289 INFO    features | captured features for XLF-20260709T123428-call (46 fields)
+2026-07-09 16:34:29,295 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:35:00,956 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:35:01,563 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:35:02,453 INFO    features | captured features for BAC-20260709T123500-call (46 fields)
+2026-07-09 16:35:02,459 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:35:02,472 INFO    features | captured features for XLF-20260709T123501-call (46 fields)
+2026-07-09 16:35:02,477 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:35:35,078 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:35:35,845 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:35:36,890 INFO    features | captured features for BAC-20260709T123535-call (46 fields)
+2026-07-09 16:35:36,895 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:35:36,910 INFO    features | captured features for XLF-20260709T123535-call (46 fields)
+2026-07-09 16:35:36,915 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:36:09,092 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:36:09,797 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:36:10,871 INFO    features | captured features for BAC-20260709T123609-call (46 fields)
+2026-07-09 16:36:10,879 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:36:10,891 INFO    features | captured features for XLF-20260709T123609-call (46 fields)
+2026-07-09 16:36:10,897 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:36:42,932 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:36:43,689 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:36:44,560 INFO    features | captured features for BAC-20260709T123642-call (46 fields)
+2026-07-09 16:36:44,565 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:36:44,578 INFO    features | captured features for XLF-20260709T123643-call (46 fields)
+2026-07-09 16:36:44,584 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:37:16,572 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:37:17,101 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:37:17,962 INFO    features | captured features for BAC-20260709T123716-call (46 fields)
+2026-07-09 16:37:17,968 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:37:17,983 INFO    features | captured features for XLF-20260709T123717-call (46 fields)
+2026-07-09 16:37:17,988 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:37:49,610 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:37:50,026 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:37:50,711 INFO    features | captured features for BAC-20260709T123749-call (46 fields)
+2026-07-09 16:37:50,717 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:37:50,730 INFO    features | captured features for XLF-20260709T123750-call (46 fields)
+2026-07-09 16:37:50,735 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:38:22,787 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:38:23,145 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:38:23,711 INFO    features | captured features for BAC-20260709T123822-call (46 fields)
+2026-07-09 16:38:23,717 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:38:23,730 INFO    features | captured features for XLF-20260709T123823-call (46 fields)
+2026-07-09 16:38:23,736 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:38:55,308 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:38:55,766 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:38:56,619 INFO    features | captured features for BAC-20260709T123855-call (46 fields)
+2026-07-09 16:38:56,624 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:38:56,639 INFO    features | captured features for XLF-20260709T123855-call (46 fields)
+2026-07-09 16:38:56,645 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:39:28,130 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:39:28,626 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:39:29,177 INFO    features | captured features for BAC-20260709T123928-call (46 fields)
+2026-07-09 16:39:29,183 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:39:29,195 INFO    features | captured features for XLF-20260709T123928-call (46 fields)
+2026-07-09 16:39:29,201 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:40:00,918 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:40:01,555 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:40:02,643 INFO    features | captured features for BAC-20260709T124000-call (46 fields)
+2026-07-09 16:40:02,649 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:40:02,672 INFO    features | captured features for XLF-20260709T124001-call (46 fields)
+2026-07-09 16:40:02,678 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:40:35,295 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:40:36,121 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:40:36,986 INFO    features | captured features for BAC-20260709T124035-call (46 fields)
+2026-07-09 16:40:36,991 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:40:37,005 INFO    features | captured features for XLF-20260709T124036-call (46 fields)
+2026-07-09 16:40:37,010 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:41:09,318 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:41:09,826 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:41:10,455 INFO    features | captured features for BAC-20260709T124109-call (46 fields)
+2026-07-09 16:41:10,460 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:41:10,472 INFO    features | captured features for XLF-20260709T124109-call (46 fields)
+2026-07-09 16:41:10,478 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:41:42,481 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:41:43,406 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:41:44,251 INFO    features | captured features for BAC-20260709T124142-call (46 fields)
+2026-07-09 16:41:44,257 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:41:44,269 INFO    features | captured features for XLF-20260709T124143-call (46 fields)
+2026-07-09 16:41:44,275 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:42:16,035 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:42:16,350 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:42:16,863 INFO    features | captured features for BAC-20260709T124216-call (46 fields)
+2026-07-09 16:42:16,872 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:42:16,887 INFO    features | captured features for XLF-20260709T124216-call (46 fields)
+2026-07-09 16:42:16,892 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:42:48,529 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:42:48,973 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:42:49,463 INFO    features | captured features for BAC-20260709T124248-call (46 fields)
+2026-07-09 16:42:49,469 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:42:49,481 INFO    features | captured features for XLF-20260709T124248-call (46 fields)
+2026-07-09 16:42:49,487 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:43:21,215 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:43:21,656 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:43:22,225 INFO    features | captured features for BAC-20260709T124321-call (46 fields)
+2026-07-09 16:43:22,231 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:43:22,243 INFO    features | captured features for XLF-20260709T124321-call (46 fields)
+2026-07-09 16:43:22,250 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:43:53,678 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:43:53,999 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:43:54,609 INFO    features | captured features for BAC-20260709T124353-call (46 fields)
+2026-07-09 16:43:54,614 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:43:54,629 INFO    features | captured features for XLF-20260709T124353-call (46 fields)
+2026-07-09 16:43:54,634 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:44:25,874 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:44:26,289 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:44:26,778 INFO    features | captured features for BAC-20260709T124425-call (46 fields)
+2026-07-09 16:44:26,784 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:44:26,796 INFO    features | captured features for XLF-20260709T124426-call (46 fields)
+2026-07-09 16:44:26,802 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 16:44:58,151 INFO    signals | SIGNAL[confluence] BAC CALL — +0.04% 15m, RSI(5)=76.9, relvol 0.4x, VWAP +0.62%
+2026-07-09 16:44:58,563 INFO    signals | SIGNAL[confluence] XLF CALL — +0.02% 15m, RSI(5)=76.1, relvol 0.5x, VWAP +0.47%
+2026-07-09 16:44:59,089 INFO    features | captured features for BAC-20260709T124458-call (46 fields)
+2026-07-09 16:44:59,095 INFO    journal | REJECT BAC call [governor] — already holding this underlying
+2026-07-09 16:44:59,108 INFO    features | captured features for XLF-20260709T124458-call (46 fields)
+2026-07-09 16:44:59,114 INFO    journal | REJECT XLF call [governor] — already holding this underlying
+2026-07-09 17:30:26,852 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:30:30,736 INFO    features | captured features for SOFI-20260709T133026-call (46 fields)
+2026-07-09 17:30:30,906 INFO    journal | REJECT SOFI call [selection] — no qualifying strike — 1 no delta, 4 delta out of band
+2026-07-09 17:31:05,102 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:31:08,942 INFO    features | captured features for SOFI-20260709T133105-call (46 fields)
+2026-07-09 17:31:10,121 INFO    executor | OPENED SOFI LONG 10x CALL 18 exp 2026-07-10 delta +0.67 ask $0.48 maxloss $480 @ $0.46 (mid $0.47) stop u/l 18.15 target u/l 18.64 maxloss $460
+2026-07-09 17:31:43,707 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:31:46,773 INFO    features | captured features for SOFI-20260709T133143-call (46 fields)
+2026-07-09 17:31:46,781 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:32:19,338 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:32:22,218 INFO    features | captured features for SOFI-20260709T133219-call (46 fields)
+2026-07-09 17:32:22,224 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:32:54,118 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:32:56,261 INFO    features | captured features for SOFI-20260709T133254-call (46 fields)
+2026-07-09 17:32:56,267 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:33:27,986 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:33:30,045 INFO    features | captured features for SOFI-20260709T133327-call (46 fields)
+2026-07-09 17:33:30,052 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:34:01,796 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:34:04,347 INFO    features | captured features for SOFI-20260709T133401-call (46 fields)
+2026-07-09 17:34:04,353 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:34:35,980 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:34:37,964 INFO    features | captured features for SOFI-20260709T133435-call (46 fields)
+2026-07-09 17:34:37,969 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:35:10,379 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:35:13,508 INFO    features | captured features for SOFI-20260709T133510-call (46 fields)
+2026-07-09 17:35:13,514 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:35:45,318 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:35:47,801 INFO    features | captured features for SOFI-20260709T133545-call (46 fields)
+2026-07-09 17:35:47,807 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:36:19,945 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:36:22,515 INFO    features | captured features for SOFI-20260709T133619-call (46 fields)
+2026-07-09 17:36:22,520 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:36:53,889 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:36:55,652 INFO    features | captured features for SOFI-20260709T133653-call (46 fields)
+2026-07-09 17:36:55,658 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:37:27,315 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:37:29,181 INFO    features | captured features for SOFI-20260709T133727-call (46 fields)
+2026-07-09 17:37:29,187 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:38:00,625 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:38:02,698 INFO    features | captured features for SOFI-20260709T133800-call (46 fields)
+2026-07-09 17:38:02,704 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:38:34,099 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:38:35,526 INFO    features | captured features for SOFI-20260709T133834-call (46 fields)
+2026-07-09 17:38:35,532 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:39:07,317 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:39:09,188 INFO    features | captured features for SOFI-20260709T133907-call (46 fields)
+2026-07-09 17:39:09,195 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:39:40,849 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:39:42,369 INFO    features | captured features for SOFI-20260709T133940-call (46 fields)
+2026-07-09 17:39:42,375 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:40:14,820 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:40:17,511 INFO    features | captured features for SOFI-20260709T134014-call (46 fields)
+2026-07-09 17:40:17,516 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:40:49,593 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:40:51,862 INFO    features | captured features for SOFI-20260709T134049-call (46 fields)
+2026-07-09 17:40:51,868 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:41:23,696 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:41:25,759 INFO    features | captured features for SOFI-20260709T134123-call (46 fields)
+2026-07-09 17:41:25,765 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:41:57,170 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:41:59,117 INFO    features | captured features for SOFI-20260709T134157-call (46 fields)
+2026-07-09 17:41:59,122 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:42:30,405 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:42:32,404 INFO    features | captured features for SOFI-20260709T134230-call (46 fields)
+2026-07-09 17:42:32,410 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:43:03,984 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:43:05,987 INFO    features | captured features for SOFI-20260709T134303-call (46 fields)
+2026-07-09 17:43:05,992 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:43:37,439 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:43:39,148 INFO    features | captured features for SOFI-20260709T134337-call (46 fields)
+2026-07-09 17:43:39,153 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:44:10,469 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:44:12,509 INFO    features | captured features for SOFI-20260709T134410-call (46 fields)
+2026-07-09 17:44:12,515 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 17:44:43,611 INFO    signals | SIGNAL[confluence] SOFI CALL — +0.30% 15m, RSI(5)=79.4, relvol 0.7x, VWAP +1.04%
+2026-07-09 17:44:45,097 INFO    features | captured features for SOFI-20260709T134443-call (46 fields)
+2026-07-09 17:44:45,103 INFO    journal | REJECT SOFI call [governor] — max concurrent positions (3) open
+2026-07-09 18:46:22,102 INFO    journal | LOGGED trade #31 XLF call pnl $-224.00 R -0.50 label 0 (stop (underlying))
+2026-07-09 18:46:22,103 INFO    executor | CLOSED XLF260710C00055500 @ $0.16 vs $0.32 → P&L $-224.00 (stop (underlying))
+2026-07-09 19:00:31,243 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:00:37,288 INFO    features | captured features for PLTR-20260709T150031-call (46 fields)
+2026-07-09 19:00:38,468 INFO    executor | OPENED PLTR LONG 2x CALL 128 exp 2026-07-10 delta +0.57 ask $1.94 maxloss $388 @ $1.92 (mid $1.93) stop u/l 127.95 target u/l 129.91 maxloss $384
+2026-07-09 19:01:10,782 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:01:15,815 INFO    features | captured features for PLTR-20260709T150110-call (46 fields)
+2026-07-09 19:01:15,820 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:01:47,422 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:01:51,753 INFO    features | captured features for PLTR-20260709T150147-call (46 fields)
+2026-07-09 19:01:51,759 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:02:23,109 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:02:26,434 INFO    features | captured features for PLTR-20260709T150223-call (46 fields)
+2026-07-09 19:02:26,440 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:02:57,648 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:03:00,528 INFO    features | captured features for PLTR-20260709T150257-call (46 fields)
+2026-07-09 19:03:00,534 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:03:31,826 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:03:34,869 INFO    features | captured features for PLTR-20260709T150331-call (46 fields)
+2026-07-09 19:03:34,874 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:04:06,126 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:04:08,475 INFO    features | captured features for PLTR-20260709T150406-call (46 fields)
+2026-07-09 19:04:08,481 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:04:39,522 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:04:41,320 INFO    features | captured features for PLTR-20260709T150439-call (46 fields)
+2026-07-09 19:04:41,326 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:05:13,090 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:05:16,955 INFO    features | captured features for PLTR-20260709T150513-call (46 fields)
+2026-07-09 19:05:16,961 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:05:48,354 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:05:51,257 INFO    features | captured features for PLTR-20260709T150548-call (46 fields)
+2026-07-09 19:05:51,263 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:06:22,826 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:06:25,619 INFO    features | captured features for PLTR-20260709T150622-call (46 fields)
+2026-07-09 19:06:25,626 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:06:57,235 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:06:59,570 INFO    features | captured features for PLTR-20260709T150657-call (46 fields)
+2026-07-09 19:06:59,576 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:07:30,532 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:07:32,966 INFO    features | captured features for PLTR-20260709T150730-call (46 fields)
+2026-07-09 19:07:32,972 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:08:04,147 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:08:06,419 INFO    features | captured features for PLTR-20260709T150804-call (46 fields)
+2026-07-09 19:08:06,425 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:08:37,307 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:08:38,856 INFO    features | captured features for PLTR-20260709T150837-call (46 fields)
+2026-07-09 19:08:38,862 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:09:10,069 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:09:12,102 INFO    features | captured features for PLTR-20260709T150910-call (46 fields)
+2026-07-09 19:09:12,108 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:09:43,574 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:09:45,803 INFO    features | captured features for PLTR-20260709T150943-call (46 fields)
+2026-07-09 19:09:45,809 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:10:17,923 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:10:20,983 INFO    features | captured features for PLTR-20260709T151017-call (46 fields)
+2026-07-09 19:10:20,988 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:10:52,553 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:10:55,370 INFO    features | captured features for PLTR-20260709T151052-call (46 fields)
+2026-07-09 19:10:55,375 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:11:26,743 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:11:28,613 INFO    features | captured features for PLTR-20260709T151126-call (46 fields)
+2026-07-09 19:11:28,619 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:11:59,925 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:12:01,629 INFO    features | captured features for PLTR-20260709T151159-call (46 fields)
+2026-07-09 19:12:01,636 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:12:32,787 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:12:34,094 INFO    features | captured features for PLTR-20260709T151232-call (46 fields)
+2026-07-09 19:12:34,100 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:13:05,410 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:13:07,280 INFO    features | captured features for PLTR-20260709T151305-call (46 fields)
+2026-07-09 19:13:07,286 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:13:38,227 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:13:39,779 INFO    features | captured features for PLTR-20260709T151338-call (46 fields)
+2026-07-09 19:13:39,785 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:14:10,832 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:14:12,631 INFO    features | captured features for PLTR-20260709T151410-call (46 fields)
+2026-07-09 19:14:12,637 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:14:43,694 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.07% 15m, RSI(5)=79.5, relvol 0.7x, VWAP +1.35%
+2026-07-09 19:14:45,445 INFO    features | captured features for PLTR-20260709T151443-call (46 fields)
+2026-07-09 19:14:45,451 INFO    journal | REJECT PLTR call [governor] — max concurrent positions (3) open
+2026-07-09 19:50:27,609 INFO    journal | LOGGED trade #32 BAC call pnl $-192.00 R -0.41 label 0 (time stop (near expiry))
+2026-07-09 19:50:27,610 INFO    executor | CLOSED BAC260710C00059000 @ $0.35 vs $0.59 → P&L $-192.00 (time stop (near expiry))
+2026-07-09 19:50:28,661 INFO    journal | LOGGED trade #33 SOFI call pnl $+130.00 R 0.28 label 0 (time stop (near expiry))
+2026-07-09 19:50:28,662 INFO    executor | CLOSED SOFI260710C00018000 @ $0.59 vs $0.46 → P&L $+130.00 (time stop (near expiry))
+2026-07-09 19:50:29,724 INFO    journal | LOGGED trade #34 PLTR call pnl $+32.00 R 0.08 label 0 (time stop (near expiry))
+2026-07-09 19:50:29,725 INFO    executor | CLOSED PLTR260710C00128000 @ $2.08 vs $1.92 → P&L $+32.00 (time stop (near expiry))

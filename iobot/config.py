@@ -174,6 +174,12 @@ def _hm(name: str, default: tuple[int, int]) -> tuple[int, int]:
 ENTRY_START = _hm("IOBOT_ENTRY_START", (9, 45))    # skip the opening 15 min
 ENTRY_END = _hm("IOBOT_ENTRY_END", (15, 30))
 FORCE_CLOSE = _hm("IOBOT_FORCE_CLOSE", (15, 50))   # intraday time-stop / EOD flat
+# Midday no-entry window (ET, half-open [start, end)): block fresh entries during the
+# low-conviction lunch chop where the live book bled. Applies to the live engine AND
+# the backtest (both gate through clock.in_entry_window). Disable by setting
+# IOBOT_NO_ENTRY_START == IOBOT_NO_ENTRY_END (e.g. both 00:00).
+NO_ENTRY_START = _hm("IOBOT_NO_ENTRY_START", (11, 0))
+NO_ENTRY_END = _hm("IOBOT_NO_ENTRY_END", (13, 0))
 SCAN_INTERVAL_SEC = _i("IOBOT_SCAN_INTERVAL", 30)
 
 

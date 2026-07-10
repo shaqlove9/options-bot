@@ -32,9 +32,15 @@ def _at(t: dt.datetime, hm: tuple[int, int]) -> dt.datetime:
 
 
 def in_entry_window(t: dt.datetime) -> bool:
-    """Inside the configured entry window (default 9:45-15:30 ET, weekday).
-    Market-holiday gating is handled by the Alpaca clock in the engine loop."""
-    return t.weekday() < 5 and _at(t, config.ENTRY_START) <= t <= _at(t, config.ENTRY_END)
+    """Inside the configured entry window (default 9:45-15:30 ET, weekday), and NOT
+    inside the midday no-entry window (default 11:00-13:00 ET). Market-holiday gating
+    is handled by the Alpaca clock in the engine loop."""
+    if not (t.weekday() < 5 and _at(t, config.ENTRY_START) <= t <= _at(t, config.ENTRY_END)):
+        return False
+    ns, ne = _at(t, config.NO_ENTRY_START), _at(t, config.NO_ENTRY_END)
+    if ns < ne and ns <= t < ne:   # half-open; disabled when start == end
+        return False
+    return True
 
 
 def past_force_close(t: dt.datetime) -> bool:

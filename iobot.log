@@ -14814,3 +14814,6 @@
 2026-07-10 19:14:39,965 INFO    journal | REJECT AAPL call [governor] — max concurrent positions (3) open
 2026-07-10 19:26:19,140 INFO    journal | LOGGED trade #36 AAPL call pnl $+178.00 R 0.51 label 1 (profit target (underlying))
 2026-07-10 19:26:19,140 INFO    executor | CLOSED AAPL260713C00315000 @ $2.64 vs $1.75 → P&L $+178.00 (profit target (underlying))
+2026-07-11 11:03:05,593 WARNING broker | clock check failed (('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))) — treating market as CLOSED
+2026-07-11 12:52:08,812 WARNING broker | clock check failed (HTTPSConnectionPool(host='paper-api.alpaca.markets', port=443): Max retries exceeded with url: /v2/clock (Caused by NewConnectionError("HTTPSConnection(host='paper-api.alpaca.markets', port=443): Failed to establish a new connection: [Errno 111] Connection refused"))) — treating market as CLOSED
+2026-07-11 13:02:39,913 WARNING broker | clock check failed (HTTPSConnectionPool(host='paper-api.alpaca.markets', port=443): Max retries exceeded with url: /v2/clock (Caused by NewConnectionError("HTTPSConnection(host='paper-api.alpaca.markets', port=443): Failed to establish a new connection: [Errno 111] Connection refused"))) — treating market as CLOSED

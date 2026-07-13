@@ -14817,3 +14817,699 @@
 2026-07-11 11:03:05,593 WARNING broker | clock check failed (('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))) — treating market as CLOSED
 2026-07-11 12:52:08,812 WARNING broker | clock check failed (HTTPSConnectionPool(host='paper-api.alpaca.markets', port=443): Max retries exceeded with url: /v2/clock (Caused by NewConnectionError("HTTPSConnection(host='paper-api.alpaca.markets', port=443): Failed to establish a new connection: [Errno 111] Connection refused"))) — treating market as CLOSED
 2026-07-11 13:02:39,913 WARNING broker | clock check failed (HTTPSConnectionPool(host='paper-api.alpaca.markets', port=443): Max retries exceeded with url: /v2/clock (Caused by NewConnectionError("HTTPSConnection(host='paper-api.alpaca.markets', port=443): Failed to establish a new connection: [Errno 111] Connection refused"))) — treating market as CLOSED
+2026-07-13 13:30:02,120 INFO    governor | new trading day 2026-07-13 — counters reset (start equity $1370)
+2026-07-13 13:30:10,860 INFO    journal | LOGGED trade #37 QQQ call pnl $-416.00 R -0.91 label 0 (stop (underlying))
+2026-07-13 13:30:10,861 INFO    executor | CLOSED QQQ260713C00724000 @ $0.40 vs $4.56 → P&L $-416.00 (stop (underlying))
+2026-07-13 13:30:10,861 CRITICAL governor | SLEEVE HALTED — trailing DD 45.1% >= 40% off peak
+2026-07-13 13:45:14,412 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.3x, VWAP +0.73%
+2026-07-13 13:45:15,010 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.7x, VWAP +0.28%
+2026-07-13 13:45:15,205 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.8x, VWAP -0.45%
+2026-07-13 13:45:16,475 INFO    features | captured features for AAPL-20260713T094514-call (46 fields)
+2026-07-13 13:45:16,478 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:45:16,489 INFO    features | captured features for PLTR-20260713T094515-call (46 fields)
+2026-07-13 13:45:16,492 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:45:16,503 INFO    features | captured features for INTC-20260713T094515-put (46 fields)
+2026-07-13 13:45:16,507 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:45:47,390 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.2x, VWAP +0.73%
+2026-07-13 13:45:48,147 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.6x, VWAP +0.28%
+2026-07-13 13:45:48,220 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.7x, VWAP -0.45%
+2026-07-13 13:45:49,573 INFO    features | captured features for AAPL-20260713T094547-call (46 fields)
+2026-07-13 13:45:49,579 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:45:49,591 INFO    features | captured features for PLTR-20260713T094548-call (46 fields)
+2026-07-13 13:45:49,597 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:45:49,609 INFO    features | captured features for INTC-20260713T094548-put (46 fields)
+2026-07-13 13:45:49,615 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:20,342 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.2x, VWAP +0.73%
+2026-07-13 13:46:21,022 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.6x, VWAP +0.28%
+2026-07-13 13:46:21,119 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.7x, VWAP -0.45%
+2026-07-13 13:46:22,354 INFO    features | captured features for AAPL-20260713T094620-call (46 fields)
+2026-07-13 13:46:22,360 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:22,374 INFO    features | captured features for PLTR-20260713T094621-call (46 fields)
+2026-07-13 13:46:22,380 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:22,392 INFO    features | captured features for INTC-20260713T094621-put (46 fields)
+2026-07-13 13:46:22,398 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:53,030 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.1x, VWAP +0.73%
+2026-07-13 13:46:53,479 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.5x, VWAP +0.28%
+2026-07-13 13:46:53,538 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.6x, VWAP -0.45%
+2026-07-13 13:46:54,394 INFO    features | captured features for AAPL-20260713T094653-call (46 fields)
+2026-07-13 13:46:54,400 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:54,413 INFO    features | captured features for PLTR-20260713T094653-call (46 fields)
+2026-07-13 13:46:54,419 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:46:54,431 INFO    features | captured features for INTC-20260713T094653-put (46 fields)
+2026-07-13 13:46:54,437 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:25,024 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.0x, VWAP +0.73%
+2026-07-13 13:47:25,461 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.5x, VWAP +0.28%
+2026-07-13 13:47:25,606 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.6x, VWAP -0.45%
+2026-07-13 13:47:26,531 INFO    features | captured features for AAPL-20260713T094725-call (46 fields)
+2026-07-13 13:47:26,536 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:26,549 INFO    features | captured features for PLTR-20260713T094725-call (46 fields)
+2026-07-13 13:47:26,555 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:26,570 INFO    features | captured features for INTC-20260713T094725-put (46 fields)
+2026-07-13 13:47:26,575 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:57,106 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 2.0x, VWAP +0.73%
+2026-07-13 13:47:57,615 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.4x, VWAP +0.28%
+2026-07-13 13:47:57,673 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.5x, VWAP -0.45%
+2026-07-13 13:47:58,406 INFO    features | captured features for AAPL-20260713T094757-call (46 fields)
+2026-07-13 13:47:58,412 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:58,424 INFO    features | captured features for PLTR-20260713T094757-call (46 fields)
+2026-07-13 13:47:58,430 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:47:58,443 INFO    features | captured features for INTC-20260713T094757-put (46 fields)
+2026-07-13 13:47:58,449 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:48:29,012 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.9x, VWAP +0.73%
+2026-07-13 13:48:29,299 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.4x, VWAP +0.28%
+2026-07-13 13:48:29,384 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.5x, VWAP -0.45%
+2026-07-13 13:48:30,172 INFO    features | captured features for AAPL-20260713T094829-call (46 fields)
+2026-07-13 13:48:30,177 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:48:30,190 INFO    features | captured features for PLTR-20260713T094829-call (46 fields)
+2026-07-13 13:48:30,196 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:48:30,209 INFO    features | captured features for INTC-20260713T094829-put (46 fields)
+2026-07-13 13:48:30,215 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:00,867 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.9x, VWAP +0.73%
+2026-07-13 13:49:01,215 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.4x, VWAP +0.28%
+2026-07-13 13:49:01,306 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.4x, VWAP -0.45%
+2026-07-13 13:49:02,322 INFO    features | captured features for AAPL-20260713T094900-call (46 fields)
+2026-07-13 13:49:02,328 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:02,344 INFO    features | captured features for PLTR-20260713T094901-call (46 fields)
+2026-07-13 13:49:02,350 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:02,364 INFO    features | captured features for INTC-20260713T094901-put (46 fields)
+2026-07-13 13:49:02,371 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:32,825 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.8x, VWAP +0.73%
+2026-07-13 13:49:33,141 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.3x, VWAP +0.28%
+2026-07-13 13:49:33,193 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.4x, VWAP -0.45%
+2026-07-13 13:49:34,123 INFO    features | captured features for AAPL-20260713T094932-call (46 fields)
+2026-07-13 13:49:34,129 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:34,142 INFO    features | captured features for PLTR-20260713T094933-call (46 fields)
+2026-07-13 13:49:34,147 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:49:34,160 INFO    features | captured features for INTC-20260713T094933-put (46 fields)
+2026-07-13 13:49:34,165 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:04,961 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.8x, VWAP +0.73%
+2026-07-13 13:50:05,367 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.3x, VWAP +0.28%
+2026-07-13 13:50:05,428 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.4x, VWAP -0.45%
+2026-07-13 13:50:06,686 INFO    features | captured features for AAPL-20260713T095004-call (46 fields)
+2026-07-13 13:50:06,692 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:06,704 INFO    features | captured features for PLTR-20260713T095005-call (46 fields)
+2026-07-13 13:50:06,710 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:06,723 INFO    features | captured features for INTC-20260713T095005-put (46 fields)
+2026-07-13 13:50:06,730 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:37,499 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.7x, VWAP +0.73%
+2026-07-13 13:50:38,010 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.2x, VWAP +0.28%
+2026-07-13 13:50:38,066 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.3x, VWAP -0.45%
+2026-07-13 13:50:39,117 INFO    features | captured features for AAPL-20260713T095037-call (46 fields)
+2026-07-13 13:50:39,123 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:39,136 INFO    features | captured features for PLTR-20260713T095038-call (46 fields)
+2026-07-13 13:50:39,142 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:50:39,154 INFO    features | captured features for INTC-20260713T095038-put (46 fields)
+2026-07-13 13:50:39,160 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:51:10,026 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.7x, VWAP +0.73%
+2026-07-13 13:51:10,454 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.84% 15m, RSI(5)=82.1, relvol 1.2x, VWAP +0.28%
+2026-07-13 13:51:10,521 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.3x, VWAP -0.45%
+2026-07-13 13:51:11,609 INFO    features | captured features for AAPL-20260713T095110-call (46 fields)
+2026-07-13 13:51:11,613 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:51:11,623 INFO    features | captured features for PLTR-20260713T095110-call (46 fields)
+2026-07-13 13:51:11,626 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:51:11,637 INFO    features | captured features for INTC-20260713T095110-put (46 fields)
+2026-07-13 13:51:11,641 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:51:42,727 INFO    journal | LOGGED trade #38 SPY call pnl $-312.00 R -0.63 label 0 (stop (underlying))
+2026-07-13 13:51:42,728 INFO    executor | CLOSED SPY260713C00753000 @ $0.91 vs $2.47 → P&L $-312.00 (stop (underlying))
+2026-07-13 13:51:43,341 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.6x, VWAP +0.73%
+2026-07-13 13:51:43,831 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.3x, VWAP -0.45%
+2026-07-13 13:51:44,840 INFO    features | captured features for AAPL-20260713T095143-call (46 fields)
+2026-07-13 13:51:44,844 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:51:44,854 INFO    features | captured features for INTC-20260713T095143-put (46 fields)
+2026-07-13 13:51:44,857 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:52:15,410 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.6x, VWAP +0.73%
+2026-07-13 13:52:16,024 INFO    signals | SIGNAL[confluence] INTC PUT — -1.56% 15m, RSI(5)=4.4, relvol 1.2x, VWAP -0.45%
+2026-07-13 13:52:16,997 INFO    features | captured features for AAPL-20260713T095215-call (46 fields)
+2026-07-13 13:52:17,003 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:52:17,018 INFO    features | captured features for INTC-20260713T095216-put (46 fields)
+2026-07-13 13:52:17,024 INFO    journal | REJECT INTC put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:52:47,428 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.5x, VWAP +0.73%
+2026-07-13 13:52:48,493 INFO    features | captured features for AAPL-20260713T095247-call (46 fields)
+2026-07-13 13:52:48,498 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:53:18,959 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.5x, VWAP +0.73%
+2026-07-13 13:53:20,052 INFO    features | captured features for AAPL-20260713T095318-call (46 fields)
+2026-07-13 13:53:20,058 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:53:50,532 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.5x, VWAP +0.73%
+2026-07-13 13:53:51,938 INFO    features | captured features for AAPL-20260713T095350-call (46 fields)
+2026-07-13 13:53:51,944 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:54:22,325 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.4x, VWAP +0.73%
+2026-07-13 13:54:23,771 INFO    features | captured features for AAPL-20260713T095422-call (46 fields)
+2026-07-13 13:54:23,777 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:54:54,149 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.4x, VWAP +0.73%
+2026-07-13 13:54:55,195 INFO    features | captured features for AAPL-20260713T095454-call (46 fields)
+2026-07-13 13:54:55,201 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:55:25,745 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.4x, VWAP +0.73%
+2026-07-13 13:55:27,381 INFO    features | captured features for AAPL-20260713T095525-call (46 fields)
+2026-07-13 13:55:27,387 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:55:57,898 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.4x, VWAP +0.73%
+2026-07-13 13:55:59,106 INFO    features | captured features for AAPL-20260713T095557-call (46 fields)
+2026-07-13 13:55:59,111 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:56:29,580 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.3x, VWAP +0.73%
+2026-07-13 13:56:30,944 INFO    features | captured features for AAPL-20260713T095629-call (46 fields)
+2026-07-13 13:56:30,949 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:57:01,479 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.3x, VWAP +0.73%
+2026-07-13 13:57:02,958 INFO    features | captured features for AAPL-20260713T095701-call (46 fields)
+2026-07-13 13:57:02,964 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:57:33,437 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.3x, VWAP +0.73%
+2026-07-13 13:57:34,885 INFO    features | captured features for AAPL-20260713T095733-call (46 fields)
+2026-07-13 13:57:34,890 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:58:05,377 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.3x, VWAP +0.73%
+2026-07-13 13:58:06,913 INFO    features | captured features for AAPL-20260713T095805-call (46 fields)
+2026-07-13 13:58:06,918 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:58:37,326 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.2x, VWAP +0.73%
+2026-07-13 13:58:38,497 INFO    features | captured features for AAPL-20260713T095837-call (46 fields)
+2026-07-13 13:58:38,503 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 13:59:08,997 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.70% 15m, RSI(5)=87.9, relvol 1.2x, VWAP +0.73%
+2026-07-13 13:59:10,578 INFO    features | captured features for AAPL-20260713T095908-call (46 fields)
+2026-07-13 13:59:10,584 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:00:13,076 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.7x, VWAP +0.15%
+2026-07-13 14:00:17,024 INFO    features | captured features for AAPL-20260713T100013-call (46 fields)
+2026-07-13 14:00:17,029 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:00:48,643 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.7x, VWAP +0.15%
+2026-07-13 14:00:52,559 INFO    features | captured features for AAPL-20260713T100048-call (46 fields)
+2026-07-13 14:00:52,565 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:01:23,832 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.7x, VWAP +0.15%
+2026-07-13 14:01:25,615 INFO    features | captured features for AAPL-20260713T100123-call (46 fields)
+2026-07-13 14:01:25,621 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:01:56,646 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.6x, VWAP +0.15%
+2026-07-13 14:01:58,294 INFO    features | captured features for AAPL-20260713T100156-call (46 fields)
+2026-07-13 14:01:58,300 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:02:29,041 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.6x, VWAP +0.15%
+2026-07-13 14:02:30,444 INFO    features | captured features for AAPL-20260713T100229-call (46 fields)
+2026-07-13 14:02:30,451 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:03:01,232 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.6x, VWAP +0.15%
+2026-07-13 14:03:02,708 INFO    features | captured features for AAPL-20260713T100301-call (46 fields)
+2026-07-13 14:03:02,714 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:03:33,339 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.5x, VWAP +0.15%
+2026-07-13 14:03:34,569 INFO    features | captured features for AAPL-20260713T100333-call (46 fields)
+2026-07-13 14:03:34,575 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:04:05,202 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.5x, VWAP +0.15%
+2026-07-13 14:04:06,485 INFO    features | captured features for AAPL-20260713T100405-call (46 fields)
+2026-07-13 14:04:06,491 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:04:37,181 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.5x, VWAP +0.15%
+2026-07-13 14:04:38,116 INFO    features | captured features for AAPL-20260713T100437-call (46 fields)
+2026-07-13 14:04:38,122 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:05:08,808 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.5x, VWAP +0.15%
+2026-07-13 14:05:10,538 INFO    features | captured features for AAPL-20260713T100508-call (46 fields)
+2026-07-13 14:05:10,544 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:05:40,940 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.5x, VWAP +0.15%
+2026-07-13 14:05:42,378 INFO    features | captured features for AAPL-20260713T100540-call (46 fields)
+2026-07-13 14:05:42,385 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:06:12,665 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.4x, VWAP +0.15%
+2026-07-13 14:06:13,750 INFO    features | captured features for AAPL-20260713T100612-call (46 fields)
+2026-07-13 14:06:13,756 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:06:44,054 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.4x, VWAP +0.15%
+2026-07-13 14:06:45,209 INFO    features | captured features for AAPL-20260713T100644-call (46 fields)
+2026-07-13 14:06:45,215 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:07:15,456 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.4x, VWAP +0.15%
+2026-07-13 14:07:16,699 INFO    features | captured features for AAPL-20260713T100715-call (46 fields)
+2026-07-13 14:07:16,705 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:07:47,128 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.4x, VWAP +0.15%
+2026-07-13 14:07:48,670 INFO    features | captured features for AAPL-20260713T100747-call (46 fields)
+2026-07-13 14:07:48,676 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:08:19,121 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.4x, VWAP +0.15%
+2026-07-13 14:08:20,890 INFO    features | captured features for AAPL-20260713T100819-call (46 fields)
+2026-07-13 14:08:20,896 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:08:51,185 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:08:52,302 INFO    features | captured features for AAPL-20260713T100851-call (46 fields)
+2026-07-13 14:08:52,309 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:09:22,789 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:09:24,282 INFO    features | captured features for AAPL-20260713T100922-call (46 fields)
+2026-07-13 14:09:24,288 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:09:54,589 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:09:55,742 INFO    features | captured features for AAPL-20260713T100954-call (46 fields)
+2026-07-13 14:09:55,748 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:10:26,281 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:10:28,152 INFO    features | captured features for AAPL-20260713T101026-call (46 fields)
+2026-07-13 14:10:28,158 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:10:58,521 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:10:59,670 INFO    features | captured features for AAPL-20260713T101058-call (46 fields)
+2026-07-13 14:10:59,676 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:11:30,118 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.3x, VWAP +0.15%
+2026-07-13 14:11:31,295 INFO    features | captured features for AAPL-20260713T101130-call (46 fields)
+2026-07-13 14:11:31,303 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:12:01,791 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.2x, VWAP +0.15%
+2026-07-13 14:12:03,323 INFO    features | captured features for AAPL-20260713T101201-call (46 fields)
+2026-07-13 14:12:03,328 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:12:33,637 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.2x, VWAP +0.15%
+2026-07-13 14:12:34,648 INFO    features | captured features for AAPL-20260713T101233-call (46 fields)
+2026-07-13 14:12:34,653 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:13:05,062 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.38% 15m, RSI(5)=75.6, relvol 1.2x, VWAP +0.15%
+2026-07-13 14:13:06,372 INFO    features | captured features for AAPL-20260713T101305-call (46 fields)
+2026-07-13 14:13:06,378 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:15:10,362 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.4x, VWAP +0.12%
+2026-07-13 14:15:12,697 INFO    features | captured features for AAPL-20260713T101510-call (46 fields)
+2026-07-13 14:15:12,703 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:15:43,368 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:15:45,485 INFO    features | captured features for AAPL-20260713T101543-call (46 fields)
+2026-07-13 14:15:45,491 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:16:15,927 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:16:17,624 INFO    features | captured features for AAPL-20260713T101615-call (46 fields)
+2026-07-13 14:16:17,630 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:16:48,115 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:16:49,895 INFO    features | captured features for AAPL-20260713T101648-call (46 fields)
+2026-07-13 14:16:49,900 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:17:20,454 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:17:22,304 INFO    features | captured features for AAPL-20260713T101720-call (46 fields)
+2026-07-13 14:17:22,309 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:17:52,584 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:17:53,627 INFO    features | captured features for AAPL-20260713T101752-call (46 fields)
+2026-07-13 14:17:53,633 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:18:24,004 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:18:25,313 INFO    features | captured features for AAPL-20260713T101823-call (46 fields)
+2026-07-13 14:18:25,319 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:18:55,627 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.3x, VWAP +0.12%
+2026-07-13 14:18:56,607 INFO    features | captured features for AAPL-20260713T101855-call (46 fields)
+2026-07-13 14:18:56,613 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:19:26,897 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.2x, VWAP +0.12%
+2026-07-13 14:19:28,015 INFO    features | captured features for AAPL-20260713T101926-call (46 fields)
+2026-07-13 14:19:28,020 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:19:58,325 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.2x, VWAP +0.12%
+2026-07-13 14:19:59,417 INFO    features | captured features for AAPL-20260713T101958-call (46 fields)
+2026-07-13 14:19:59,423 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:20:29,987 INFO    signals | SIGNAL[confluence] AAPL CALL — -0.01% 15m, RSI(5)=75.3, relvol 1.2x, VWAP +0.12%
+2026-07-13 14:20:31,375 INFO    features | captured features for AAPL-20260713T102029-call (46 fields)
+2026-07-13 14:20:31,381 INFO    journal | REJECT AAPL call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 14:30:24,333 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.65% 15m, RSI(5)=74.4, relvol 1.2x, VWAP +1.11%
+2026-07-13 14:30:25,754 INFO    features | captured features for PLTR-20260713T103024-call (46 fields)
+2026-07-13 14:30:25,759 INFO    journal | REJECT PLTR call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:45:12,358 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:45:13,394 INFO    features | captured features for XLF-20260713T134512-call (46 fields)
+2026-07-13 17:45:13,398 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:45:45,083 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:45:45,707 INFO    features | captured features for XLF-20260713T134545-call (46 fields)
+2026-07-13 17:45:45,712 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:46:17,182 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:46:17,703 INFO    features | captured features for XLF-20260713T134617-call (46 fields)
+2026-07-13 17:46:17,707 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:46:49,090 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:46:49,568 INFO    features | captured features for XLF-20260713T134649-call (46 fields)
+2026-07-13 17:46:49,574 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:47:21,029 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:47:21,687 INFO    features | captured features for XLF-20260713T134721-call (46 fields)
+2026-07-13 17:47:21,692 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:47:52,902 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:47:53,340 INFO    features | captured features for XLF-20260713T134752-call (46 fields)
+2026-07-13 17:47:53,346 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:48:24,564 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:48:25,024 INFO    features | captured features for XLF-20260713T134824-call (46 fields)
+2026-07-13 17:48:25,030 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:48:56,127 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:48:56,479 INFO    features | captured features for XLF-20260713T134856-call (46 fields)
+2026-07-13 17:48:56,485 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:49:27,734 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:49:28,212 INFO    features | captured features for XLF-20260713T134927-call (46 fields)
+2026-07-13 17:49:28,218 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:49:59,371 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:49:59,751 INFO    features | captured features for XLF-20260713T134959-call (46 fields)
+2026-07-13 17:49:59,757 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:50:30,962 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:50:31,303 INFO    features | captured features for XLF-20260713T135030-call (46 fields)
+2026-07-13 17:50:31,306 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:51:02,462 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:51:02,891 INFO    features | captured features for XLF-20260713T135102-call (46 fields)
+2026-07-13 17:51:02,896 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:51:33,848 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:51:34,168 INFO    features | captured features for XLF-20260713T135133-call (46 fields)
+2026-07-13 17:51:34,173 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:52:05,212 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:52:05,556 INFO    features | captured features for XLF-20260713T135205-call (46 fields)
+2026-07-13 17:52:05,562 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:52:36,534 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:52:36,930 INFO    features | captured features for XLF-20260713T135236-call (46 fields)
+2026-07-13 17:52:36,936 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:53:07,992 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:53:08,336 INFO    features | captured features for XLF-20260713T135307-call (46 fields)
+2026-07-13 17:53:08,342 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:53:39,364 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:53:39,715 INFO    features | captured features for XLF-20260713T135339-call (46 fields)
+2026-07-13 17:53:39,720 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:54:11,139 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:54:11,679 INFO    features | captured features for XLF-20260713T135411-call (46 fields)
+2026-07-13 17:54:11,684 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:54:42,616 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:54:42,968 INFO    features | captured features for XLF-20260713T135442-call (46 fields)
+2026-07-13 17:54:42,974 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:55:14,311 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:55:14,883 INFO    features | captured features for XLF-20260713T135514-call (46 fields)
+2026-07-13 17:55:14,891 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:55:45,943 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:55:46,429 INFO    features | captured features for XLF-20260713T135545-call (46 fields)
+2026-07-13 17:55:46,434 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:56:17,553 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:56:17,949 INFO    features | captured features for XLF-20260713T135617-call (46 fields)
+2026-07-13 17:56:17,955 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:56:48,991 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:56:49,364 INFO    features | captured features for XLF-20260713T135648-call (46 fields)
+2026-07-13 17:56:49,369 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:57:20,538 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:57:20,915 INFO    features | captured features for XLF-20260713T135720-call (46 fields)
+2026-07-13 17:57:20,921 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:57:51,850 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:57:52,229 INFO    features | captured features for XLF-20260713T135751-call (46 fields)
+2026-07-13 17:57:52,235 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:58:23,313 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:58:23,777 INFO    features | captured features for XLF-20260713T135823-call (46 fields)
+2026-07-13 17:58:23,782 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:58:54,934 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.8x, VWAP +0.21%
+2026-07-13 17:58:55,333 INFO    features | captured features for XLF-20260713T135854-call (46 fields)
+2026-07-13 17:58:55,338 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:59:26,333 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.7x, VWAP +0.21%
+2026-07-13 17:59:26,716 INFO    features | captured features for XLF-20260713T135926-call (46 fields)
+2026-07-13 17:59:26,722 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 17:59:57,513 INFO    signals | SIGNAL[confluence] XLF CALL — +0.13% 15m, RSI(5)=79.6, relvol 0.7x, VWAP +0.21%
+2026-07-13 17:59:57,794 INFO    features | captured features for XLF-20260713T135957-call (46 fields)
+2026-07-13 17:59:57,800 INFO    journal | REJECT XLF call [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:00:29,479 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:00:29,610 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:00:30,266 INFO    features | captured features for CCL-20260713T140029-put (46 fields)
+2026-07-13 18:00:30,272 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:00:30,288 INFO    features | captured features for GOLD-20260713T140029-put (46 fields)
+2026-07-13 18:00:30,293 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:01:01,859 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:01:02,027 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:01:02,852 INFO    features | captured features for CCL-20260713T140101-put (46 fields)
+2026-07-13 18:01:02,856 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:01:02,868 INFO    features | captured features for GOLD-20260713T140102-put (46 fields)
+2026-07-13 18:01:02,873 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:01:34,200 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:01:34,311 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:01:34,833 INFO    features | captured features for CCL-20260713T140134-put (46 fields)
+2026-07-13 18:01:34,838 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:01:34,851 INFO    features | captured features for GOLD-20260713T140134-put (46 fields)
+2026-07-13 18:01:34,856 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:02:05,775 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:02:05,891 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:02:06,320 INFO    features | captured features for CCL-20260713T140205-put (46 fields)
+2026-07-13 18:02:06,325 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:02:06,340 INFO    features | captured features for GOLD-20260713T140205-put (46 fields)
+2026-07-13 18:02:06,345 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:02:37,634 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:02:37,870 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:02:38,279 INFO    features | captured features for CCL-20260713T140237-put (46 fields)
+2026-07-13 18:02:38,283 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:02:38,294 INFO    features | captured features for GOLD-20260713T140237-put (46 fields)
+2026-07-13 18:02:38,297 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:03:09,332 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:03:09,521 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:03:10,027 INFO    features | captured features for CCL-20260713T140309-put (46 fields)
+2026-07-13 18:03:10,033 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:03:10,045 INFO    features | captured features for GOLD-20260713T140309-put (46 fields)
+2026-07-13 18:03:10,051 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:03:40,939 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:03:41,063 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:03:41,454 INFO    features | captured features for CCL-20260713T140340-put (46 fields)
+2026-07-13 18:03:41,459 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:03:41,474 INFO    features | captured features for GOLD-20260713T140341-put (46 fields)
+2026-07-13 18:03:41,479 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:04:12,901 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:04:13,020 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:04:13,590 INFO    features | captured features for CCL-20260713T140412-put (46 fields)
+2026-07-13 18:04:13,596 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:04:13,608 INFO    features | captured features for GOLD-20260713T140413-put (46 fields)
+2026-07-13 18:04:13,614 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:04:44,795 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:04:44,969 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:04:45,487 INFO    features | captured features for CCL-20260713T140444-put (46 fields)
+2026-07-13 18:04:45,493 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:04:45,506 INFO    features | captured features for GOLD-20260713T140444-put (46 fields)
+2026-07-13 18:04:45,511 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:05:17,509 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:05:17,657 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:05:18,764 INFO    features | captured features for CCL-20260713T140517-put (46 fields)
+2026-07-13 18:05:18,770 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:05:18,785 INFO    features | captured features for GOLD-20260713T140517-put (46 fields)
+2026-07-13 18:05:18,790 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:05:51,153 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:05:51,260 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:05:52,559 INFO    features | captured features for CCL-20260713T140551-put (46 fields)
+2026-07-13 18:05:52,564 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:05:52,577 INFO    features | captured features for GOLD-20260713T140551-put (46 fields)
+2026-07-13 18:05:52,583 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:06:24,921 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:06:25,079 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:06:26,388 INFO    features | captured features for CCL-20260713T140624-put (46 fields)
+2026-07-13 18:06:26,393 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:06:26,406 INFO    features | captured features for GOLD-20260713T140625-put (46 fields)
+2026-07-13 18:06:26,412 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:06:58,782 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:06:58,884 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:07:00,122 INFO    features | captured features for CCL-20260713T140658-put (46 fields)
+2026-07-13 18:07:00,130 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:07:00,146 INFO    features | captured features for GOLD-20260713T140658-put (46 fields)
+2026-07-13 18:07:00,152 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:07:32,175 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:07:32,302 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:07:33,509 INFO    features | captured features for CCL-20260713T140732-put (46 fields)
+2026-07-13 18:07:33,515 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:07:33,528 INFO    features | captured features for GOLD-20260713T140732-put (46 fields)
+2026-07-13 18:07:33,534 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:08:05,942 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:08:06,035 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:08:07,413 INFO    features | captured features for CCL-20260713T140805-put (46 fields)
+2026-07-13 18:08:07,419 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:08:07,432 INFO    features | captured features for GOLD-20260713T140806-put (46 fields)
+2026-07-13 18:08:07,438 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:08:38,900 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:08:39,069 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:08:39,936 INFO    features | captured features for CCL-20260713T140838-put (46 fields)
+2026-07-13 18:08:39,944 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:08:39,959 INFO    features | captured features for GOLD-20260713T140839-put (46 fields)
+2026-07-13 18:08:39,965 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:09:10,903 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:09:11,073 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:09:11,721 INFO    features | captured features for CCL-20260713T140910-put (46 fields)
+2026-07-13 18:09:11,727 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:09:11,740 INFO    features | captured features for GOLD-20260713T140911-put (46 fields)
+2026-07-13 18:09:11,746 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:09:42,734 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:09:42,995 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:09:43,614 INFO    features | captured features for CCL-20260713T140942-put (46 fields)
+2026-07-13 18:09:43,620 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:09:43,632 INFO    features | captured features for GOLD-20260713T140942-put (46 fields)
+2026-07-13 18:09:43,638 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:10:15,033 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:10:15,205 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:10:16,050 INFO    features | captured features for CCL-20260713T141015-put (46 fields)
+2026-07-13 18:10:16,056 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:10:16,071 INFO    features | captured features for GOLD-20260713T141015-put (46 fields)
+2026-07-13 18:10:16,076 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:10:47,063 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:10:47,151 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:10:47,813 INFO    features | captured features for CCL-20260713T141047-put (46 fields)
+2026-07-13 18:10:47,819 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:10:47,832 INFO    features | captured features for GOLD-20260713T141047-put (46 fields)
+2026-07-13 18:10:47,838 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:11:18,823 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:11:18,941 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:11:19,540 INFO    features | captured features for CCL-20260713T141118-put (46 fields)
+2026-07-13 18:11:19,546 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:11:19,558 INFO    features | captured features for GOLD-20260713T141118-put (46 fields)
+2026-07-13 18:11:19,564 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:11:50,527 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:11:50,608 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:11:51,225 INFO    features | captured features for CCL-20260713T141150-put (46 fields)
+2026-07-13 18:11:51,231 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:11:51,246 INFO    features | captured features for GOLD-20260713T141150-put (46 fields)
+2026-07-13 18:11:51,251 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:12:22,272 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:12:22,371 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:12:22,965 INFO    features | captured features for CCL-20260713T141222-put (46 fields)
+2026-07-13 18:12:22,971 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:12:22,983 INFO    features | captured features for GOLD-20260713T141222-put (46 fields)
+2026-07-13 18:12:22,989 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:12:53,852 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:12:54,025 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:12:54,494 INFO    features | captured features for CCL-20260713T141253-put (46 fields)
+2026-07-13 18:12:54,500 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:12:54,512 INFO    features | captured features for GOLD-20260713T141254-put (46 fields)
+2026-07-13 18:12:54,518 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:13:25,405 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:13:25,564 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:13:26,036 INFO    features | captured features for CCL-20260713T141325-put (46 fields)
+2026-07-13 18:13:26,042 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:13:26,056 INFO    features | captured features for GOLD-20260713T141325-put (46 fields)
+2026-07-13 18:13:26,062 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:13:56,971 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:13:57,123 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:13:57,573 INFO    features | captured features for CCL-20260713T141356-put (46 fields)
+2026-07-13 18:13:57,579 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:13:57,592 INFO    features | captured features for GOLD-20260713T141357-put (46 fields)
+2026-07-13 18:13:57,598 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:14:28,559 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:14:28,694 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.53% 15m, RSI(5)=20.1, relvol 0.7x, VWAP -1.69%
+2026-07-13 18:14:29,166 INFO    features | captured features for CCL-20260713T141428-put (46 fields)
+2026-07-13 18:14:29,172 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:14:29,184 INFO    features | captured features for GOLD-20260713T141428-put (46 fields)
+2026-07-13 18:14:29,190 INFO    journal | REJECT GOLD put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:15:00,106 INFO    signals | SIGNAL[confluence] CCL PUT — -0.87% 15m, RSI(5)=27.4, relvol 0.5x, VWAP -0.68%
+2026-07-13 18:15:01,133 INFO    features | captured features for CCL-20260713T141500-put (46 fields)
+2026-07-13 18:15:01,139 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:30:27,099 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:30:29,280 INFO    features | captured features for CCL-20260713T143027-put (46 fields)
+2026-07-13 18:30:29,286 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:31:01,082 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:31:02,308 INFO    features | captured features for CCL-20260713T143101-put (46 fields)
+2026-07-13 18:31:02,314 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:31:33,569 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:31:34,304 INFO    features | captured features for CCL-20260713T143133-put (46 fields)
+2026-07-13 18:31:34,310 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:32:05,388 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:32:06,123 INFO    features | captured features for CCL-20260713T143205-put (46 fields)
+2026-07-13 18:32:06,129 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:32:36,942 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:32:37,451 INFO    features | captured features for CCL-20260713T143236-put (46 fields)
+2026-07-13 18:32:37,455 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:33:08,463 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:33:09,292 INFO    features | captured features for CCL-20260713T143308-put (46 fields)
+2026-07-13 18:33:09,297 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:33:39,992 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:33:40,560 INFO    features | captured features for CCL-20260713T143339-put (46 fields)
+2026-07-13 18:33:40,566 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:34:11,429 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:34:12,721 INFO    features | captured features for CCL-20260713T143411-put (46 fields)
+2026-07-13 18:34:12,727 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:34:43,538 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:34:44,671 INFO    features | captured features for CCL-20260713T143443-put (46 fields)
+2026-07-13 18:34:44,677 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:35:15,843 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:35:17,426 INFO    features | captured features for CCL-20260713T143515-put (46 fields)
+2026-07-13 18:35:17,432 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:35:48,413 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:35:49,898 INFO    features | captured features for CCL-20260713T143548-put (46 fields)
+2026-07-13 18:35:49,904 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:36:20,911 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:36:21,911 INFO    features | captured features for CCL-20260713T143620-put (46 fields)
+2026-07-13 18:36:21,917 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:36:52,809 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:36:53,819 INFO    features | captured features for CCL-20260713T143652-put (46 fields)
+2026-07-13 18:36:53,824 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:37:24,992 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:37:26,220 INFO    features | captured features for CCL-20260713T143724-put (46 fields)
+2026-07-13 18:37:26,226 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:37:57,491 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:37:58,893 INFO    features | captured features for CCL-20260713T143757-put (46 fields)
+2026-07-13 18:37:58,898 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:38:29,906 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:38:30,988 INFO    features | captured features for CCL-20260713T143829-put (46 fields)
+2026-07-13 18:38:30,997 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:39:01,997 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:39:03,042 INFO    features | captured features for CCL-20260713T143901-put (46 fields)
+2026-07-13 18:39:03,048 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:39:33,964 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:39:34,587 INFO    features | captured features for CCL-20260713T143933-put (46 fields)
+2026-07-13 18:39:34,593 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:40:06,089 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:40:07,228 INFO    features | captured features for CCL-20260713T144006-put (46 fields)
+2026-07-13 18:40:07,234 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:40:38,234 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:40:38,970 INFO    features | captured features for CCL-20260713T144038-put (46 fields)
+2026-07-13 18:40:38,975 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:41:09,882 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:41:10,603 INFO    features | captured features for CCL-20260713T144109-put (46 fields)
+2026-07-13 18:41:10,609 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:41:41,432 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:41:42,236 INFO    features | captured features for CCL-20260713T144141-put (46 fields)
+2026-07-13 18:41:42,242 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:42:13,304 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:42:14,179 INFO    features | captured features for CCL-20260713T144213-put (46 fields)
+2026-07-13 18:42:14,184 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:42:45,301 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:42:46,241 INFO    features | captured features for CCL-20260713T144245-put (46 fields)
+2026-07-13 18:42:46,246 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:43:17,474 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:43:18,205 INFO    features | captured features for CCL-20260713T144317-put (46 fields)
+2026-07-13 18:43:18,211 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:43:49,053 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:43:49,684 INFO    features | captured features for CCL-20260713T144349-put (46 fields)
+2026-07-13 18:43:49,689 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:44:20,530 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:44:21,143 INFO    features | captured features for CCL-20260713T144420-put (46 fields)
+2026-07-13 18:44:21,149 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:44:51,973 INFO    signals | SIGNAL[confluence] CCL PUT — -0.30% 15m, RSI(5)=24.7, relvol 0.5x, VWAP -0.85%
+2026-07-13 18:44:52,508 INFO    features | captured features for CCL-20260713T144451-put (46 fields)
+2026-07-13 18:44:52,513 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:45:24,025 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:45:24,996 INFO    features | captured features for CCL-20260713T144524-put (46 fields)
+2026-07-13 18:45:25,001 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:45:56,036 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:45:56,707 INFO    features | captured features for CCL-20260713T144556-put (46 fields)
+2026-07-13 18:45:56,712 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:46:27,890 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:46:29,008 INFO    features | captured features for CCL-20260713T144627-put (46 fields)
+2026-07-13 18:46:29,014 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:46:59,966 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:47:00,831 INFO    features | captured features for CCL-20260713T144659-put (46 fields)
+2026-07-13 18:47:00,836 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:47:32,017 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:47:32,777 INFO    features | captured features for CCL-20260713T144732-put (46 fields)
+2026-07-13 18:47:32,783 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:48:04,094 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:48:05,127 INFO    features | captured features for CCL-20260713T144804-put (46 fields)
+2026-07-13 18:48:05,133 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:48:36,462 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:48:37,191 INFO    features | captured features for CCL-20260713T144836-put (46 fields)
+2026-07-13 18:48:37,197 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:49:08,489 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:49:09,571 INFO    features | captured features for CCL-20260713T144908-put (46 fields)
+2026-07-13 18:49:09,576 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:49:40,670 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:49:41,423 INFO    features | captured features for CCL-20260713T144940-put (46 fields)
+2026-07-13 18:49:41,429 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:50:12,937 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:50:14,041 INFO    features | captured features for CCL-20260713T145012-put (46 fields)
+2026-07-13 18:50:14,046 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:50:45,130 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:50:45,806 INFO    features | captured features for CCL-20260713T145045-put (46 fields)
+2026-07-13 18:50:45,812 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:51:17,104 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:51:18,121 INFO    features | captured features for CCL-20260713T145117-put (46 fields)
+2026-07-13 18:51:18,126 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:51:49,328 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:51:50,224 INFO    features | captured features for CCL-20260713T145149-put (46 fields)
+2026-07-13 18:51:50,230 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:52:21,439 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:52:22,119 INFO    features | captured features for CCL-20260713T145221-put (46 fields)
+2026-07-13 18:52:22,125 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:52:53,228 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:52:53,862 INFO    features | captured features for CCL-20260713T145253-put (46 fields)
+2026-07-13 18:52:53,868 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:53:25,063 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:53:25,685 INFO    features | captured features for CCL-20260713T145325-put (46 fields)
+2026-07-13 18:53:25,691 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:53:56,673 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:53:57,459 INFO    features | captured features for CCL-20260713T145356-put (46 fields)
+2026-07-13 18:53:57,464 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:54:28,465 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:54:29,179 INFO    features | captured features for CCL-20260713T145428-put (46 fields)
+2026-07-13 18:54:29,184 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:54:59,958 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:55:00,604 INFO    features | captured features for CCL-20260713T145459-put (46 fields)
+2026-07-13 18:55:00,609 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:55:31,505 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:55:32,259 INFO    features | captured features for CCL-20260713T145531-put (46 fields)
+2026-07-13 18:55:32,265 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:56:03,202 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:56:03,806 INFO    features | captured features for CCL-20260713T145603-put (46 fields)
+2026-07-13 18:56:03,812 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:56:34,635 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:56:35,141 INFO    features | captured features for CCL-20260713T145634-put (46 fields)
+2026-07-13 18:56:35,146 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:57:06,128 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:57:06,622 INFO    features | captured features for CCL-20260713T145706-put (46 fields)
+2026-07-13 18:57:06,627 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:57:37,813 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:57:38,599 INFO    features | captured features for CCL-20260713T145737-put (46 fields)
+2026-07-13 18:57:38,604 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:58:09,492 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:58:10,017 INFO    features | captured features for CCL-20260713T145809-put (46 fields)
+2026-07-13 18:58:10,023 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:58:41,121 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:58:41,833 INFO    features | captured features for CCL-20260713T145841-put (46 fields)
+2026-07-13 18:58:41,838 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:59:12,764 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:59:13,392 INFO    features | captured features for CCL-20260713T145912-put (46 fields)
+2026-07-13 18:59:13,397 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)
+2026-07-13 18:59:44,312 INFO    signals | SIGNAL[confluence] CCL PUT — -0.09% 15m, RSI(5)=23.2, relvol 0.5x, VWAP -0.90%
+2026-07-13 18:59:45,010 INFO    features | captured features for CCL-20260713T145944-put (46 fields)
+2026-07-13 18:59:45,018 INFO    journal | REJECT CCL put [governor] — sleeve halted (trailing DD 45.1% >= 40% off peak)

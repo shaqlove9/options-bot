@@ -1,10 +1,10 @@
 {
- "date": "2026-07-14",
+ "date": "2026-07-15",
  "day_start_equity": 642.0,
- "peak_equity": 1738.0,
+ "peak_equity": 642.0,
  "day_realized_pnl": 0.0,
  "trades_today": 0,
  "round_trips_today": 0,
- "sleeve_halted": true,
- "halt_reason": "trailing DD 45.1% >= 40% off peak"
+ "sleeve_halted": false,
+ "halt_reason": ""
 }

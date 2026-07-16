@@ -1958,3 +1958,1457 @@
 2026-07-15 21:12:14,046 INFO    webhook | Webhook receiver listening on 127.0.0.1:8080  (POST /tv-webhook)  IP allowlist: ALL (open)
 2026-07-15 21:12:14,047 INFO    engine | engine ready — universe ['SPY', 'QQQ', 'AMD', 'AAPL', 'F', 'SOFI', 'PLTR', 'INTC', 'BAC', 'NIO', 'CCL', 'T', 'GOLD', 'XLF'], signal=confluence, structure=single, meta_active=False
 2026-07-15 21:12:14,047 INFO    engine | iobot starting — PAPER ONLY (go_live=False, live_exec=False)
+2026-07-15 21:26:32,965 INFO    webhook | Webhook receiver listening on 127.0.0.1:8080  (POST /tv-webhook)  IP allowlist: ALL (open)
+2026-07-15 21:26:32,965 INFO    engine | engine ready — universe ['SPY', 'QQQ', 'AMD', 'AAPL', 'F', 'SOFI', 'PLTR', 'INTC', 'BAC', 'NIO', 'CCL', 'T', 'GOLD', 'XLF'], signal=confluence, structure=single, meta_active=False
+2026-07-15 21:26:32,965 INFO    engine | iobot starting — PAPER ONLY (go_live=False, live_exec=False)
+2026-07-16 13:30:25,897 INFO    governor | new trading day 2026-07-16 — counters reset (start equity $642)
+2026-07-16 13:45:27,246 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.5x, VWAP -0.37%
+2026-07-16 13:45:27,315 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.8x, VWAP -0.73%
+2026-07-16 13:45:29,285 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.7x, VWAP -0.95%
+2026-07-16 13:45:31,065 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.7x, VWAP +0.08%
+2026-07-16 13:45:32,468 INFO    features | captured features for QQQ-20260716T094527-put (46 fields)
+2026-07-16 13:45:32,638 INFO    journal | REJECT QQQ put [risk] — max loss $477 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:45:32,650 INFO    features | captured features for AMD-20260716T094527-put (46 fields)
+2026-07-16 13:45:32,780 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 15 delta out of band, 7 illiquid (contract $1208 > $500 per-position cap; contract $1379 > $500 per-position cap; contract $1576 > $500 per-position cap; contract $1690 > $500 per-position cap; contract $1795 > $500 per-position cap; contract $2037 > $500 per-position cap; contract $2194 > $500 per-position cap)
+2026-07-16 13:45:32,793 INFO    features | captured features for INTC-20260716T094529-put (46 fields)
+2026-07-16 13:45:32,978 INFO    journal | REJECT INTC put [risk] — max loss $367 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:45:32,993 INFO    features | captured features for XLF-20260716T094531-call (46 fields)
+2026-07-16 13:45:33,135 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 5 no delta, 7 delta out of band, 1 illiquid (wide spread 17%)
+2026-07-16 13:46:03,803 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.4x, VWAP -0.37%
+2026-07-16 13:46:03,868 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.7x, VWAP -0.73%
+2026-07-16 13:46:05,805 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.6x, VWAP -0.95%
+2026-07-16 13:46:07,398 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.7x, VWAP +0.08%
+2026-07-16 13:46:08,884 INFO    features | captured features for QQQ-20260716T094603-put (46 fields)
+2026-07-16 13:46:09,007 INFO    journal | REJECT QQQ put [risk] — max loss $492 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:46:09,019 INFO    features | captured features for AMD-20260716T094603-put (46 fields)
+2026-07-16 13:46:09,160 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1329 > $500 per-position cap; contract $1507 > $500 per-position cap; contract $1618 > $500 per-position cap; contract $1766 > $500 per-position cap; contract $1997 > $500 per-position cap; contract $2167 > $500 per-position cap)
+2026-07-16 13:46:09,175 INFO    features | captured features for INTC-20260716T094605-put (46 fields)
+2026-07-16 13:46:09,311 INFO    journal | REJECT INTC put [risk] — max loss $362 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:46:09,324 INFO    features | captured features for XLF-20260716T094607-call (46 fields)
+2026-07-16 13:46:09,454 INFO    journal | REJECT XLF call [risk] — max loss $490 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:46:39,817 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.4x, VWAP -0.37%
+2026-07-16 13:46:39,868 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.6x, VWAP -0.73%
+2026-07-16 13:46:40,866 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.6x, VWAP -0.95%
+2026-07-16 13:46:42,078 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.6x, VWAP +0.08%
+2026-07-16 13:46:43,068 INFO    features | captured features for QQQ-20260716T094639-put (46 fields)
+2026-07-16 13:46:43,163 INFO    journal | REJECT QQQ put [risk] — max loss $493 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:46:43,178 INFO    features | captured features for AMD-20260716T094639-put (46 fields)
+2026-07-16 13:46:43,269 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1252 > $500 per-position cap; contract $1390 > $500 per-position cap; contract $1547 > $500 per-position cap; contract $1690 > $500 per-position cap; contract $1853 > $500 per-position cap; contract $2052 > $500 per-position cap)
+2026-07-16 13:46:43,281 INFO    features | captured features for INTC-20260716T094640-put (46 fields)
+2026-07-16 13:46:44,385 INFO    executor | OPENED INTC LONG 1x PUT 100 exp 2026-07-17 delta -0.57 ask $2.98 maxloss $298 @ $2.98 (mid $2.96) stop u/l 100.21 target u/l 96.82 maxloss $298
+2026-07-16 13:46:44,400 INFO    features | captured features for XLF-20260716T094642-call (46 fields)
+2026-07-16 13:46:44,453 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 6 no delta, 6 delta out of band, 1 illiquid (wide spread 29%)
+2026-07-16 13:47:14,769 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.3x, VWAP -0.37%
+2026-07-16 13:47:14,854 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.6x, VWAP -0.73%
+2026-07-16 13:47:15,686 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.5x, VWAP -0.95%
+2026-07-16 13:47:16,736 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.5x, VWAP +0.08%
+2026-07-16 13:47:17,563 INFO    features | captured features for QQQ-20260716T094714-put (46 fields)
+2026-07-16 13:47:17,673 INFO    journal | REJECT QQQ put [risk] — max loss $472 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:47:17,685 INFO    features | captured features for AMD-20260716T094714-put (46 fields)
+2026-07-16 13:47:17,775 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 16 delta out of band, 6 illiquid (contract $1333 > $500 per-position cap; contract $1472 > $500 per-position cap; contract $1606 > $500 per-position cap; contract $1783 > $500 per-position cap; contract $1930 > $500 per-position cap; contract $2156 > $500 per-position cap)
+2026-07-16 13:47:17,787 INFO    features | captured features for INTC-20260716T094715-put (46 fields)
+2026-07-16 13:47:17,793 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:47:17,808 INFO    features | captured features for XLF-20260716T094716-call (46 fields)
+2026-07-16 13:47:17,835 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 2 no delta, 10 delta out of band, 1 illiquid (wide spread 17%)
+2026-07-16 13:47:48,146 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.3x, VWAP -0.37%
+2026-07-16 13:47:48,206 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.5x, VWAP -0.73%
+2026-07-16 13:47:48,952 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.5x, VWAP -0.95%
+2026-07-16 13:47:49,712 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.5x, VWAP +0.08%
+2026-07-16 13:47:50,425 INFO    features | captured features for QQQ-20260716T094748-put (46 fields)
+2026-07-16 13:47:50,469 INFO    journal | REJECT QQQ put [risk] — max loss $495 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:47:50,481 INFO    features | captured features for AMD-20260716T094748-put (46 fields)
+2026-07-16 13:47:50,528 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 16 delta out of band, 6 illiquid (contract $1307 > $500 per-position cap; contract $1443 > $500 per-position cap; contract $1606 > $500 per-position cap; contract $1747 > $500 per-position cap; contract $1923 > $500 per-position cap; contract $2102 > $500 per-position cap)
+2026-07-16 13:47:50,543 INFO    features | captured features for INTC-20260716T094748-put (46 fields)
+2026-07-16 13:47:50,548 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:47:50,561 INFO    features | captured features for XLF-20260716T094749-call (46 fields)
+2026-07-16 13:47:50,595 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 2 no delta, 10 delta out of band, 1 illiquid (wide spread 14%)
+2026-07-16 13:48:20,861 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.3x, VWAP -0.37%
+2026-07-16 13:48:20,956 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.5x, VWAP -0.73%
+2026-07-16 13:48:21,595 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.4x, VWAP -0.95%
+2026-07-16 13:48:22,349 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.5x, VWAP +0.08%
+2026-07-16 13:48:22,985 INFO    features | captured features for QQQ-20260716T094820-put (46 fields)
+2026-07-16 13:48:23,027 INFO    journal | REJECT QQQ put [risk] — max loss $492 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:48:23,042 INFO    features | captured features for AMD-20260716T094820-put (46 fields)
+2026-07-16 13:48:23,075 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1315 > $500 per-position cap; contract $1488 > $500 per-position cap; contract $1606 > $500 per-position cap; contract $1806 > $500 per-position cap; contract $1926 > $500 per-position cap; contract $2118 > $500 per-position cap)
+2026-07-16 13:48:23,090 INFO    features | captured features for INTC-20260716T094821-put (46 fields)
+2026-07-16 13:48:23,096 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:48:23,108 INFO    features | captured features for XLF-20260716T094822-call (46 fields)
+2026-07-16 13:48:23,157 INFO    journal | REJECT XLF call [risk] — max loss $480 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:48:53,449 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.51% 15m, RSI(5)=14.1, relvol 1.2x, VWAP -0.37%
+2026-07-16 13:48:53,543 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.4x, VWAP -0.73%
+2026-07-16 13:48:54,216 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.4x, VWAP -0.95%
+2026-07-16 13:48:54,719 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.4x, VWAP +0.08%
+2026-07-16 13:48:55,233 INFO    features | captured features for QQQ-20260716T094853-put (46 fields)
+2026-07-16 13:48:55,336 INFO    journal | REJECT QQQ put [risk] — max loss $491 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 13:48:55,349 INFO    features | captured features for AMD-20260716T094853-put (46 fields)
+2026-07-16 13:48:55,387 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 16 delta out of band, 6 illiquid (contract $1338 > $500 per-position cap; contract $1492 > $500 per-position cap; contract $1656 > $500 per-position cap; contract $1774 > $500 per-position cap; contract $1957 > $500 per-position cap; contract $2125 > $500 per-position cap)
+2026-07-16 13:48:55,401 INFO    features | captured features for INTC-20260716T094854-put (46 fields)
+2026-07-16 13:48:55,406 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:48:55,421 INFO    features | captured features for XLF-20260716T094854-call (46 fields)
+2026-07-16 13:48:55,448 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 4 no delta, 8 delta out of band, 1 illiquid (wide spread 22%)
+2026-07-16 13:49:25,912 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.4x, VWAP -0.73%
+2026-07-16 13:49:26,448 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.4x, VWAP -0.95%
+2026-07-16 13:49:26,987 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.4x, VWAP +0.08%
+2026-07-16 13:49:27,472 INFO    features | captured features for AMD-20260716T094925-put (46 fields)
+2026-07-16 13:49:27,510 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 2 no delta, 13 delta out of band, 7 illiquid (contract $1248 > $500 per-position cap; contract $1387 > $500 per-position cap; contract $1577 > $500 per-position cap; contract $1687 > $500 per-position cap; contract $1942 > $500 per-position cap; contract $2071 > $500 per-position cap; contract $2265 > $500 per-position cap)
+2026-07-16 13:49:27,523 INFO    features | captured features for INTC-20260716T094926-put (46 fields)
+2026-07-16 13:49:27,529 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:49:27,543 INFO    features | captured features for XLF-20260716T094926-call (46 fields)
+2026-07-16 13:49:27,567 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 5 no delta, 7 delta out of band, 1 illiquid (wide spread 36%)
+2026-07-16 13:49:57,992 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.4x, VWAP -0.73%
+2026-07-16 13:49:58,584 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.3x, VWAP -0.95%
+2026-07-16 13:49:59,341 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.3x, VWAP +0.08%
+2026-07-16 13:49:59,954 INFO    features | captured features for AMD-20260716T094957-put (46 fields)
+2026-07-16 13:50:00,036 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 4 no delta, 12 delta out of band, 6 illiquid (contract $1302 > $500 per-position cap; contract $1460 > $500 per-position cap; contract $1599 > $500 per-position cap; contract $1742 > $500 per-position cap; contract $1871 > $500 per-position cap; contract $2034 > $500 per-position cap)
+2026-07-16 13:50:00,083 INFO    features | captured features for INTC-20260716T094958-put (46 fields)
+2026-07-16 13:50:00,091 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:50:00,121 INFO    features | captured features for XLF-20260716T094959-call (46 fields)
+2026-07-16 13:50:00,157 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 7 no delta, 5 delta out of band, 1 illiquid (wide spread 18%)
+2026-07-16 13:50:30,772 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.3x, VWAP -0.73%
+2026-07-16 13:50:31,744 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.3x, VWAP -0.95%
+2026-07-16 13:50:32,950 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.3x, VWAP +0.08%
+2026-07-16 13:50:34,012 INFO    features | captured features for AMD-20260716T095030-put (46 fields)
+2026-07-16 13:50:34,061 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1331 > $500 per-position cap; contract $1472 > $500 per-position cap; contract $1637 > $500 per-position cap; contract $1803 > $500 per-position cap; contract $1953 > $500 per-position cap; contract $2091 > $500 per-position cap)
+2026-07-16 13:50:34,074 INFO    features | captured features for INTC-20260716T095031-put (46 fields)
+2026-07-16 13:50:34,079 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:50:34,094 INFO    features | captured features for XLF-20260716T095032-call (46 fields)
+2026-07-16 13:50:34,123 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 6 no delta, 6 delta out of band, 1 illiquid (wide spread 23%)
+2026-07-16 13:51:04,755 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.3x, VWAP -0.73%
+2026-07-16 13:51:06,072 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.2x, VWAP -0.95%
+2026-07-16 13:51:07,216 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.3x, VWAP +0.08%
+2026-07-16 13:51:08,246 INFO    features | captured features for AMD-20260716T095104-put (46 fields)
+2026-07-16 13:51:08,414 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 16 delta out of band, 6 illiquid (contract $1227 > $500 per-position cap; contract $1423 > $500 per-position cap; contract $1558 > $500 per-position cap; contract $1701 > $500 per-position cap; contract $1921 > $500 per-position cap; contract $2060 > $500 per-position cap)
+2026-07-16 13:51:08,426 INFO    features | captured features for INTC-20260716T095106-put (46 fields)
+2026-07-16 13:51:08,432 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:51:08,446 INFO    features | captured features for XLF-20260716T095107-call (46 fields)
+2026-07-16 13:51:08,525 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 2 no delta, 10 delta out of band, 1 illiquid (wide spread 22%)
+2026-07-16 13:51:39,025 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.3x, VWAP -0.73%
+2026-07-16 13:51:40,088 INFO    signals | SIGNAL[confluence] INTC PUT — -2.11% 15m, RSI(5)=18.2, relvol 1.2x, VWAP -0.95%
+2026-07-16 13:51:40,969 INFO    signals | SIGNAL[confluence] XLF CALL — -0.18% 15m, RSI(5)=80.4, relvol 1.2x, VWAP +0.08%
+2026-07-16 13:51:41,687 INFO    features | captured features for AMD-20260716T095139-put (46 fields)
+2026-07-16 13:51:41,747 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1303 > $500 per-position cap; contract $1491 > $500 per-position cap; contract $1687 > $500 per-position cap; contract $1793 > $500 per-position cap; contract $1998 > $500 per-position cap; contract $2133 > $500 per-position cap)
+2026-07-16 13:51:41,761 INFO    features | captured features for INTC-20260716T095140-put (46 fields)
+2026-07-16 13:51:41,766 INFO    journal | REJECT INTC put [governor] — already holding this underlying
+2026-07-16 13:51:41,781 INFO    features | captured features for XLF-20260716T095140-call (46 fields)
+2026-07-16 13:51:41,821 INFO    journal | REJECT XLF call [selection] — no qualifying strike — 5 no delta, 7 delta out of band, 1 illiquid (wide spread 22%)
+2026-07-16 13:52:12,246 INFO    signals | SIGNAL[confluence] AMD PUT — -0.17% 15m, RSI(5)=12.7, relvol 1.2x, VWAP -0.73%
+2026-07-16 13:52:14,481 INFO    features | captured features for AMD-20260716T095212-put (46 fields)
+2026-07-16 13:52:14,543 INFO    journal | REJECT AMD put [selection] — no qualifying strike — 1 no delta, 15 delta out of band, 6 illiquid (contract $1323 > $500 per-position cap; contract $1477 > $500 per-position cap; contract $1613 > $500 per-position cap; contract $1805 > $500 per-position cap; contract $1955 > $500 per-position cap; contract $2123 > $500 per-position cap)
+2026-07-16 14:00:11,781 INFO    signals | SIGNAL[confluence] QQQ PUT — +0.11% 15m, RSI(5)=20.5, relvol 1.3x, VWAP -0.10%
+2026-07-16 14:00:12,958 INFO    signals | SIGNAL[confluence] AAPL CALL — +0.99% 15m, RSI(5)=83.8, relvol 1.5x, VWAP +0.73%
+2026-07-16 14:00:17,933 INFO    features | captured features for QQQ-20260716T100011-put (46 fields)
+2026-07-16 14:00:18,327 INFO    journal | REJECT QQQ put [risk] — max loss $481 > per-trade cap $321 (50% of equity) — skip
+2026-07-16 14:00:18,342 INFO    features | captured features for AAPL-20260716T100012-call (46 fields)
+2026-07-16 14:00:20,624 INFO    executor | OPENED AAPL LONG 1x CALL 330 exp 2026-07-17 delta +0.57 ask $3.11 maxloss $311 @ $3.10 (mid $3.09) stop u/l 329.63 target u/l 333.86 maxloss $310
+2026-07-16 14:00:51,905 INFO    journal | LOGGED trade #39 INTC put pnl $-84.00 R -0.28 label 0 (stop (underlying))
+2026-07-16 14:00:51,906 INFO    executor | CLOSED INTC260717P00100000 @ $2.14 vs $2.98 → P&L $-84.00 (stop (underlying))
+2026-07-16 14:00:53,095 INFO    signals | SIGNAL[confluence] QQQ PUT — +0.11% 15m, RSI(5)=20.5, relvol 1.3x, VWAP -0.10%
+2026-07-16 14:00:54,656 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.5x, VWAP +0.73%
+2026-07-16 14:00:58,775 INFO    features | captured features for QQQ-20260716T100053-put (46 fields)
+2026-07-16 14:00:58,970 INFO    journal | REJECT QQQ put [risk] — max loss $475 > per-trade cap $279 (50% of equity) — skip
+2026-07-16 14:00:58,983 INFO    features | captured features for AAPL-20260716T100054-call (46 fields)
+2026-07-16 14:00:58,989 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:01:29,791 INFO    signals | SIGNAL[confluence] QQQ PUT — +0.11% 15m, RSI(5)=20.5, relvol 1.3x, VWAP -0.10%
+2026-07-16 14:01:31,314 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.5x, VWAP +0.73%
+2026-07-16 14:01:35,486 INFO    features | captured features for QQQ-20260716T100129-put (46 fields)
+2026-07-16 14:01:35,575 INFO    journal | REJECT QQQ put [risk] — max loss $488 > per-trade cap $279 (50% of equity) — skip
+2026-07-16 14:01:35,588 INFO    features | captured features for AAPL-20260716T100131-call (46 fields)
+2026-07-16 14:01:35,594 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:02:06,468 INFO    signals | SIGNAL[confluence] QQQ PUT — +0.11% 15m, RSI(5)=20.5, relvol 1.2x, VWAP -0.10%
+2026-07-16 14:02:08,296 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.4x, VWAP +0.73%
+2026-07-16 14:02:12,788 INFO    features | captured features for QQQ-20260716T100206-put (46 fields)
+2026-07-16 14:02:12,914 INFO    journal | REJECT QQQ put [risk] — max loss $467 > per-trade cap $279 (50% of equity) — skip
+2026-07-16 14:02:12,929 INFO    features | captured features for AAPL-20260716T100208-call (46 fields)
+2026-07-16 14:02:12,935 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:02:43,678 INFO    signals | SIGNAL[confluence] QQQ PUT — +0.11% 15m, RSI(5)=20.5, relvol 1.2x, VWAP -0.10%
+2026-07-16 14:02:45,135 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.4x, VWAP +0.73%
+2026-07-16 14:02:48,689 INFO    features | captured features for QQQ-20260716T100243-put (46 fields)
+2026-07-16 14:02:48,805 INFO    journal | REJECT QQQ put [risk] — max loss $489 > per-trade cap $279 (50% of equity) — skip
+2026-07-16 14:02:48,818 INFO    features | captured features for AAPL-20260716T100245-call (46 fields)
+2026-07-16 14:02:48,824 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:03:20,803 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.4x, VWAP +0.73%
+2026-07-16 14:03:24,303 INFO    features | captured features for AAPL-20260716T100320-call (46 fields)
+2026-07-16 14:03:24,309 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:03:55,668 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.4x, VWAP +0.73%
+2026-07-16 14:03:58,808 INFO    features | captured features for AAPL-20260716T100355-call (46 fields)
+2026-07-16 14:03:58,814 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:04:30,366 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.3x, VWAP +0.73%
+2026-07-16 14:04:33,516 INFO    features | captured features for AAPL-20260716T100430-call (46 fields)
+2026-07-16 14:04:33,522 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:05:05,950 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.3x, VWAP +0.73%
+2026-07-16 14:05:10,726 INFO    features | captured features for AAPL-20260716T100505-call (46 fields)
+2026-07-16 14:05:10,732 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:05:43,139 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.3x, VWAP +0.73%
+2026-07-16 14:05:46,970 INFO    features | captured features for AAPL-20260716T100543-call (46 fields)
+2026-07-16 14:05:46,976 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:06:18,851 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.3x, VWAP +0.73%
+2026-07-16 14:06:22,302 INFO    features | captured features for AAPL-20260716T100618-call (46 fields)
+2026-07-16 14:06:22,308 INFO    journal | REJECT AAPL call [governor] — already holding this underlying
+2026-07-16 14:06:53,397 INFO    journal | LOGGED trade #40 AAPL call pnl $-109.00 R -0.35 label 0 (stop (underlying))
+2026-07-16 14:06:53,398 INFO    executor | CLOSED AAPL260717C00330000 @ $2.01 vs $3.10 → P&L $-109.00 (stop (underlying))
+2026-07-16 14:06:54,665 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.3x, VWAP +0.73%
+2026-07-16 14:06:57,699 INFO    features | captured features for AAPL-20260716T100654-call (46 fields)
+2026-07-16 14:06:57,705 INFO    journal | REJECT AAPL call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:06:57,710 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:07:29,036 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.2x, VWAP +0.73%
+2026-07-16 14:07:31,908 INFO    features | captured features for AAPL-20260716T100729-call (46 fields)
+2026-07-16 14:07:31,914 INFO    journal | REJECT AAPL call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:07:31,919 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:08:03,635 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.2x, VWAP +0.73%
+2026-07-16 14:08:06,957 INFO    features | captured features for AAPL-20260716T100803-call (46 fields)
+2026-07-16 14:08:06,963 INFO    journal | REJECT AAPL call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:08:06,969 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:08:38,668 INFO    signals | SIGNAL[confluence] AAPL CALL — +1.00% 15m, RSI(5)=83.8, relvol 1.2x, VWAP +0.73%
+2026-07-16 14:08:41,518 INFO    features | captured features for AAPL-20260716T100838-call (46 fields)
+2026-07-16 14:08:41,524 INFO    journal | REJECT AAPL call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:08:41,529 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:09:14,648 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:09:47,514 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:10:22,018 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:10:55,605 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:11:29,249 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:12:02,451 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:12:35,377 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:13:08,191 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:13:39,655 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:14:11,766 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:14:43,239 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:15:16,005 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:15:48,124 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:16:20,236 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:16:51,996 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:17:24,022 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:17:55,489 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:18:27,307 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:18:58,628 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:19:30,855 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:20:03,638 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:20:36,088 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:21:08,366 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:21:40,330 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:22:12,075 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:22:43,564 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:23:15,135 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:23:46,305 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:24:17,648 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:24:48,823 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:25:20,408 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:25:52,656 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:26:24,546 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:26:55,803 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:27:27,749 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:27:59,693 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:28:31,293 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:29:03,072 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:29:34,640 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:30:09,387 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:30:42,427 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:31:14,631 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:31:46,275 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:32:18,152 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:32:49,934 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:33:21,653 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:33:53,275 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:34:24,810 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:34:56,271 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:35:28,836 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:36:01,000 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:36:32,927 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:37:04,897 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:37:36,881 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:38:08,382 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:38:39,654 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:39:10,921 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:39:42,573 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:40:15,575 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:40:48,386 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:41:20,503 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:41:52,710 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:42:25,204 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:42:57,495 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:43:29,505 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:44:01,559 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:44:33,623 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:45:08,902 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.3x, VWAP +0.29%
+2026-07-16 14:45:10,878 INFO    features | captured features for XLF-20260716T104508-call (46 fields)
+2026-07-16 14:45:10,884 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:45:10,889 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:45:45,316 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.3x, VWAP +0.29%
+2026-07-16 14:45:47,012 INFO    features | captured features for XLF-20260716T104545-call (46 fields)
+2026-07-16 14:45:47,018 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:45:47,023 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:46:21,584 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.3x, VWAP +0.29%
+2026-07-16 14:46:23,338 INFO    features | captured features for XLF-20260716T104621-call (46 fields)
+2026-07-16 14:46:23,344 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:46:23,349 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:46:56,682 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.3x, VWAP +0.29%
+2026-07-16 14:46:58,090 INFO    features | captured features for XLF-20260716T104656-call (46 fields)
+2026-07-16 14:46:58,095 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:46:58,100 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:47:31,496 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.3x, VWAP +0.29%
+2026-07-16 14:47:32,805 INFO    features | captured features for XLF-20260716T104731-call (46 fields)
+2026-07-16 14:47:32,811 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:47:32,816 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:48:07,048 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:48:08,556 INFO    features | captured features for XLF-20260716T104807-call (46 fields)
+2026-07-16 14:48:08,561 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:48:08,567 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:48:41,384 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:48:42,451 INFO    features | captured features for XLF-20260716T104841-call (46 fields)
+2026-07-16 14:48:42,457 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:48:42,463 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:49:15,276 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:49:16,373 INFO    features | captured features for XLF-20260716T104915-call (46 fields)
+2026-07-16 14:49:16,379 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:49:16,384 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:49:48,712 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:49:49,475 INFO    features | captured features for XLF-20260716T104948-call (46 fields)
+2026-07-16 14:49:49,481 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:49:49,487 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:50:23,582 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:50:25,096 INFO    features | captured features for XLF-20260716T105023-call (46 fields)
+2026-07-16 14:50:25,101 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:50:25,107 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:50:58,843 INFO    signals | SIGNAL[confluence] XLF CALL — +0.15% 15m, RSI(5)=70.1, relvol 1.2x, VWAP +0.29%
+2026-07-16 14:51:00,168 INFO    features | captured features for XLF-20260716T105058-call (46 fields)
+2026-07-16 14:51:00,174 INFO    journal | REJECT XLF call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 14:51:00,179 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:51:32,944 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:52:05,762 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:52:38,346 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:53:11,171 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:53:43,255 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:54:15,852 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:54:48,074 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:55:21,110 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:55:53,748 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:56:26,519 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:56:59,338 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:57:32,386 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:58:05,481 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:58:37,797 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:59:10,288 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 14:59:42,251 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:00:12,273 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:00:42,296 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:01:12,318 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:01:42,341 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:02:12,364 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:02:42,388 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:03:12,411 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:03:42,433 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:04:12,455 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:04:42,475 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:05:12,501 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:05:42,523 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:06:12,543 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:06:42,565 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:07:12,587 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:07:42,609 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:08:12,633 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:08:42,656 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:09:12,678 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:09:42,701 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:10:12,723 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:10:42,748 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:11:12,773 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:11:42,798 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:12:12,821 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:12:42,844 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:13:12,866 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:13:42,887 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:14:12,909 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:14:42,931 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:15:12,952 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:15:42,973 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:16:12,997 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:16:43,021 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:17:13,043 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:17:43,062 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:18:13,083 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:18:43,104 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:19:13,125 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:19:43,146 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:20:13,167 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:20:43,188 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:21:13,209 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:21:43,230 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:22:13,261 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:22:43,282 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:23:13,305 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:23:43,325 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:24:13,348 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:24:43,368 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:25:13,391 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:25:43,416 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:26:13,441 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:26:43,462 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:27:13,487 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:27:43,513 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:28:13,540 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:28:43,560 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:29:13,580 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:29:43,613 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:30:13,634 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:30:43,655 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:31:13,676 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:31:43,700 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:32:13,722 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:32:43,746 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:33:13,772 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:33:43,793 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:34:13,817 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:34:43,840 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:35:13,881 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:35:43,904 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:36:13,926 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:36:43,947 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:37:13,966 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:37:43,991 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:38:14,015 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:38:44,036 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:39:14,057 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:39:44,077 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:40:14,100 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:40:44,119 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:41:14,139 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:41:44,160 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:42:14,179 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:42:44,199 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:43:14,219 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:43:44,245 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:44:14,266 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:44:44,288 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:45:14,308 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:45:44,329 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:46:14,349 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:46:44,370 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:47:14,389 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:47:44,410 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:48:14,432 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:48:44,453 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:49:14,474 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:49:44,495 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:50:14,514 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:50:44,574 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:51:14,594 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:51:44,614 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:52:14,637 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:52:44,657 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:53:14,680 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:53:44,701 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:54:14,723 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:54:44,746 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:55:14,769 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:55:44,792 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:56:14,813 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:56:44,835 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:57:14,856 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:57:44,878 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:58:14,902 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:58:44,923 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:59:14,945 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 15:59:44,968 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:00:14,990 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:00:45,011 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:01:15,033 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:01:45,057 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:02:15,078 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:02:45,101 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:03:15,128 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:03:45,149 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:04:15,170 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:04:45,191 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:05:15,214 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:05:45,239 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:06:15,263 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:06:45,287 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:07:15,311 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:07:45,334 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:08:15,356 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:08:45,381 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:09:15,405 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:09:45,429 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:10:15,454 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:10:45,476 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:11:15,502 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:11:45,525 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:12:15,546 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:12:45,568 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:13:15,589 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:13:45,614 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:14:15,638 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:14:45,660 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:15:15,681 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:15:45,702 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:16:15,722 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:16:45,744 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:17:15,765 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:17:45,786 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:18:15,807 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:18:45,826 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:19:15,850 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:19:45,871 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:20:15,891 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:20:45,910 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:21:15,934 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:21:45,952 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:22:15,972 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:22:45,991 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:23:16,010 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:23:46,032 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:24:16,069 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:24:46,090 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:25:16,114 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:25:46,133 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:26:16,155 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:26:46,177 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:27:16,197 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:27:46,217 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:28:16,239 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:28:46,258 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:29:16,280 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:29:46,301 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:30:16,325 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:30:46,349 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:31:16,371 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:31:46,392 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:32:16,413 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:32:46,436 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:33:16,458 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:33:46,480 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:34:16,504 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:34:46,528 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:35:16,568 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:35:46,591 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:36:16,612 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:36:46,638 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:37:16,660 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:37:46,681 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:38:16,702 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:38:46,725 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:39:16,745 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:39:46,767 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:40:16,788 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:40:46,807 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:41:16,828 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:41:46,849 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:42:16,870 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:42:46,891 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:43:16,914 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:43:46,932 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:44:16,953 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:44:46,974 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:45:16,994 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:45:47,016 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:46:17,038 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:46:47,057 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:47:17,079 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:47:47,100 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:48:17,122 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:48:47,144 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:49:17,163 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:49:47,184 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:50:17,204 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:50:47,228 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:51:17,247 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:51:47,269 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:52:17,291 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:52:47,311 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:53:17,332 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:53:47,353 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:54:17,373 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:54:47,572 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:55:17,594 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:55:47,617 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:56:17,639 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:56:47,661 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:57:17,681 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:57:47,704 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:58:17,727 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:58:47,747 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:59:17,769 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 16:59:47,791 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:00:19,571 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:00:21,658 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:00:23,779 INFO    features | captured features for PLTR-20260716T130019-call (46 fields)
+2026-07-16 17:00:23,785 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:00:23,798 INFO    features | captured features for GOLD-20260716T130021-put (46 fields)
+2026-07-16 17:00:23,804 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:00:23,809 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:00:55,872 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:00:57,345 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:00:59,145 INFO    features | captured features for PLTR-20260716T130055-call (46 fields)
+2026-07-16 17:00:59,151 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:00:59,166 INFO    features | captured features for GOLD-20260716T130057-put (46 fields)
+2026-07-16 17:00:59,172 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:00:59,178 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:01:31,824 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:01:33,151 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:01:34,727 INFO    features | captured features for PLTR-20260716T130131-call (46 fields)
+2026-07-16 17:01:34,733 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:01:34,746 INFO    features | captured features for GOLD-20260716T130133-put (46 fields)
+2026-07-16 17:01:34,751 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:01:34,757 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:02:06,900 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:02:08,163 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:02:09,321 INFO    features | captured features for PLTR-20260716T130206-call (46 fields)
+2026-07-16 17:02:09,326 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:02:09,339 INFO    features | captured features for GOLD-20260716T130208-put (46 fields)
+2026-07-16 17:02:09,344 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:02:09,350 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:02:40,728 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:02:41,736 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:02:42,590 INFO    features | captured features for PLTR-20260716T130240-call (46 fields)
+2026-07-16 17:02:42,595 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:02:42,610 INFO    features | captured features for GOLD-20260716T130241-put (46 fields)
+2026-07-16 17:02:42,616 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:02:42,621 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:03:14,454 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:03:15,798 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:03:17,089 INFO    features | captured features for PLTR-20260716T130314-call (46 fields)
+2026-07-16 17:03:17,097 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:03:17,109 INFO    features | captured features for GOLD-20260716T130315-put (46 fields)
+2026-07-16 17:03:17,114 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:03:17,119 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:03:48,620 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:03:49,894 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:03:50,755 INFO    features | captured features for PLTR-20260716T130348-call (46 fields)
+2026-07-16 17:03:50,762 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:03:50,774 INFO    features | captured features for GOLD-20260716T130349-put (46 fields)
+2026-07-16 17:03:50,780 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:03:50,785 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:04:21,976 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:04:22,907 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:04:23,969 INFO    features | captured features for PLTR-20260716T130421-call (46 fields)
+2026-07-16 17:04:23,975 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:04:23,989 INFO    features | captured features for GOLD-20260716T130422-put (46 fields)
+2026-07-16 17:04:23,995 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:04:24,000 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:04:55,050 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:04:56,417 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:04:57,354 INFO    features | captured features for PLTR-20260716T130455-call (46 fields)
+2026-07-16 17:04:57,359 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:04:57,372 INFO    features | captured features for GOLD-20260716T130456-put (46 fields)
+2026-07-16 17:04:57,377 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:04:57,382 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:05:29,246 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:05:31,179 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:05:32,993 INFO    features | captured features for PLTR-20260716T130529-call (46 fields)
+2026-07-16 17:05:32,999 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:05:33,012 INFO    features | captured features for GOLD-20260716T130531-put (46 fields)
+2026-07-16 17:05:33,018 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:05:33,023 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:06:05,046 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:06:06,316 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:06:07,622 INFO    features | captured features for PLTR-20260716T130605-call (46 fields)
+2026-07-16 17:06:07,628 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:06:07,643 INFO    features | captured features for GOLD-20260716T130606-put (46 fields)
+2026-07-16 17:06:07,648 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:06:07,654 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:06:39,489 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:06:40,532 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:06:42,007 INFO    features | captured features for PLTR-20260716T130639-call (46 fields)
+2026-07-16 17:06:42,012 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:06:42,025 INFO    features | captured features for GOLD-20260716T130640-put (46 fields)
+2026-07-16 17:06:42,031 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:06:42,037 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:07:13,935 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:07:15,216 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:07:16,363 INFO    features | captured features for PLTR-20260716T130713-call (46 fields)
+2026-07-16 17:07:16,369 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:07:16,381 INFO    features | captured features for GOLD-20260716T130715-put (46 fields)
+2026-07-16 17:07:16,387 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:07:16,392 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:07:47,999 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:07:49,423 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:07:50,687 INFO    features | captured features for PLTR-20260716T130747-call (46 fields)
+2026-07-16 17:07:50,692 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:07:50,706 INFO    features | captured features for GOLD-20260716T130749-put (46 fields)
+2026-07-16 17:07:50,712 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:07:50,717 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:08:21,686 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:08:23,701 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:08:24,886 INFO    features | captured features for PLTR-20260716T130821-call (46 fields)
+2026-07-16 17:08:24,892 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:08:24,904 INFO    features | captured features for GOLD-20260716T130823-put (46 fields)
+2026-07-16 17:08:24,910 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:08:24,915 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:08:55,916 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:08:57,601 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:08:58,886 INFO    features | captured features for PLTR-20260716T130855-call (46 fields)
+2026-07-16 17:08:58,892 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:08:58,904 INFO    features | captured features for GOLD-20260716T130857-put (46 fields)
+2026-07-16 17:08:58,910 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:08:58,915 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:09:30,081 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:09:32,067 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:09:33,223 INFO    features | captured features for PLTR-20260716T130930-call (46 fields)
+2026-07-16 17:09:33,229 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:09:33,244 INFO    features | captured features for GOLD-20260716T130932-put (46 fields)
+2026-07-16 17:09:33,250 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:09:33,255 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:10:05,326 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:10:08,307 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:10:10,391 INFO    features | captured features for PLTR-20260716T131005-call (46 fields)
+2026-07-16 17:10:10,397 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:10:10,410 INFO    features | captured features for GOLD-20260716T131008-put (46 fields)
+2026-07-16 17:10:10,416 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:10:10,421 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:10:42,117 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:10:44,650 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:10:46,206 INFO    features | captured features for PLTR-20260716T131042-call (46 fields)
+2026-07-16 17:10:46,212 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:10:46,225 INFO    features | captured features for GOLD-20260716T131044-put (46 fields)
+2026-07-16 17:10:46,230 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:10:46,235 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:11:17,421 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.6x, VWAP +1.56%
+2026-07-16 17:11:19,406 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:11:20,547 INFO    features | captured features for PLTR-20260716T131117-call (46 fields)
+2026-07-16 17:11:20,553 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:11:20,567 INFO    features | captured features for GOLD-20260716T131119-put (46 fields)
+2026-07-16 17:11:20,573 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:11:20,579 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:11:51,626 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:11:53,118 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:11:54,016 INFO    features | captured features for PLTR-20260716T131151-call (46 fields)
+2026-07-16 17:11:54,022 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:11:54,035 INFO    features | captured features for GOLD-20260716T131153-put (46 fields)
+2026-07-16 17:11:54,040 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:11:54,045 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:12:25,290 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:12:26,579 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:12:27,606 INFO    features | captured features for PLTR-20260716T131225-call (46 fields)
+2026-07-16 17:12:27,611 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:12:27,624 INFO    features | captured features for GOLD-20260716T131226-put (46 fields)
+2026-07-16 17:12:27,629 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:12:27,635 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:12:58,810 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:13:00,054 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:13:01,389 INFO    features | captured features for PLTR-20260716T131258-call (46 fields)
+2026-07-16 17:13:01,395 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:13:01,427 INFO    features | captured features for GOLD-20260716T131300-put (46 fields)
+2026-07-16 17:13:01,433 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:13:01,463 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:13:32,747 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:13:34,559 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:13:35,638 INFO    features | captured features for PLTR-20260716T131332-call (46 fields)
+2026-07-16 17:13:35,643 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:13:35,656 INFO    features | captured features for GOLD-20260716T131334-put (46 fields)
+2026-07-16 17:13:35,662 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:13:35,668 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:14:06,787 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:14:09,280 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:14:10,606 INFO    features | captured features for PLTR-20260716T131406-call (46 fields)
+2026-07-16 17:14:10,612 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:14:10,624 INFO    features | captured features for GOLD-20260716T131409-put (46 fields)
+2026-07-16 17:14:10,630 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:14:10,636 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:14:41,574 INFO    signals | SIGNAL[confluence] PLTR CALL — +0.42% 15m, RSI(5)=68.3, relvol 0.5x, VWAP +1.56%
+2026-07-16 17:14:43,674 INFO    signals | SIGNAL[confluence] GOLD PUT — -0.49% 15m, RSI(5)=21.5, relvol 0.5x, VWAP -0.92%
+2026-07-16 17:14:44,979 INFO    features | captured features for PLTR-20260716T131441-call (46 fields)
+2026-07-16 17:14:44,984 INFO    journal | REJECT PLTR call [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:14:44,999 INFO    features | captured features for GOLD-20260716T131443-put (46 fields)
+2026-07-16 17:14:45,005 INFO    journal | REJECT GOLD put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:14:45,010 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:15:21,218 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:15:57,140 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:16:30,808 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:17:04,067 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:17:37,161 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:18:10,847 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:18:43,080 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:19:17,237 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:19:50,194 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:20:25,548 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:20:58,917 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:21:31,016 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:22:03,336 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:22:35,670 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:23:07,552 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:23:39,147 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:24:11,697 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:24:43,280 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:25:15,527 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:25:47,003 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:26:18,618 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:26:49,777 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:27:20,953 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:27:52,211 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:28:23,345 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:28:54,629 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:29:25,795 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:29:56,965 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:30:29,762 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:31:01,930 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:31:34,098 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:32:06,014 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:32:37,338 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:33:08,918 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:33:40,478 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:34:11,979 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:34:42,979 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:35:14,769 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:35:46,126 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:36:17,549 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:36:49,041 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:37:20,257 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:37:51,355 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:38:22,327 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:38:53,478 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:39:24,658 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:39:55,654 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:40:28,185 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:40:59,804 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:41:31,574 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:42:03,885 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:42:35,614 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:43:07,993 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:43:39,836 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:44:12,190 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:44:43,998 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:45:14,397 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:45:16,073 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:45:20,839 INFO    features | captured features for QQQ-20260716T134514-put (46 fields)
+2026-07-16 17:45:20,844 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:45:20,858 INFO    features | captured features for SOFI-20260716T134516-put (46 fields)
+2026-07-16 17:45:20,864 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:45:20,870 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:45:51,235 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:45:52,139 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:45:56,047 INFO    features | captured features for QQQ-20260716T134551-put (46 fields)
+2026-07-16 17:45:56,053 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:45:56,066 INFO    features | captured features for SOFI-20260716T134552-put (46 fields)
+2026-07-16 17:45:56,072 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:45:56,077 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:46:26,624 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:46:27,539 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:46:31,351 INFO    features | captured features for QQQ-20260716T134626-put (46 fields)
+2026-07-16 17:46:31,356 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:46:31,371 INFO    features | captured features for SOFI-20260716T134627-put (46 fields)
+2026-07-16 17:46:31,379 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:46:31,384 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:47:01,833 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:47:02,844 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:47:06,508 INFO    features | captured features for QQQ-20260716T134701-put (46 fields)
+2026-07-16 17:47:06,513 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:47:06,526 INFO    features | captured features for SOFI-20260716T134702-put (46 fields)
+2026-07-16 17:47:06,531 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:47:06,537 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:47:36,783 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:47:37,403 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:47:39,367 INFO    features | captured features for QQQ-20260716T134736-put (46 fields)
+2026-07-16 17:47:39,372 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:47:39,384 INFO    features | captured features for SOFI-20260716T134737-put (46 fields)
+2026-07-16 17:47:39,390 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:47:39,396 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:48:09,622 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:48:10,292 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:48:12,716 INFO    features | captured features for QQQ-20260716T134809-put (46 fields)
+2026-07-16 17:48:12,722 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:48:12,737 INFO    features | captured features for SOFI-20260716T134810-put (46 fields)
+2026-07-16 17:48:12,742 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:48:12,748 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:48:43,011 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:48:43,600 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:48:45,496 INFO    features | captured features for QQQ-20260716T134843-put (46 fields)
+2026-07-16 17:48:45,502 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:48:45,515 INFO    features | captured features for SOFI-20260716T134843-put (46 fields)
+2026-07-16 17:48:45,520 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:48:45,526 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:49:15,747 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:49:16,323 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:49:18,355 INFO    features | captured features for QQQ-20260716T134915-put (46 fields)
+2026-07-16 17:49:18,360 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:49:18,372 INFO    features | captured features for SOFI-20260716T134916-put (46 fields)
+2026-07-16 17:49:18,378 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:49:18,383 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:49:48,657 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:49:49,290 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:49:50,815 INFO    features | captured features for QQQ-20260716T134948-put (46 fields)
+2026-07-16 17:49:50,822 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:49:50,836 INFO    features | captured features for SOFI-20260716T134949-put (46 fields)
+2026-07-16 17:49:50,842 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:49:50,847 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:50:21,183 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:50:22,456 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:50:25,268 INFO    features | captured features for QQQ-20260716T135021-put (46 fields)
+2026-07-16 17:50:25,274 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:50:25,287 INFO    features | captured features for SOFI-20260716T135022-put (46 fields)
+2026-07-16 17:50:25,293 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:50:25,298 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:50:55,569 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:50:56,366 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:50:58,262 INFO    features | captured features for QQQ-20260716T135055-put (46 fields)
+2026-07-16 17:50:58,267 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:50:58,279 INFO    features | captured features for SOFI-20260716T135056-put (46 fields)
+2026-07-16 17:50:58,285 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:50:58,290 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:51:28,563 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:51:29,383 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:51:31,943 INFO    features | captured features for QQQ-20260716T135128-put (46 fields)
+2026-07-16 17:51:31,948 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:51:31,963 INFO    features | captured features for SOFI-20260716T135129-put (46 fields)
+2026-07-16 17:51:31,969 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:51:31,974 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:52:02,313 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:52:03,012 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:52:05,635 INFO    features | captured features for QQQ-20260716T135202-put (46 fields)
+2026-07-16 17:52:05,641 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:52:05,653 INFO    features | captured features for SOFI-20260716T135203-put (46 fields)
+2026-07-16 17:52:05,659 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:52:05,664 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:52:36,025 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:52:36,498 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:52:38,417 INFO    features | captured features for QQQ-20260716T135236-put (46 fields)
+2026-07-16 17:52:38,423 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:52:38,436 INFO    features | captured features for SOFI-20260716T135236-put (46 fields)
+2026-07-16 17:52:38,442 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:52:38,447 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:53:08,766 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:53:09,371 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:53:11,089 INFO    features | captured features for QQQ-20260716T135308-put (46 fields)
+2026-07-16 17:53:11,095 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:53:11,109 INFO    features | captured features for SOFI-20260716T135309-put (46 fields)
+2026-07-16 17:53:11,115 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:53:11,120 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:53:41,335 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:53:41,779 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:53:43,577 INFO    features | captured features for QQQ-20260716T135341-put (46 fields)
+2026-07-16 17:53:43,583 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:53:43,595 INFO    features | captured features for SOFI-20260716T135341-put (46 fields)
+2026-07-16 17:53:43,601 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:53:43,606 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:54:13,933 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:54:14,591 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:54:15,900 INFO    features | captured features for QQQ-20260716T135413-put (46 fields)
+2026-07-16 17:54:15,906 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:54:15,918 INFO    features | captured features for SOFI-20260716T135414-put (46 fields)
+2026-07-16 17:54:15,924 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:54:15,930 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:54:46,143 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:54:46,639 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:54:47,823 INFO    features | captured features for QQQ-20260716T135446-put (46 fields)
+2026-07-16 17:54:47,829 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:54:47,844 INFO    features | captured features for SOFI-20260716T135446-put (46 fields)
+2026-07-16 17:54:47,850 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:54:47,856 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:55:18,304 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:55:19,269 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:55:21,367 INFO    features | captured features for QQQ-20260716T135518-put (46 fields)
+2026-07-16 17:55:21,372 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:55:21,387 INFO    features | captured features for SOFI-20260716T135519-put (46 fields)
+2026-07-16 17:55:21,392 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:55:21,398 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:55:51,655 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:55:52,345 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:55:54,159 INFO    features | captured features for QQQ-20260716T135551-put (46 fields)
+2026-07-16 17:55:54,165 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:55:54,177 INFO    features | captured features for SOFI-20260716T135552-put (46 fields)
+2026-07-16 17:55:54,182 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:55:54,187 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:56:24,411 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:56:25,039 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:56:26,584 INFO    features | captured features for QQQ-20260716T135624-put (46 fields)
+2026-07-16 17:56:26,589 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:56:26,604 INFO    features | captured features for SOFI-20260716T135625-put (46 fields)
+2026-07-16 17:56:26,610 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:56:26,616 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:56:56,818 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:56:57,266 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:56:58,520 INFO    features | captured features for QQQ-20260716T135656-put (46 fields)
+2026-07-16 17:56:58,526 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:56:58,538 INFO    features | captured features for SOFI-20260716T135657-put (46 fields)
+2026-07-16 17:56:58,543 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:56:58,549 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:57:28,839 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:57:29,137 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:57:30,692 INFO    features | captured features for QQQ-20260716T135728-put (46 fields)
+2026-07-16 17:57:30,698 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:57:30,711 INFO    features | captured features for SOFI-20260716T135729-put (46 fields)
+2026-07-16 17:57:30,717 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:57:30,722 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:58:01,014 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:58:01,647 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:58:03,340 INFO    features | captured features for QQQ-20260716T135801-put (46 fields)
+2026-07-16 17:58:03,346 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:58:03,361 INFO    features | captured features for SOFI-20260716T135801-put (46 fields)
+2026-07-16 17:58:03,366 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:58:03,371 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:58:33,565 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:58:33,864 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:58:34,816 INFO    features | captured features for QQQ-20260716T135833-put (46 fields)
+2026-07-16 17:58:34,821 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:58:34,833 INFO    features | captured features for SOFI-20260716T135833-put (46 fields)
+2026-07-16 17:58:34,839 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:58:34,844 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:59:05,095 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:59:05,414 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:59:06,671 INFO    features | captured features for QQQ-20260716T135905-put (46 fields)
+2026-07-16 17:59:06,677 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:59:06,689 INFO    features | captured features for SOFI-20260716T135905-put (46 fields)
+2026-07-16 17:59:06,695 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:59:06,701 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 17:59:36,841 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.31% 15m, RSI(5)=29.9, relvol 0.7x, VWAP -0.43%
+2026-07-16 17:59:37,078 INFO    signals | SIGNAL[confluence] SOFI PUT — -0.81% 15m, RSI(5)=26.7, relvol 0.7x, VWAP -1.23%
+2026-07-16 17:59:37,905 INFO    features | captured features for QQQ-20260716T135936-put (46 fields)
+2026-07-16 17:59:37,913 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:59:37,927 INFO    features | captured features for SOFI-20260716T135937-put (46 fields)
+2026-07-16 17:59:37,933 INFO    journal | REJECT SOFI put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 17:59:37,938 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:00:12,066 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:00:45,694 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:01:19,329 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:01:53,319 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:02:26,813 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:02:59,838 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:03:32,904 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:04:05,751 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:04:38,125 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:05:11,554 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:05:44,315 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:06:16,457 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:06:48,229 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:07:19,871 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:07:50,961 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:08:22,452 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:08:53,663 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:09:25,441 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:09:56,889 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:10:29,195 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:11:01,411 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:11:33,335 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:12:05,712 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:12:37,369 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:13:09,599 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:13:41,161 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:14:12,742 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:14:44,127 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:15:17,577 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:15:50,224 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:16:23,163 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:16:55,244 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:17:26,923 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:17:58,870 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:18:30,875 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:19:02,940 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:19:34,954 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:20:07,870 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:20:40,573 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:21:13,181 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:21:45,464 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:22:17,637 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:22:49,596 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:23:21,598 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:23:53,515 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:24:25,302 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:24:57,279 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:25:30,109 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:26:03,122 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:26:35,255 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:27:07,491 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:27:39,324 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:28:11,863 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:28:43,648 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:29:15,628 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:29:47,267 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:30:21,368 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:30:54,914 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:31:28,798 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:32:01,730 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:32:34,348 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:33:07,319 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:33:39,486 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:34:12,417 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:34:44,944 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:35:18,859 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:35:52,096 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:36:25,091 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:36:58,112 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:37:30,865 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:38:04,073 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:38:36,323 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:39:08,902 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:39:41,109 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:40:15,105 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:40:47,882 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:41:20,505 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:41:52,473 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:42:24,818 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:42:56,748 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:43:28,778 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:44:00,472 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:44:32,261 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:45:05,879 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:45:39,777 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:46:13,614 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:46:45,847 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:47:18,259 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:47:50,274 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:48:22,442 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:48:54,362 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:49:26,476 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:49:58,492 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:50:31,160 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:51:03,574 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:51:35,597 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:52:08,722 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:52:41,262 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:53:13,142 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:53:44,770 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:54:18,319 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:54:50,838 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:55:24,451 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:55:56,855 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:56:29,569 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:57:02,910 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:57:34,995 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:58:07,056 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:58:38,662 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:59:10,622 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 18:59:42,349 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:00:18,053 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:00:53,789 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:01:29,040 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:02:03,441 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:02:37,425 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:03:11,499 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:03:44,976 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:04:17,791 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:04:50,919 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:05:24,779 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:05:57,974 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:06:30,799 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:07:03,812 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:07:35,718 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:08:08,527 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:08:40,634 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:09:13,416 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:09:45,604 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:10:20,376 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:10:53,169 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:11:26,009 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:11:58,314 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:12:30,592 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:13:02,987 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:13:35,089 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:14:07,158 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:14:38,879 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:15:09,378 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:15:13,268 INFO    features | captured features for QQQ-20260716T151509-put (46 fields)
+2026-07-16 19:15:13,274 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:15:13,279 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:15:43,771 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:15:47,841 INFO    features | captured features for QQQ-20260716T151543-put (46 fields)
+2026-07-16 19:15:47,847 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:15:47,853 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:16:18,644 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:16:22,212 INFO    features | captured features for QQQ-20260716T151618-put (46 fields)
+2026-07-16 19:16:22,218 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:16:22,223 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:16:52,667 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:16:55,819 INFO    features | captured features for QQQ-20260716T151652-put (46 fields)
+2026-07-16 19:16:55,824 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:16:55,830 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:17:26,089 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:17:28,910 INFO    features | captured features for QQQ-20260716T151726-put (46 fields)
+2026-07-16 19:17:28,916 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:17:28,922 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:17:59,185 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:18:02,199 INFO    features | captured features for QQQ-20260716T151759-put (46 fields)
+2026-07-16 19:18:02,209 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:18:02,221 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:18:32,572 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:18:35,653 INFO    features | captured features for QQQ-20260716T151832-put (46 fields)
+2026-07-16 19:18:35,658 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:18:35,664 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:19:05,946 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:19:09,134 INFO    features | captured features for QQQ-20260716T151905-put (46 fields)
+2026-07-16 19:19:09,140 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:19:09,145 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:19:39,394 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:19:42,438 INFO    features | captured features for QQQ-20260716T151939-put (46 fields)
+2026-07-16 19:19:42,444 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:19:42,450 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:20:12,679 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:20:17,200 INFO    features | captured features for QQQ-20260716T152012-put (46 fields)
+2026-07-16 19:20:17,205 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:20:17,211 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:20:47,509 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:20:50,532 INFO    features | captured features for QQQ-20260716T152047-put (46 fields)
+2026-07-16 19:20:50,538 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:20:50,543 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:21:20,904 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:21:24,594 INFO    features | captured features for QQQ-20260716T152120-put (46 fields)
+2026-07-16 19:21:24,600 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:21:24,606 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:21:54,790 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:21:56,964 INFO    features | captured features for QQQ-20260716T152154-put (46 fields)
+2026-07-16 19:21:56,970 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:21:56,975 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:22:27,164 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:22:29,480 INFO    features | captured features for QQQ-20260716T152227-put (46 fields)
+2026-07-16 19:22:29,486 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:22:29,491 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:22:59,689 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:23:02,442 INFO    features | captured features for QQQ-20260716T152259-put (46 fields)
+2026-07-16 19:23:02,448 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:23:02,453 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:23:32,642 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:23:34,982 INFO    features | captured features for QQQ-20260716T152332-put (46 fields)
+2026-07-16 19:23:34,987 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:23:34,992 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:24:05,197 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:24:07,834 INFO    features | captured features for QQQ-20260716T152405-put (46 fields)
+2026-07-16 19:24:07,839 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:24:07,844 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:24:38,034 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:24:40,447 INFO    features | captured features for QQQ-20260716T152438-put (46 fields)
+2026-07-16 19:24:40,453 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:24:40,458 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:25:10,731 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:25:13,581 INFO    features | captured features for QQQ-20260716T152510-put (46 fields)
+2026-07-16 19:25:13,587 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:25:13,592 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:25:43,943 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:25:46,840 INFO    features | captured features for QQQ-20260716T152543-put (46 fields)
+2026-07-16 19:25:46,846 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:25:46,851 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:26:17,083 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:26:20,800 INFO    features | captured features for QQQ-20260716T152617-put (46 fields)
+2026-07-16 19:26:20,805 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:26:20,811 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:26:51,160 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:26:54,433 INFO    features | captured features for QQQ-20260716T152651-put (46 fields)
+2026-07-16 19:26:54,439 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:26:54,444 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:27:24,722 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:27:27,290 INFO    features | captured features for QQQ-20260716T152724-put (46 fields)
+2026-07-16 19:27:27,296 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:27:27,301 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:27:57,734 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:28:00,519 INFO    features | captured features for QQQ-20260716T152757-put (46 fields)
+2026-07-16 19:28:00,525 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:28:00,530 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:28:30,920 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:28:33,673 INFO    features | captured features for QQQ-20260716T152830-put (46 fields)
+2026-07-16 19:28:33,678 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:28:33,683 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:29:04,174 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:29:07,520 INFO    features | captured features for QQQ-20260716T152904-put (46 fields)
+2026-07-16 19:29:07,525 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:29:07,531 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:29:37,935 INFO    signals | SIGNAL[confluence] QQQ PUT — -0.10% 15m, RSI(5)=24.2, relvol 0.7x, VWAP -0.52%
+2026-07-16 19:29:40,483 INFO    features | captured features for QQQ-20260716T152937-put (46 fields)
+2026-07-16 19:29:40,489 INFO    journal | REJECT QQQ put [governor] — daily max-loss kill (-25%) reached
+2026-07-16 19:29:40,494 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:30:10,518 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:30:40,544 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:31:10,565 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:31:40,592 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:32:10,614 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:32:40,635 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:33:10,658 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:33:40,690 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:34:10,717 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:34:40,740 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:35:10,762 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:35:40,783 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:36:10,831 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:36:40,853 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:37:10,874 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:37:40,895 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:38:10,914 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:38:40,934 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:39:10,954 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:39:40,973 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:40:10,991 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:40:41,009 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:41:11,030 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:41:41,050 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:42:11,070 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:42:41,091 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:43:11,109 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:43:41,127 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:44:11,147 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:44:41,167 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:45:11,188 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:45:41,208 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:46:11,230 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:46:41,269 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:47:11,292 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:47:41,315 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:48:11,337 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:48:41,358 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:49:11,380 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:49:41,403 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:50:11,427 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:50:41,448 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:51:11,467 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:51:41,489 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:52:11,508 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:52:41,527 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:53:11,551 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:53:41,575 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:54:11,596 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:54:41,619 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:55:11,642 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:55:41,665 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:56:11,686 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:56:41,711 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:57:11,736 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:57:41,757 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:58:11,790 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:58:41,812 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:59:11,832 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 19:59:41,853 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:00:11,864 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:00:41,875 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:01:11,887 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:01:41,897 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:02:11,910 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:02:41,921 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:03:11,932 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:03:41,944 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:04:11,954 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:04:41,966 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:05:11,978 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:05:41,990 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:06:12,002 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:06:42,014 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:07:12,025 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:07:42,034 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:08:12,045 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:08:42,056 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:09:12,066 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:09:42,078 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:10:12,090 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:10:42,100 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:11:12,112 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:11:42,124 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:12:12,134 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:12:42,144 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:13:12,155 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:13:42,168 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:14:12,179 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:14:42,190 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:15:12,200 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:15:42,211 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:16:12,237 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:16:42,247 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:17:12,260 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:17:42,271 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:18:12,282 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:18:42,293 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:19:12,303 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:19:42,314 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:20:12,326 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:20:42,339 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:21:12,350 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:21:42,362 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:22:12,384 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:22:42,395 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:23:12,407 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:23:42,419 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:24:12,431 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:24:42,441 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:25:12,451 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:25:42,463 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:26:12,475 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:26:42,488 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:27:12,500 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:27:42,512 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:28:12,552 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:28:42,564 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:29:12,598 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:29:42,608 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:30:12,620 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:30:42,632 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:31:12,643 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:31:42,654 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:32:12,665 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:32:42,677 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:33:12,687 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:33:42,698 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:34:12,710 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:34:42,721 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:35:12,732 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:35:42,743 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:36:12,755 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:36:42,781 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:37:12,791 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:37:42,802 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:38:12,814 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:38:42,825 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:39:12,835 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:39:42,848 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:40:12,859 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:40:42,869 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:41:12,882 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:41:42,892 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:42:12,904 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:42:42,915 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:43:12,926 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:43:42,938 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:44:12,950 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:44:42,962 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:45:12,973 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:45:42,987 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:46:12,999 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:46:43,011 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:47:13,022 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:47:43,035 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:48:13,046 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:48:43,057 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:49:13,069 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:49:43,080 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:50:13,091 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:50:43,102 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:51:13,113 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:51:43,124 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:52:13,135 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:52:43,146 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:53:13,156 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:53:43,167 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:54:13,179 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:54:43,193 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:55:13,203 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:55:43,215 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:56:13,226 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:56:43,237 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:57:13,248 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:57:43,261 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:58:13,272 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:58:43,284 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:59:13,294 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 20:59:43,304 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:00:13,315 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:00:43,324 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:01:13,334 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:01:43,345 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:02:13,355 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:02:43,365 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:03:13,377 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:03:43,388 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:04:13,397 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:04:43,408 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:05:13,419 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:05:43,430 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:06:13,440 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:06:43,450 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:07:13,460 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:07:43,470 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:08:13,479 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:08:43,489 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:09:13,500 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:09:43,512 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:10:13,523 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:10:43,533 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:11:13,544 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:11:43,554 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:12:13,570 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:12:43,579 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:13:13,590 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:13:43,600 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:14:13,610 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL
+2026-07-16 21:14:43,620 INFO    gate | GATE: net E[R]=-0.027, recent half=-0.142 → KILL

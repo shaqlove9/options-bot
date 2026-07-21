@@ -1,10 +1,10 @@
 {
- "date": "2026-07-20",
- "day_start_equity": 1000.0,
+ "date": "2026-07-21",
+ "day_start_equity": 725.0,
  "peak_equity": 1000.0,
- "day_realized_pnl": -275.0,
- "trades_today": 4,
- "round_trips_today": 4,
+ "day_realized_pnl": -106.0,
+ "trades_today": 1,
+ "round_trips_today": 1,
  "sleeve_halted": false,
  "halt_reason": ""
 }

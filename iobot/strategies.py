@@ -312,6 +312,43 @@ def confluence(symbol, intraday, daily, now):
     return sig
 
 
+def orb_confluence(symbol, intraday, daily, now):
+    """Confluence entry quality behind two structural gates (2026-07-22 tightening):
+
+      1. opening-range breakout — price must already be beyond the first
+         ORB_MINUTES range in the trade direction (calls above the OR high, puts
+         below the OR low). Inside-the-range confluence signals are the chop that
+         stopped out the live book; this only trades days that picked a side.
+      2. stocks in play — relative volume >= ORBCONF_RELVOL_MIN (a higher bar than
+         REL_VOLUME_MIN). Follow-through needs participation.
+
+    Exits stay confluence's ATR stop/target so the whole book keeps one geometry.
+    """
+    sig = confluence(symbol, intraday, daily, now)
+    if sig is None:
+        return None
+    if sig.rel_volume < config.ORBCONF_RELVOL_MIN:
+        return None
+    today = _today(intraday, now)
+    if today.empty:
+        return None
+    or_end = today.index[0] + dt.timedelta(minutes=ORB_MINUTES)
+    # the range must be complete AND the first post-range bar closed (no entries
+    # off a bar that is itself part of the opening range)
+    if now < or_end + dt.timedelta(minutes=15):
+        return None
+    opening = today[today.index < or_end]
+    if opening.empty:
+        return None
+    or_high, or_low = float(opening["high"].max()), float(opening["low"].min())
+    if sig.direction == "call" and sig.spot <= or_high:
+        return None
+    if sig.direction == "put" and sig.spot >= or_low:
+        return None
+    sig.source = "orb_confluence"
+    return sig
+
+
 REGISTRY = {
     "momentum": momentum,
     "trend_momentum": trend_momentum,
@@ -320,4 +357,5 @@ REGISTRY = {
     "trend_donchian": trend_donchian,
     "range_scalp": range_scalp,
     "confluence": confluence,
+    "orb_confluence": orb_confluence,
 }

@@ -160,6 +160,14 @@ RSI_OVERSOLD = _f("IOBOT_RSI_OVERSOLD", 20.0)      # don't chase puts below this
 ATR_STOP_MULT = _f("IOBOT_ATR_STOP_MULT", 1.2)
 ATR_TARGET_R = _f("IOBOT_ATR_TARGET_R", 1.8)
 
+# The `orb_confluence` signal is confluence gated by opening-range-breakout structure
+# and a "stocks in play" relative-volume bar (Zarattini/Aziz): the underlying must
+# have broken beyond its first-ORB_MINUTES range in the trade direction, on relative
+# volume >= ORBCONF_RELVOL_MIN. The higher volume bar exists because the plain
+# REL_VOLUME_MIN floor kept letting in quiet-tape chop (live book 2026-07-22:
+# winners averaged 1.54x relvol, losers 1.24x).
+ORBCONF_RELVOL_MIN = _f("IOBOT_ORBCONF_RELVOL_MIN", 1.5)
+
 
 # ---------------- session windows (ET, 24h) ----------------
 

@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-22T17:15:20-04:00",
+ "updated": "2026-07-23T17:15:16-04:00",
  "market_open": false,
  "signal": "orb_confluence",
  "structure": "single",
@@ -12,12 +12,12 @@
  "open_positions": [],
  "governor": {
   "equity": 1000.0,
-  "day_start_equity": 619.0,
+  "day_start_equity": 1000.0,
   "peak_equity": 1000.0,
   "day_realized_pnl": 0.0,
-  "day_drawdown_pct": -61.55088852988692,
+  "day_drawdown_pct": 0.0,
   "daily_kill_at_pct": 25.0,
-  "dist_to_daily_kill_pct": 86.55088852988692,
+  "dist_to_daily_kill_pct": 25.0,
   "peak_drawdown_pct": 0.0,
   "trailing_kill_at_pct": 40.0,
   "dist_to_trailing_kill_pct": 40.0,

@@ -3,8 +3,21 @@ from __future__ import annotations
 
 import datetime as dt
 
+import pytest
+
 from iobot import config
 from iobot.clock import ET, in_entry_window
+
+
+@pytest.fixture(autouse=True)
+def _pinned_window(monkeypatch):
+    """Pin the window to the documented defaults. Without this these tests read the
+    live .env, so a deployment tuning change (e.g. ENTRY_START 09:45 -> 10:15) makes
+    them fail while the gate logic under test is fine."""
+    monkeypatch.setattr(config, "ENTRY_START", (9, 45))
+    monkeypatch.setattr(config, "ENTRY_END", (15, 30))
+    monkeypatch.setattr(config, "NO_ENTRY_START", (11, 0))
+    monkeypatch.setattr(config, "NO_ENTRY_END", (13, 0))
 
 
 def _et(h, m, weekday_offset=0):

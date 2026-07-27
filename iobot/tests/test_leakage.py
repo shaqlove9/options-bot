@@ -6,9 +6,18 @@ import datetime as dt
 import pandas as pd
 import pytest
 
-from iobot import features
+from iobot import config, features
 from iobot.clock import ET
 from iobot.tests.conftest import make_signal
+
+
+@pytest.fixture(autouse=True)
+def _pinned_universe(monkeypatch):
+    """`features.build` only reads regime frames for symbols in config.UNIVERSE, so the
+    frames below must belong to it. Pinned because the live .env universe changes: when
+    SPY/QQQ were dropped from it these frames stopped being read at all, which silently
+    voided the leakage assertion rather than failing loudly."""
+    monkeypatch.setattr(config, "UNIVERSE", ["SPY", "QQQ"])
 
 
 def _daily(last_date: dt.date) -> pd.DataFrame:

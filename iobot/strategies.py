@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 
+import numpy as np
 import pandas as pd
 
 from iobot import config, signals
@@ -22,6 +23,17 @@ from iobot.signals import Signal
 ORB_MINUTES = 30          # opening-range window
 DONCHIAN_BARS = 8         # intraday breakout lookback (~2h of 15m bars)
 TREND_SMA = 20            # daily SMA for the regime filter
+
+# em_regime: scheduled 0DTE premium selling (see the function docstring)
+EM_ENTRY_TIME = (9, 45)   # single daily entry, matching the replicated strategy
+EM_REGIME_SMA = 20        # daily SMA deciding bullish (sell puts) vs bearish (sell calls)
+# Vol-regime gate. Short premium is paid for bearing variance risk, and that
+# premium is largest when vol is HIGH relative to its own recent history (vol
+# mean-reverts, so elevated implied tends to overprice subsequent realized).
+# 0.0 = sell every day (the unconditional version). Raise to sell only rich vol.
+EM_IV_RANK_MIN = 0.0
+EM_IV_RANK_MAX = 1.0      # optional upper bound — crisis vol can keep expanding
+EM_IV_LOOKBACK = 252      # days of history the percentile is measured against
 
 # range_scalp: fade the edges of an established intraday channel
 RANGE_MIN_BARS = 8        # need ~2h of session before a range is "established"
@@ -349,8 +361,67 @@ def orb_confluence(symbol, intraday, daily, now):
     return sig
 
 
+def _vol_rank(prior: pd.DataFrame) -> float | None:
+    """Percentile (0-1) of the latest 20d realized vol within its trailing
+    EM_IV_LOOKBACK history. `prior` must already exclude today — no lookahead."""
+    if len(prior) < 40:
+        return None
+    rets = np.log(prior["close"] / prior["close"].shift(1))
+    rv = (rets.rolling(20).std() * np.sqrt(252)).dropna()
+    if len(rv) < 20:
+        return None
+    hist = rv.tail(EM_IV_LOOKBACK)
+    return float((hist <= rv.iloc[-1]).mean())
+
+
+def em_regime(symbol, intraday, daily, now):
+    """Scheduled premium-selling entry — replicates the rules of the public
+    SPX 0DTE credit-selling strategy (thunderscarf/SPX_0DTE_Options_Selling_Public):
+    one entry per session at EM_ENTRY_TIME, direction from a daily SMA regime
+    (above = bullish = sell puts below; below = bearish = sell calls above).
+
+    Deliberately has NO relvol/VWAP gate — the original is an unconditional daily
+    entry, and adding filters here would be testing a different strategy. Strike
+    placement is not decided here; it comes from the expected move in `credit.py`.
+    """
+    if (now.hour, now.minute) != EM_ENTRY_TIME:
+        return None
+    if daily is None or intraday is None or intraday.empty:
+        return None
+    prior = daily[daily.index.date < now.date()]
+    if len(prior) < EM_REGIME_SMA:
+        return None
+    today = _today(intraday, now)
+    if today.empty:
+        return None
+
+    # Vol-regime gate: only sell when vol sits in the requested percentile band of
+    # its own trailing history. Uses PRIOR closes only, so there is no lookahead.
+    if EM_IV_RANK_MIN > 0.0 or EM_IV_RANK_MAX < 1.0:
+        rank = _vol_rank(prior)
+        if rank is None or not (EM_IV_RANK_MIN <= rank <= EM_IV_RANK_MAX):
+            return None
+
+    spot = float(intraday.iloc[-1]["close"])
+    sma = float(prior["close"].tail(EM_REGIME_SMA).mean())
+    direction = "call" if spot > sma else "put"      # regime, not a momentum read
+
+    candle = intraday.iloc[-1]
+    momentum_pct = ((candle["close"] - candle["open"]) / candle["open"] * 100
+                    if candle["open"] else 0.0)
+    vwap = signals._session_vwap(intraday, now.date())
+    return Signal(symbol=symbol, direction=direction, spot=spot,
+                  momentum_pct=momentum_pct,
+                  rsi=signals._wilder_rsi(intraday["close"], config.RSI_PERIOD),
+                  rel_volume=signals._relative_volume(intraday, daily, now),
+                  vwap_dist_pct=((spot - vwap) / vwap * 100) if vwap else 0.0,
+                  atr_pct=signals._atr_pct(intraday, spot), time=now,
+                  source="em_regime")
+
+
 REGISTRY = {
     "momentum": momentum,
+    "em_regime": em_regime,
     "trend_momentum": trend_momentum,
     "orb": orb,
     "donchian": donchian,

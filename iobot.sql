@@ -6982,6 +6982,7 @@ INSERT INTO "features" VALUES('INTC-20260730T102804-call',1.78542168459092402e+0
 INSERT INTO "features" VALUES('INTC-20260730T102835-call',1.785421715289083e+09,1.785421715289083e+09,'{"minute_of_day": 628, "minutes_to_close": 331.41184861666665, "direction_is_call": 1.0, "momentum_pct": 0.4052573932092054, "rsi": 78.49694768500238, "rel_volume": 1.855122162707783, "vwap_dist_pct": 2.4646832540605907, "atr_pct": 2.2023173183312816, "win_streak": 0.0, "loss_streak": 3.0, "trades_today": 1.0, "conf_score": 4.0, "conf_trend": 1.0, "conf_regime": -1.0, "conf_momentum": 1.0, "conf_structure": 1.0, "conf_volume": 1.0, "AAPL_above_sma20": 1.0, "AAPL_above_sma50": 1.0, "CSCO_above_sma20": 0.0, "CSCO_above_sma50": 0.0, "T_above_sma20": 1.0, "T_above_sma50": 1.0, "INTC_above_sma20": 0.0, "INTC_above_sma50": 0.0, "GM_above_sma20": 1.0, "GM_above_sma50": 1.0, "vix": 35.237077093300506}');
 INSERT INTO "features" VALUES('INTC-20260730T102906-call',1.78542174617079305e+09,1.78542174617079305e+09,'{"minute_of_day": 629, "minutes_to_close": 330.89715344999996, "direction_is_call": 1.0, "momentum_pct": 0.4052573932092054, "rsi": 78.49694768500238, "rel_volume": 1.8389668932671794, "vwap_dist_pct": 2.4646832540605907, "atr_pct": 2.2023173183312816, "win_streak": 0.0, "loss_streak": 3.0, "trades_today": 1.0, "conf_score": 4.0, "conf_trend": 1.0, "conf_regime": -1.0, "conf_momentum": 1.0, "conf_structure": 1.0, "conf_volume": 1.0, "AAPL_above_sma20": 1.0, "AAPL_above_sma50": 1.0, "CSCO_above_sma20": 0.0, "CSCO_above_sma50": 0.0, "T_above_sma20": 1.0, "T_above_sma50": 1.0, "INTC_above_sma20": 0.0, "INTC_above_sma50": 0.0, "GM_above_sma20": 1.0, "GM_above_sma50": 1.0, "vix": 35.237077093300506}');
 INSERT INTO "features" VALUES('INTC-20260730T102936-call',1.78542177691290497e+09,1.78542177691290497e+09,'{"minute_of_day": 629, "minutes_to_close": 330.38478491666666, "direction_is_call": 1.0, "momentum_pct": 0.4052573932092054, "rsi": 78.49694768500238, "rel_volume": 1.8231617205669755, "vwap_dist_pct": 2.4646832540605907, "atr_pct": 2.2023173183312816, "win_streak": 0.0, "loss_streak": 3.0, "trades_today": 1.0, "conf_score": 4.0, "conf_trend": 1.0, "conf_regime": -1.0, "conf_momentum": 1.0, "conf_structure": 1.0, "conf_volume": 1.0, "AAPL_above_sma20": 1.0, "AAPL_above_sma50": 1.0, "CSCO_above_sma20": 0.0, "CSCO_above_sma50": 0.0, "T_above_sma20": 1.0, "T_above_sma50": 1.0, "INTC_above_sma20": 0.0, "INTC_above_sma50": 0.0, "GM_above_sma20": 1.0, "GM_above_sma50": 1.0, "vix": 35.237077093300506}');
+INSERT INTO "features" VALUES('INTC-20260807T101529-put',1.78611212983349704e+09,1.78611212983349704e+09,'{"minute_of_day": 615, "minutes_to_close": 344.50277505, "direction_is_call": 0.0, "momentum_pct": -1.2676325586075077, "rsi": 29.674578670770188, "rel_volume": 1.5070748467399426, "vwap_dist_pct": -2.604102605898096, "atr_pct": 1.2155655749721195, "win_streak": 0.0, "loss_streak": 4.0, "trades_today": 0.0, "conf_score": 4.0, "conf_trend": 1.0, "conf_regime": -1.0, "conf_momentum": 1.0, "conf_structure": 1.0, "conf_volume": 1.0, "AAPL_above_sma20": 0.0, "AAPL_above_sma50": 1.0, "CSCO_above_sma20": 1.0, "CSCO_above_sma50": 1.0, "T_above_sma20": 1.0, "T_above_sma50": 1.0, "INTC_above_sma20": 1.0, "INTC_above_sma50": 0.0, "GM_above_sma20": 1.0, "GM_above_sma50": 1.0, "vix": 19.44904919955391}');
 CREATE TABLE positions (
     key        TEXT PRIMARY KEY,   -- option_symbol (single) / long_symbol (spread)
     structure  TEXT,               -- "single" | "spread"
@@ -13916,6 +13917,7 @@ INSERT INTO "rejects" VALUES(6916,'2026-07-30T10:28:04-04:00','INTC','call','gov
 INSERT INTO "rejects" VALUES(6917,'2026-07-30T10:28:35-04:00','INTC','call','governor','already holding this underlying');
 INSERT INTO "rejects" VALUES(6918,'2026-07-30T10:29:06-04:00','INTC','call','governor','already holding this underlying');
 INSERT INTO "rejects" VALUES(6919,'2026-07-30T10:29:37-04:00','INTC','call','governor','already holding this underlying');
+INSERT INTO "rejects" VALUES(6920,'2026-08-07T10:15:32-04:00','INTC','put','selection','no qualifying strike — 7 no delta, 2 delta out of band, 1 illiquid (low OI 89)');
 CREATE TABLE shadow (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     time         TEXT,
@@ -20969,6 +20971,7 @@ INSERT INTO "signals" VALUES('INTC-20260730T102804-call','2026-07-30T10:28:04-04
 INSERT INTO "signals" VALUES('INTC-20260730T102835-call','2026-07-30T10:28:35-04:00','INTC','call','orb_confluence',91.67);
 INSERT INTO "signals" VALUES('INTC-20260730T102906-call','2026-07-30T10:29:06-04:00','INTC','call','orb_confluence',91.67);
 INSERT INTO "signals" VALUES('INTC-20260730T102936-call','2026-07-30T10:29:36-04:00','INTC','call','orb_confluence',91.67);
+INSERT INTO "signals" VALUES('INTC-20260807T101529-put','2026-08-07T10:15:29-04:00','INTC','put','orb_confluence',98.1301);
 CREATE TABLE trades (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     signal_id     TEXT,
@@ -21045,7 +21048,7 @@ INSERT INTO "trades" VALUES(48,'INTC-20260728T101518-put','single','INTC','put',
 INSERT INTO "trades" VALUES(49,'GM-20260728T130121-call','single','GM','call','2026-07-28T13:01:23-04:00','2026-07-28T13:17:33-04:00',91.135,90.18,'GM260731C00090000',90.0,NULL,'2026-07-31',2,2.34,1.57,2.235,468.0,-1.53999999999999971e+02,-0.329059829059829,1.04999999999999982e-01,'stop (underlying)',0);
 INSERT INTO "trades" VALUES(50,'INTC-20260730T101506-call','single','INTC','call','2026-07-30T10:15:09-04:00','2026-07-30T15:50:09-04:00',91.67,91.27,'INTC260731C00091000',91.0,NULL,'2026-07-31',1,2.97,2.26,2.94,297.0,-7.10000000000000426e+01,-2.3905723905723919e-01,3.00000000000002486e-02,'time stop (near expiry)',0);
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('rejects',6919);
+INSERT INTO "sqlite_sequence" VALUES('rejects',6920);
 INSERT INTO "sqlite_sequence" VALUES('shadow',59);
 INSERT INTO "sqlite_sequence" VALUES('trades',50);
 COMMIT;
